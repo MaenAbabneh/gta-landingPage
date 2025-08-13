@@ -1,28 +1,42 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import Navbar from "@/components/navigation/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const fontLong = localFont({
+  src: "./fonts/long.woff",
+  variable: "--font-long",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const fontRound = localFont({
+  src: [
+    {
+      path: "./fonts/round.woff",
+      weight: "400", // أو 'normal'
+      style: "normal",
+    },
+    {
+      path: "./fonts/round-bold.woff",
+      weight: "700", // أو 'bold'
+      style: "normal",
+    },
+  ],
+  variable: "--font-round", // إنشاء متغير CSS لعائلة الخط
 });
 
 export const metadata = {
-  title: "GTAIV",
-  description: "full animated landing page for GTAIV not just website it's a experience.",
-  
+  title: "grand theft auto vi",
+  description:
+    "full animated landing page for grand theft auto vi not just website it's a experience.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${fontLong.variable} ${fontRound.variable} font-sans antialiased`}
       >
+        <Navbar />
+
         {children}
       </body>
     </html>
