@@ -36,7 +36,6 @@ export default function RootLayout({ children }) {
         className={`${fontLong.variable} ${fontRound.variable} font-sans antialiased`}
       >
         <Navbar />
-
         {children}
       </body>
     </html>
