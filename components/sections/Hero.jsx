@@ -1,0 +1,18 @@
+import React from "react";
+
+function Hero() {
+  return (
+    <section id="jason" className="hero-section">
+      <div className="hero-background">
+        <img src="/images/hero-bg.webp" alt="Hero Background" className="object-cover w-full h-full" />
+      </div>
+      <h1 className="hero-title">Welcome to GTA VI</h1>
+      <p className="hero-description">
+        Experience the thrill like never before.
+      </p>
+     
+    </section>
+  );
+}
+
+export default Hero;
