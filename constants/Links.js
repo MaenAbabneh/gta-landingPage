@@ -2,42 +2,42 @@ export const gtaData = {
   People: [
     {
       label: "JASON DUVAL",
-      href: "#jason",
+      href: "jason",
       image: "/images/People/jason.webp",
     },
     {
       label: "LUCIA CAMINOS",
-      href: "#lucia",
+      href: "lucia",
       image: "/images/People/lucia.webp",
     },
     {
       label: "Cal Hampton",
-      href: "#cal",
+      href: "cal",
       image: "/images/People/cal.webp",
     },
     {
       label: "BOOBIE IKE",
-      href: "#boobie",
+      href: "boobie",
       image: "/images/People/boobie.webp",
     },
     {
       label: "DRE'QUAN PRIEST",
-      href: "#dre",
+      href: "dre",
       image: "/images/People/drequan.webp",
     },
     {
       label: "REAL DIMEZ",
-      href: "#real",
+      href: "real",
       image: "/images/People/dimez.webp",
     },
     {
       label: "RAUL BAUTISTA",
-      href: "#raul",
+      href: "raul",
       image: "/images/People/raul.webp",
     },
     {
       label: "BRAIN HEDER",
-      href: "#brain",
+      href: "brain",
       image: "/images/People/brian.webp",
     },
   ],
@@ -45,32 +45,32 @@ export const gtaData = {
   Places: [
     {
       label: "Vice City",
-      href: "#vice-city",
+      href: "vice-city",
       image: "/images/Place/vice-city.webp",
     },
     {
       label: "Leonida Keys",
-      href: "#leonida-keys",
+      href: "leonida-keys",
       image: "/images/Place/leonida-keys.webp",
     },
     {
       label: "Grassrivers",
-      href: "#grassrivers",
+      href: "grassrivers",
       image: "/images/Place/grassrivers.webp",
     },
     {
       label: "Port Gellhorn",
-      href: "#port-gellhorn",
+      href: "port-gellhorn",
       image: "/images/Place/port-gellhorn.webp",
     },
     {
       label: "Ambrosia",
-      href: "#ambrosia",
+      href: "ambrosia",
       image: "/images/Place/ambrosia.webp",
     },
     {
       label: "Mount Kalaga",
-      href: "#mount-kalaga",
+      href: "mount-kalaga",
       image: "/images/Place/kalaga.webp",
     },
   ],
@@ -81,7 +81,7 @@ export const gtaData = {
       date: "May 6, 2025",
       duration: "2:47",
       isNew: true,
-      href: "#trailer-2",
+      href: "trailer-2",
       thumbnail: "/placeholder.svg?height=200&width=350",
     },
     {
@@ -89,7 +89,7 @@ export const gtaData = {
       date: "December 4, 2023",
       duration: "1:31",
       isNew: false,
-      href: "#trailer-1",
+      href: "trailer-1",
       thumbnail: "/placeholder.svg?height=200&width=350",
     },
   ],

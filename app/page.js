@@ -12,28 +12,25 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default function Home() {
-  // الخطوة 2: قراءة المسار الحالي من الرابط
+  
   const pathname = usePathname(); 
 
-  // الخطوة 3: التمرير إلى القسم عند تحميل الصفحة
   useGSAP(() => {
-    // استخلاص اسم القسم من الرابط (مثلاً "lucia" من "/lucia")
     const sectionId = pathname.substring(1); 
 
-    // إذا كان هناك اسم قسم في الرابط ويوجد عنصر بهذا الـ ID
     if (sectionId && document.getElementById(sectionId)) {
-      // انتظر قليلاً لضمان أن كل شيء قد تم عرضه، ثم قم بالتمرير
       const timer = setTimeout(() => {
         gsap.to(window, {
           duration: 0,
           scrollTo: `#${sectionId}`,
           ease: "power2.inOut"
         });
-      }, 500); // تأخير نصف ثانية
+      }, 500); 
 
-      return () => clearTimeout(timer); // تنظيف المؤقت
+      return () => clearTimeout(timer);
     }
-  }, [pathname]); // هذا التأثير يعتمد على الرابط ويعمل عند التحميل
+  }, [pathname]); 
+
   return (
     <main>
       <IntegratedNavbar />
