@@ -1,8 +1,9 @@
+
 import Image from "next/image";
 import { gtaData } from "@/constants/Links";
 
 
-function Overlay({ activeTab, activeSection, hoveredItem, handleLinkClick, setHoveredItem }) {
+function OverlayMenu({ activeTab, activeSection, hoveredItem, handleLinkClick, setHoveredItem }) {
 
  const handleItemHover = (image) => {
     setHoveredItem(image);
@@ -198,4 +199,4 @@ function Overlay({ activeTab, activeSection, hoveredItem, handleLinkClick, setHo
   );
 }
 
-export default Overlay;
+export default OverlayMenu;

@@ -1,13 +1,13 @@
 "use client";
 
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { gtaData } from "@/constants/Links";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
-import { OverlayMenu } from "./OverlayMenu";
+import OverlayMenu from "./overlayMenu";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,31 +19,31 @@ function IntegratedNavbar() {
 
   useEffect(() => {
     if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     }
 
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     };
   }, [isMenuOpen]);
 
   const handleLinkClick = (href) => {
     setIsMenuOpen(false);
-    
+
     // Clean the href and extract section name
-    const sectionName = href.replace(/^\/+|#+/g, ''); // Remove leading slashes and hashes
-    
+    const sectionName = href.replace(/^\/+|#+/g, ""); // Remove leading slashes and hashes
+
     // Skip if invalid section name
     if (!sectionName) {
-      console.warn('Invalid href for scrolling:', href);
+      console.warn("Invalid href for scrolling:", href);
       return;
     }
-    
+
     // Update URL immediately
-    window.history.pushState({}, '', `/${sectionName}`);
-    
+    window.history.pushState({}, "", `/${sectionName}`);
+
     // Scroll to the section using the ID
     gsap.to(window, {
       duration: 0,
@@ -55,9 +55,8 @@ function IntegratedNavbar() {
   return (
     <div className="fixed inset-0 w-full h-full z-50">
       {/* Always visible navigation bar */}
-      
-      <nav className="fixed z-30 flex justify-between items-center pt-[3.1rem] pl-[4rem] pr-[3rem] w-full ">
 
+      <nav className="fixed z-30 flex justify-between items-center pt-[3.1rem] pl-[4rem] pr-[3rem] w-full ">
         {/* Small "VI" logo - conditionally shown */}
         {!isMenuOpen && (
           <Link href="/">
@@ -126,7 +125,7 @@ function IntegratedNavbar() {
 
       {/* Full-screen overlay content - conditionally shown */}
       {isMenuOpen && (
-         <OverlayMenu
+        <OverlayMenu
           activeSection={activeSection}
           activeTab={activeTab}
           hoveredItem={hoveredItem}
