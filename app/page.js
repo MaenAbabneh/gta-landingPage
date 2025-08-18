@@ -1,13 +1,12 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger , ScrollToPlugin  } from "gsap/all";
+import { ScrollToPlugin,ScrollTrigger   } from "gsap/all";
+import { usePathname } from "next/navigation";
 
 import IntegratedNavbar from "../components/navigation/IntegratedNavbar";
 import Hero from "../components/sections/Hero";
-import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 

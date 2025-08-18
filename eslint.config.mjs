@@ -12,9 +12,13 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "prettier"),
+  ...compat.extends("next/core-web-vitals"),
+  ...compat.extends("prettier"), // استخدام compat للتوافق مع Flat Config
   {
-    plugins: ["import", "simple-import-sort"],
+    plugins: {
+      import: importPlugin,
+      "simple-import-sort": simpleImportSort,
+    },
     rules: {
       "import/order": [
         "error",

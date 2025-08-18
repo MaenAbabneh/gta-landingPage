@@ -1,5 +1,6 @@
-import localFont from "next/font/local";
 import "./globals.css";
+
+import localFont from "next/font/local";
 
 const fontLong = localFont({
   src: "../public/fonts/long.woff",
@@ -30,7 +31,17 @@ const fontRound = localFont({
 export const metadata = {
   title: "Grand Theft Auto VI",
   description:
-    "full animated landing page for grand theft auto vi not just website it's a experience.",
+    "Full animated landing page for Grand Theft Auto VI - not just a website, it's an experience.",
+  keywords: ["GTA VI", "Grand Theft Auto", "gaming", "Rockstar Games"],
+  authors: [{ name: "Your Name" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Grand Theft Auto VI",
+    description:
+      "Full animated landing page for Grand Theft Auto VI - not just a website, it's an experience.",
+    type: "website",
+    locale: "en_US",
+  },
 };
 
 export default function RootLayout({ children }) {

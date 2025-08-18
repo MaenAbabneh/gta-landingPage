@@ -1,5 +1,6 @@
 {
   "name": "gta-landing",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -28,6 +29,7 @@
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.4.6",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "tailwindcss": "^4",
