@@ -11,8 +11,7 @@ import Hero from "../components/sections/Hero";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default function Home() {
-  
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   useGSAP(() => {
     const sectionId = pathname.substring(1); 
@@ -29,6 +28,7 @@ export default function Home() {
       return () => clearTimeout(timer);
     }
   }, [pathname]); 
+
 
   return (
     <main>

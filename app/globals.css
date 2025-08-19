@@ -24,26 +24,6 @@
   /* GTA VI Gradient - Original from official site */
   --gta-gradient-primary: linear-gradient(
     223.17deg,
-    #1c1829,
-    #1b1828 8.61%,
-    #191724 17.21%,
-    #161520 25.82%,
-    #14131c 34.42%,
-    #121218 43.03%,
-    #111117 51.63%
-  );
-
-  /* GTA VI Secondary Gradient for right column */
-  --gta-gradient-secondary: linear-gradient(
-    135deg,
-    #111117 0%,
-    #1d1d23 50%,
-    #29292e 100%
-  );
-
-  /* GTA VI Overlay Gradient with transparency */
-  --gta-gradient-overlay: linear-gradient(
-    223.17deg,
     rgba(28, 24, 41, 0.95),
     rgba(27, 24, 40, 0.95) 8.61%,
     rgba(25, 23, 36, 0.95) 17.21%,
@@ -51,6 +31,17 @@
     rgba(20, 19, 28, 0.95) 34.42%,
     rgba(18, 18, 24, 0.95) 43.03%,
     rgba(17, 17, 23, 0.95) 51.63%
+  );
+
+  --gta-gradient-secoundry: linear-gradient(
+    223.17deg,
+    #237287,
+    #246c84 8.61%,
+    #265f7c 17.21%,
+    #274f72 25.82%,
+    #284367 34.42%,
+    #283a5f 43.03%,
+    #28375c 51.63%
   );
 
   /* Font variables */
@@ -65,8 +56,7 @@
   --color-gta-overlay-80: var(--gta-overlay-80);
   --color-gta-overlay-30: var(--gta-overlay-30);
   --color-gta-gradient-primary: var(--gta-gradient-primary);
-  --color-gta-gradient-secondary: var(--gta-gradient-secondary);
-  --color-gta-gradient-overlay: var(--gta-gradient-overlay);
+  --color-gta-gradient-secoundry: var(--gta-gradient-secoundry);
   --color-gta-white: var(--gta-white);
   --color-gta-white-05: var(--gta-white-05);
   --color-gta-white-10: var(--gta-white-10);
@@ -87,13 +77,12 @@ body {
   overflow-x: hidden;
   font-family: var(--font-round), sans-serif;
   background-color: black;
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
 main {
@@ -224,6 +213,15 @@ main {
     @apply bg-background;
   }
 
+  /* GTA Gradients */
+  .bg-gta-gradient-primary {
+    background: var(--gta-gradient-primary);
+  }
+
+  .bg-gta-gradient-secondary {
+    background: var(--gta-gradient-secoundry);
+  }
+
   /* Hide scrollbar for Chrome, Safari and Opera */
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
@@ -261,8 +259,44 @@ main {
     font-family: var(--font-round);
     font-weight: 700;
     font-style: normal;
-    letter-spacing: -.002em;
+    letter-spacing: -0.002em;
     line-height: 1;
     text-wrap: balance;
+  }
+
+  .loading-animation {
+    -webkit-mask-image: url("/images/loading-icon.svg");
+    mask-image: url("/images/loading-icon.svg");
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    position: relative;
+    background: #1d1f37;
+  }
+
+  .loading-animation::after {
+    content: "";
+    background: linear-gradient(232deg, #ffc2d0 20%, #725185 70%);
+    filter: blur(5px);
+    transform: skew(-45deg, 45deg);
+    position: absolute;
+    top: -40%;
+    left: -40%;
+    width: 25%;
+    height: 60%;
+    z-index: -1;
+    animation: move-sheen 2.15s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  }
+
+  @keyframes move-sheen {
+    /* نقطة البداية (أسفل اليمين) */
+    0% {
+      left: 100%;
+      top: 75%;
+    }
+    /* نقطة النهاية (أعلى اليسار) */
+    100% {
+      left: 0%;
+      top: 0%;
+    }
   }
 }
