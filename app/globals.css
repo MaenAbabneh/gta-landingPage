@@ -12,13 +12,15 @@
   --gta-accent-yellow: #fff9cb;
   --gta-accent-pink: #ffb0c4;
   --gta-white: #fff;
+  --gta-black: #111117;
   --gta-white-05: hsla(0, 0%, 100%, 0.05);
   --gta-white-10: hsla(0, 0%, 100%, 0.1);
   --gta-white-20: hsla(0, 0%, 100%, 0.2);
   --gta-white-30: hsla(0, 0%, 100%, 0.3);
   --gta-white-60: hsla(0, 0%, 100%, 0.6);
+  --gta-white-05: hsla(0, 0%, 100%, 0.05);
   --gta-overlay-30: rgba(17, 17, 23, 0.3);
-  --gta-overlay-50: rgba(17, 17, 23, 0.5);
+  --gta-overlay-50: rgba(17, 17, 23, 0.6);
   --gta-overlay-80: rgba(17, 17, 23, 0.9);
 
   /* GTA VI Gradient - Original from official site */
@@ -35,14 +37,18 @@
 
   --gta-gradient-secoundry: linear-gradient(
     223.17deg,
-    #237287,
-    #246c84 8.61%,
-    #265f7c 17.21%,
-    #274f72 25.82%,
-    #284367 34.42%,
-    #283a5f 43.03%,
-    #28375c 51.63%
+    #1c1829,
+    #1b1828 8.61%,
+    #191724 17.21%,
+    #161520 25.82%,
+    #14131c 34.42%,
+    #121218 43.03%,
+    #111117 51.63%
   );
+
+  --text-button-size: min(calc(4vw / 3), calc(2560px * 0.04 / 3));
+  --padding-button: min(calc(6vw / 3),calc(2560px * 0.06 / 3));
+  --height-button: min(calc(13vw / 3),calc(2560px * 0.13 / 3));
 
   /* Font variables */
   --font-sans: var(--font-round);
@@ -56,20 +62,27 @@
   --color-gta-overlay-80: var(--gta-overlay-80);
   --color-gta-overlay-30: var(--gta-overlay-30);
   --color-gta-gradient-primary: var(--gta-gradient-primary);
-  --color-gta-gradient-secoundry: var(--gta-gradient-secoundry);
+  --color-gta-gradient-secondary: var(--gta-gradient-secondary);
+  --color-gta-gradient-tertiary: var(--gta-gradient-tertiary);
   --color-gta-white: var(--gta-white);
+  --color-gta-black: var(--gta-black);
   --color-gta-white-05: var(--gta-white-05);
   --color-gta-white-10: var(--gta-white-10);
   --color-gta-white-20: var(--gta-white-20);
   --color-gta-white-30: var(--gta-white-30);
   --color-gta-white-60: var(--gta-white-60);
-
+  
   /* Border radius */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-full: 9999px;
+
+  /* navbar */
+  --nav-padding-x: min(calc(12vw / 3), calc(2560px * 0.12 / 3));
+  --nav-padding-y: min(calc(15vw / 3), calc(2560px * 0.15 / 3));
+  --nav-logo: min(calc(9vw / 3), calc(2560px * 0.09 / 3));
 }
 
 body {
@@ -213,9 +226,51 @@ main {
     @apply bg-background;
   }
 
+  /* Navbar utility */
+  .p-y {
+    padding-left: var(--nav-padding-y);
+    padding-right: var(--nav-padding-y);
+  }
+
+  .p-x {
+    padding-top: var(--nav-padding-x);
+    padding-bottom: var(--nav-padding-x);
+  }
+
+  .w-nav-logo {
+    width: var(--nav-logo);
+  }
+  .h-nav-logo {
+    height: var(--nav-logo);
+  }
+
+  .main-logo {
+    @apply transition-all duration-300;
+    cursor: pointer;
+    height: var(--nav-logo);
+    width: var(--nav-logo);
+    color: var(--color-gta-white);
+  }
+  .main-logo:hover {
+    @apply text-[var(--color-gta-yellow)];
+  }
+
   /* GTA Gradients */
   .bg-gta-gradient-primary {
     background: var(--gta-gradient-primary);
+  }
+
+  .bg-gta-column-left {
+    background-image: linear-gradient(
+      223.17deg,
+      rgb(28, 24, 41),
+      rgb(27, 24, 40) 8.61%,
+      rgb(25, 23, 36) 17.21%,
+      rgb(22, 21, 32) 25.82%,
+      rgb(20, 19, 28) 34.42%,
+      rgb(18, 18, 24) 43.03%,
+      rgb(17, 17, 23) 51.63%
+    );
   }
 
   .bg-gta-gradient-secondary {
@@ -235,7 +290,24 @@ main {
 
   /* Custom animations for the integrated navbar */
   .animate-fade-in {
-    animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.5s ease-in-out;
+    animation-fill-mode: both;
+  }
+
+  .animate-slide-left {
+    animation: slideRight 0.5s ease-in-out;
+    animation-fill-mode: both;
+  }
+
+  @keyframes slideRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
 
   @keyframes fadeIn {
@@ -247,6 +319,20 @@ main {
       opacity: 1;
       transform: scale(1);
     }
+  }
+
+  /* Burger menu animations */
+  .burger-line {
+    transform-origin: center;
+    border-radius: 1px;
+  }
+
+  .burger-line-top.open {
+    transform: translateY(calc(var(--button-gap) / 2)) rotate(45deg);
+  }
+
+  .burger-line-bottom.open {
+    transform: translateY(calc(var(--button-gap) / -2)) rotate(-45deg);
   }
 
   /* Logo glow effect with circular shadows */
@@ -287,6 +373,10 @@ main {
     animation: move-sheen 2.15s cubic-bezier(0.77, 0, 0.175, 1) infinite;
   }
 
+  .text-button {
+    @apply text-[var(--text-size)];
+  }
+
   @keyframes move-sheen {
     /* نقطة البداية (أسفل اليمين) */
     0% {
@@ -298,5 +388,17 @@ main {
       left: 0%;
       top: 0%;
     }
+  }
+  .button-size {
+    height: var(--height-button);
+    padding: 0 var(--padding-button);
+  }
+
+  .overlay-nav {
+    margin-top: min(calc(12vw / 3), calc(2560px * 0.12 / 3));
+    margin-right: min(calc(28vw / 3), calc(2560px * 0.28 / 3));
+    margin-bottom: min(calc(12vw / 3), calc(2560px * 0.12 / 3));
+    margin-left: min(calc(7vw / 3), calc(2560px * 0.07 / 3));
+    padding: 0 min(calc(8vw / 3), calc(2560px * 0.08 / 3));
   }
 }

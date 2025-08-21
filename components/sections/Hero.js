@@ -1,10 +1,10 @@
-import React from "react";
+import Image from 'next/image';
 
 function Hero() {
   return (
     <section id="jason" className="hero-section">
       <div className="hero-background">
-        <img src="/images/hero-bg.webp" alt="Hero Background" className="object-cover w-full h-full" />
+        <Image src="/images/hero-bg.webp" alt="Hero Background" className="object-cover " width={1366} height={1080} />
       </div>
       <h1 className="hero-title">Welcome to GTA VI</h1>
       <p className="hero-description">

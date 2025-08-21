@@ -1,8 +1,8 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
 import importPlugin from "eslint-plugin-import";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,18 +20,11 @@ const eslintConfig = [
       "simple-import-sort": simpleImportSort,
     },
     rules: {
-      "import/order": [
-        "error",
-        {
-          groups: [
-            ["builtin", "external"],
-            ["internal", "parent", "sibling", "index"],
-          ],
-          "newlines-between": "always",
-        },
-      ],
+      // استخدام simple-import-sort فقط لتجنب التضارب
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
+      // إلغاء import/order لتجنب التضارب
+      "import/order": "off",
     },
   },
 ];

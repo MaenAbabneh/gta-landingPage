@@ -2,8 +2,16 @@ import "./globals.css";
 
 import localFont from "next/font/local";
 
+import Navbar from "../components/navigation/Navbar";
+
 const fontLong = localFont({
-  src: "../public/fonts/long.woff",
+  src: [
+    {
+      path: "../public/fonts/long.woff",
+      weight: "700", // أو 'bold'
+      style: "normal",
+    },
+  ],
   variable: "--font-long",
 });
 
@@ -47,7 +55,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${fontLong.variable} ${fontRound.variable}`}>
-      <body className="font-round antialiased ">{children}</body>
+      <body className="font-round antialiased ">
+      <Navbar />
+      {children}
+      </body>
     </html>
   );
 }

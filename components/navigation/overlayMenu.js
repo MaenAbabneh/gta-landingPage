@@ -1,11 +1,20 @@
-
 import Image from "next/image";
+
 import { gtaData } from "@/constants/Links";
 
+import  Burger  from "../burger";
 
-function OverlayMenu({ activeTab, activeSection, hoveredItem, handleLinkClick, setHoveredItem }) {
-
- const handleItemHover = (image) => {
+function OverlayMenu({
+  isMenuOpen,
+  setIsMenuOpen,
+  activeTab,
+  activeSection,
+  hoveredItem,
+  handleLinkClick,
+  setHoveredItem,
+  setActiveTab,
+}) {
+  const handleItemHover = (image) => {
     setHoveredItem(image);
   };
 
@@ -17,7 +26,7 @@ function OverlayMenu({ activeTab, activeSection, hoveredItem, handleLinkClick, s
     switch (activeTab) {
       case "People":
         return (
-          <div className="flex flex-col items-start ">
+          <div className="flex flex-col items-start pl-6">
             {gtaData.People.map((person, index) => {
               const sectionName = person.href.replace(/^\/+|#+/g, ""); // Clean href
               const isActive = activeSection === sectionName;
@@ -25,10 +34,10 @@ function OverlayMenu({ activeTab, activeSection, hoveredItem, handleLinkClick, s
               return (
                 <button
                   key={index}
-                  className={`cursor-pointer font-long text-[3.5rem] uppercase transition-colors duration-300 leading-none text-left tracking-tight ${
+                  className={`cursor-pointer font-long font-medium clamp text-[3.56rem] uppercase transition-colors duration-300 leading-none text-left tracking-normal ${
                     isActive
                       ? "text-gta-pink"
-                      : "text-white hover:text-gta-yellow"
+                      : "text-gta-white hover:text-gta-yellow"
                   }`}
                   onClick={() => handleLinkClick(person.href)}
                   onMouseEnter={() => handleItemHover(person)}
@@ -51,7 +60,7 @@ function OverlayMenu({ activeTab, activeSection, hoveredItem, handleLinkClick, s
               return (
                 <button
                   key={index}
-                  className={`text-white font-round font-bold text-4xl md:text-5xl lg:text-6xl leading-tight tracking-wide transition-colors duration-300 text-left ${
+                  className={`text-white font-round font-bold text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight tracking-wide transition-colors duration-300 text-left ${
                     isActive ? "text-gta-pink" : "hover:text-gta-yellow"
                   }`}
                   onClick={() => handleLinkClick(place.href)}
@@ -78,9 +87,11 @@ function OverlayMenu({ activeTab, activeSection, hoveredItem, handleLinkClick, s
                 onMouseLeave={handleItemLeave}
               >
                 <div className="relative">
-                  <img
+                  <Image
                     src={trailer.thumbnail || "/placeholder.svg"}
                     alt={trailer.title}
+                    width={320}
+                    height={192}
                     className="w-80 h-48 object-cover rounded-lg"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -118,10 +129,12 @@ function OverlayMenu({ activeTab, activeSection, hoveredItem, handleLinkClick, s
                 onMouseEnter={() => handleItemHover(item)}
                 onMouseLeave={handleItemLeave}
               >
-                <img
+                <Image
                   src={item.thumbnail || "/placeholder.svg"}
                   alt={item.title}
                   className="w-full h-48 object-cover rounded-lg"
+                  width={320}
+                  height={192}
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-between p-6 rounded-lg">
                   <h3 className="text-white font-round font-bold text-3xl">
@@ -142,17 +155,11 @@ function OverlayMenu({ activeTab, activeSection, hoveredItem, handleLinkClick, s
   };
 
   return (
-    <div
-      className="flex h-full bg-gta-overlay-50  "
-      style={{
-        backdropFilter:
-          "brightness(120%) saturate(200%) blur(150px) hue-rotate(-14deg)",
-        WebkitBackdropFilter: "brightness(60%) saturate(120%) blur(150px)",
-      }}
-    >
-      {/* Left Column: Dark gradient background with large VI logo */}
-      <div className=" flex w-1/6 sm:w-1/3 md:w-[51vw]  h-full justify-center bg-transparent">
-        <div className="hidden sm:flex flex-col justify-center items-center gap-4 ">
+    <div className="grid grid-cols-2 grid-rows-1 w-full h-dvh  pointer-events-auto ">
+
+      <div className="flex  w-screen  bg-gta-overlay-50 filter backdrop-blur-[150px] backdrop-brightness-[120%] backdrop-saturate-[250%] transform-all duration-500  animate-fade-in animate-fill-forward">
+
+        <div className="flex flex-row justify-center items-center  h-screen min-w-[40vw] xl:min-w-[50vw]">
           {hoveredItem &&
           (activeTab === "People" || activeTab === "Places") &&
           hoveredItem.image ? (
@@ -161,40 +168,45 @@ function OverlayMenu({ activeTab, activeSection, hoveredItem, handleLinkClick, s
               alt={hoveredItem.label || "Content"}
               width={1200}
               height={720}
-              className="animate-fade-in object-cover h-full "
+              className="animate-fade-in hidden sm:block object-cover h-full absolute top-0 left-0"
             />
           ) : (
-            <div className=" logo-glow relative flex items-center justify-center filter">
               <Image
                 src="/images/gta-vi-logo-white.svg"
                 alt="GTA VI Logo"
                 width={242}
                 height={0}
-                className="animate-fade-in relative z-10   invert"
+                className="animate-fade-in  logo-glow "
               />
-            </div>
           )}
         </div>
       </div>
 
       {/* Right Column: Enhanced near-black background with authentic styling */}
-      <div
-        className="w-5/6 sm:w-2/3 md:w-[49vw] h-[100vh] flex flex-col"
-        style={{
-          background: "var(--gta-gradient-primary)",
-        }}
-      >
-        {/* Top section with four main tab buttons */}
-        <div className="flex items-start justify-start p-4 md:p-8 pt-[3.5rem] md:pt-[3rem] ">
-          {/* Group of four main tab buttons - conditionally shown */}
-          <div className="flex flex-wrap gap-2 md:gap-1 w-full"></div>
+      <div className="flex flex-col fixed right-0 top-0 bg-gta-column-left  w-[85vw] md:w-[60vw] xl:w-[50vw] h-screen z-10 animate-slide-left ">
+        <div className="flex justify-between items-center mt-11 ml-10 mr-35 ">
+          <div className="hidden md:flex pl-2   ">
+            {Object.keys(gtaData).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`h-13 px-6 rounded-full transition-all nav-font text-bxl tracking-wider cursor-pointer ${
+                  activeTab === tab
+                    ? "bg-white text-gta-black"
+                    : "text-white hover:text-gta-yellow"
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+      
         </div>
-
-        {/* Content Area */}
         <div className="flex-1 overflow-y-auto p-4 md:p-8">
           {renderTabContent()}
         </div>
       </div>
+
     </div>
   );
 }
