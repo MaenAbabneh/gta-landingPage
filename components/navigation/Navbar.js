@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 
 import Burger from "../burger";
-import MainLogo from "../logo";
+import { MainLogo } from "../svg";
 import OverlayMenu from "./overlayMenu";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -56,38 +56,38 @@ function Navbar() {
 
   return (
     <>
-    <nav className="fixed z-10 flex justify-between items-center justify-items-center px-14 py-11 bg-transparent">
-      {!isMenuOpen && (
-        <Link
-          href="/"
-          className="inline-flex flex-row items-center justify-center shrink-0 w-button h-button box-border rounded-full outline-[4px] outline-transparent outline-solid"
-        >
-          <MainLogo />
-          <span className="sr-only">GTA VI Logo</span>
-        </Link>
-      )}
+      <nav className="fixed z-10  px-14 py-11  bg-transparent flex justify-between items-center justify-items-center">
+        {!isMenuOpen && (
+          <Link
+            href="/"
+            className="fixed top-16 md:top-12  left-14 inline-flex flex-row items-center justify-center w-button h-button box-border rounded-full outline-[4px] outline-transparent outline-solid"
+          >
+            <MainLogo />
+            <span className="sr-only">GTA VI Logo</span>
+          </Link>
+        )}
 
-      <Burger
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-        ClassName="fixed z-50 top-11 right-14"
-      />
-    </nav>
-    <div className="fixed inset-0 pointer-events-none">
-    {isMenuOpen && (
-        <OverlayMenu
+        <Burger
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
-          activeSection={activeSection}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          hoveredItem={hoveredItem}
-          setHoveredItem={setHoveredItem}
-          handleLinkClick={handleLinkClick}
+          ClassName="fixed z-50 top-12 right-14 "
         />
-      )}
+      </nav>
+      <div className="fixed inset-0 pointer-events-none">
+        {isMenuOpen && (
+          <OverlayMenu
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            activeSection={activeSection}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            hoveredItem={hoveredItem}
+            setHoveredItem={setHoveredItem}
+            handleLinkClick={handleLinkClick}
+          />
+        )}
       </div>
-      </>
+    </>
   );
 }
 

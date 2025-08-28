@@ -16,6 +16,16 @@ const nextConfig = {
       destination: "/",
     }));
   },
+images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**', // يسمح بتحميل أي صورة من أي مسار على هذا النطاق
+      },
+    ],
+  },
 };
 
 export default nextConfig;

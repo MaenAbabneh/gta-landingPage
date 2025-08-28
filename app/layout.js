@@ -9,7 +9,6 @@ const fontLong = localFont({
     {
       path: "../public/fonts/long.woff",
       weight: "700", // أو 'bold'
-      style: "normal",
     },
   ],
   variable: "--font-long",
