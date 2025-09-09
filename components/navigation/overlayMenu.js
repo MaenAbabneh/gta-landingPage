@@ -188,11 +188,11 @@ function OverlayMenu({
           <button className="flex items-center justify-center px-2 py-2 bg-transparent text-gta-white gap-2  hover:text-gta-white-60">
             <GloableSvg />
             En
-            <ArrowSvg />
+            <ArrowSvg className={"rotate-180"} />
           </button>
           <button className="flex items-center justify-center px-2 py-2 bg-transparent text-gta-white gap-2 hover:text-gta-white-60">
             Motion
-            <ArrowSvg />
+            <ArrowSvg className={"rotate-180"} />
           </button>
         </div>
 

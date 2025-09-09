@@ -48,8 +48,8 @@
   );
 
   --text-button-size: min(calc(3vw / 3), calc(2560px * 0.04 / 3));
-  --padding-button: min(calc(6vw / 3),calc(2560px * 0.06 / 3));
-  --height-button: min(calc(13vw / 3),calc(2560px * 0.13 / 3));
+  --padding-button: min(calc(6vw / 3), calc(2560px * 0.06 / 3));
+  --height-button: min(calc(13vw / 3), calc(2560px * 0.13 / 3));
 
   /* Font variables */
   --font-sans: var(--font-round);
@@ -92,9 +92,7 @@ body {
   width: 100dvw;
   overflow-x: hidden;
   font-family: var(--font-round), sans-serif;
-  background-color: black;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  background-color: var(--gta-black);
 }
 
 body::-webkit-scrollbar {
@@ -405,29 +403,53 @@ main {
     padding: 0 min(calc(8vw / 3), calc(2560px * 0.08 / 3));
   }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.3); 
-  border-radius: 10px;
-}
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-}
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
 
-/* app/globals.css */
+  /* app/globals.css */
 
-.scroll-fade-container {
-  position: relative;
-}
+  .scroll-fade-container {
+    position: relative;
+  }
 
+  .mask-wrapper {
+    @apply bg-white;
+    mask-image: url("/images/big-hero-text.svg");
+    mask-origin: content-box;
+    background-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: url("/images/big-hero-text.svg");
+    -webkit-mask-origin: content-box;
+    -webkit-mask-repeat: no-repeat;
+  }
 
+  .glow-text {
+    text-shadow:
+      0 0 2px rgba(255, 255, 255, 0.5),
+      0 0 20px #000;
+  }
 
+  .glow-logo {
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))
+      drop-shadow(0 0 20px #000);
+  }
+
+   .glow-arrow {
+    filter: drop-shadow(0 0 2px rgba(255, 176, 196, 0.5))
+      drop-shadow(0 0 20px #000);
+  }
 }
