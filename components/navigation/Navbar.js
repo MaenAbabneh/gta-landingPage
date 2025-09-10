@@ -17,7 +17,6 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("People");
   const [hoveredItem, setHoveredItem] = useState(null);
-  const activeSection = useScrollSpy();
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -78,7 +77,6 @@ function Navbar() {
           <OverlayMenu
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
-            activeSection={activeSection}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             hoveredItem={hoveredItem}

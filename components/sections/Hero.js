@@ -72,6 +72,14 @@ function Hero() {
           "<"
         )
         .to(
+          bgKeyArtRef.current,
+          {
+            scale: 1,
+            ease: "power1.inOut",
+          },
+          "<"
+        )
+        .to(
           buttonRef.current,
           {
             opacity: 0,

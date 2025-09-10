@@ -14,7 +14,6 @@ export default function Home() {
 
   useGSAP(() => {
     const sectionId = pathname.substring(1); 
-
     if (sectionId && document.getElementById(sectionId)) {
       const timer = setTimeout(() => {
         gsap.to(window, {
@@ -32,7 +31,15 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      
+      <section id="jason" className="h-screen bg-gray-100">
+        <h2 className="text-3xl font-bold text-center pt-20">People Section</h2>
+      </section>
+      <section id="lucia" className="h-screen bg-gray-200">
+        <h2 className="text-3xl font-bold text-center pt-20">Places Section</h2>
+      </section>
+      <section id="vice-city" className="h-screen bg-gray-300">
+        <h2 className="text-3xl font-bold text-center pt-20">Downloads Section</h2>
+      </section>
       
     </main>
   );

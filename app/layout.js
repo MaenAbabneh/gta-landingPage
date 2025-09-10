@@ -2,8 +2,7 @@ import "./globals.css";
 
 import localFont from "next/font/local";
 
-import Navbar from "../components/navigation/Navbar";
-
+import Navbar from "@/components/navigation/Navbar";
 const fontLong = localFont({
   src: [
     {
@@ -55,8 +54,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${fontLong.variable} ${fontRound.variable}`}>
       <body className="font-round antialiased ">
-      <Navbar />
-      {children}
+          <Navbar />
+          {children}
       </body>
     </html>
   );

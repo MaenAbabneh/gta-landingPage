@@ -1,6 +1,7 @@
-import { useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
+
 import { gtaData } from "@/constants/Links";
 
 export function useScrollSpy() {
@@ -31,8 +32,8 @@ export function useScrollSpy() {
 
       ScrollTrigger.create({
         trigger: sectionId,
-        start: "top 30%",
-        end: "bottom 30%",
+        start: "top center",
+        end: "bottom center",
         onEnter: () => {
           setActiveSection(sectionName);
         },
@@ -42,6 +43,7 @@ export function useScrollSpy() {
       });
     });
   }, []);
+  
 
   return activeSection;
 }

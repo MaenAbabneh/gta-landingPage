@@ -1,17 +1,19 @@
 import Image from "next/image";
 
 import { gtaData } from "@/constants/Links";
+import { useScrollSpy } from "@/hooks/useScrollSpy";
 
 import { ArrowSvg, FullArrowSvg, GloableSvg, NavLogo } from "../svg";
 
 function OverlayMenu({
   activeTab,
-  activeSection,
   hoveredItem,
   handleLinkClick,
   setHoveredItem,
   setActiveTab,
 }) {
+  const activeSection = useScrollSpy();
+
   const handleItemHover = (image) => {
     setHoveredItem(image);
   };
@@ -28,12 +30,11 @@ function OverlayMenu({
             {gtaData.People.map((person, index) => {
               const sectionName = person.href.replace(/^\/+|#+/g, ""); // Clean href
               const isActive = activeSection === sectionName;
-
               return (
                 <button
                   key={index}
-                  className={`text-gta-white cursor-pointer text-wrap font-long font-black text-[3.56rem]  uppercase transition-colors duration-500 leading-none  ${
-                    isActive ? "text-gta-pink" : "hover:text-gta-yellow"
+                  className={` cursor-pointer text-wrap font-long font-black text-[3.56rem]  uppercase transition-colors duration-500 leading-none  ${
+                    isActive ? "text-gta-pink" : "text-gta-white hover:text-gta-yellow"
                   }`}
                   onClick={() => handleLinkClick(person.href)}
                   onMouseEnter={() => handleItemHover(person)}
@@ -56,8 +57,8 @@ function OverlayMenu({
               return (
                 <button
                   key={index}
-                  className={`text-gta-white font-long text-[3.56rem] uppercase leading-none transition-colors duration-300 text-left ${
-                    isActive ? "text-gta-pink" : "hover:text-gta-yellow"
+                  className={` font-long text-[3.56rem] uppercase leading-none transition-colors duration-300 text-left ${
+                    isActive ? "text-gta-pink" : "text-gta-white hover:text-gta-yellow"
                   }`}
                   onClick={() => handleLinkClick(place.href)}
                   onMouseEnter={() => handleItemHover(place)}
