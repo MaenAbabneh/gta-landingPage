@@ -121,22 +121,29 @@ function Hero() {
         ref={maskWrapperRef}
         className="mask-wrapper pb-92 absolute inset-0 z-1"
       >
-        <div
+        <Image
           ref={backgroundImageRef}
-          className="bg-[url('/images/hero-bg.webp')] bg-cover bg-center bg-no-repeat absolute inset-0 z-0 md:scale-125"
-        >
+          src="/images/hero-bg.webp"
+          alt="Hero Background"
+          className="object-cover md:scale-125"
+          fill
+          sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          unoptimized
+          priority
+        />
           <Image
             ref={bgKeyArtRef}
             src="/images/heroKeyArt.webp"
-            alt="Hero Background"
-            layout="fill"
-            className="object-cover"
+            alt="Hero Key Art"
+            className="object-cover scale-125"
+            fill
             unoptimized
+            priority
           />
-        </div>
 
         <button
           ref={buttonRef}
+          alt="Play Button"
           className="absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-10 flex items-center justify-center z-10  pointer-cursor "
         >
           <PlayIcon className="w-28 h-28 text-gta-white backdrop-blur-lg rounded-full pointer-cursor" />
