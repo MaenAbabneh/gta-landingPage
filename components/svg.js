@@ -1,3 +1,5 @@
+import { forwardRef } from "react";
+
 function MainLogo() {
   return (
     <div>
@@ -194,7 +196,7 @@ function PlayIcon({ className }) {
   );
 }
 
-function BouncingArrow({ className, ref }) {
+const BouncingArrow = forwardRef(function BouncingArrow({ className }, ref) {
   return (
     <svg
       ref={ref}
@@ -215,7 +217,7 @@ function BouncingArrow({ className, ref }) {
       ></path>
     </svg>
   );
-}
+});
 
 function XboxIcon({ className }) {
   return (

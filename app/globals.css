@@ -89,19 +89,13 @@
 }
 
 body {
-  width: 100dvw;
+  width: 100%;
   overflow-x: hidden;
   font-family: var(--font-round), sans-serif;
-  background-color: var(--gta-black);
+  background-color: var(--gta-bg-primary);
+  
 }
 
-body::-webkit-scrollbar {
-  display: none;
-}
-
-main {
-  background: var(--gta-bg-primary);
-}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -211,14 +205,10 @@ main {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
+  main {
+    overflow-x: hidden;
   }
 }
-
 @layer utilities {
   .flex-center {
     @apply flex justify-center items-center;
@@ -448,8 +438,51 @@ main {
       drop-shadow(0 0 20px #000);
   }
 
-   .glow-arrow {
+  .glow-arrow {
     filter: drop-shadow(0 0 2px rgba(255, 176, 196, 0.5))
       drop-shadow(0 0 20px #000);
   }
+
+  .gradient-text {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+   .jason {
+    @apply relative z-10 lg:ps-40 2xl:ps-80 ps-10 py-40 mt-60 flex lg:flex-row flex-col justify-between gap-5 w-dvw overflow-x-hidden;
+
+    h1 {
+      @apply text-yellow font-long uppercase text-8xl mb-20;
+    }
+    h2 {
+      @apply text-pink md:text-5xl text-3xl mb-7 md:pe-20 pe-10;
+    }
+    p {
+      @apply text-white md:text-2xl text-lg md:pe-28 pe-14;
+    }
+    .jason-1 {
+      @apply bg-yellow lg:h-[80vh] w-auto -translate-x-5;
+
+      img {
+        @apply size-full object-cover [object-position:5%_center] hover:scale-[0.98] transition duration-700 ease-in-out;
+      }
+    }
+    .jason-2 {
+      @apply bg-yellow h-[90vh] w-auto md:mt-36 mt-20 -translate-x-5;
+
+      img {
+        @apply size-full object-cover [object-position:80%_center] hover:scale-x-[0.97] hover:scale-y-[0.98] transition duration-700 ease-in-out;
+      }
+    }
+    .jason-3 {
+      @apply bg-yellow h-[50vh] md:w-[60%] -translate-x-5;
+
+      img {
+        @apply size-full object-cover [object-position:42%_center] hover:scale-[0.97] transition duration-700 ease-in-out;
+      }
+    }
+  }
+}
+.jason-content {
+  background: radial-gradient(ellipse, #111117 20%, transparent 70%);
 }

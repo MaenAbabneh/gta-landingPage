@@ -6,8 +6,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useRef } from "react";
 
-import { BouncingArrow, PlayIcon, WatchTrailer } from "../svg";
-import ComingSoon from "./comingsoon";
+import { useMaskSettings } from "../../constants";
+import {
+  PlayIcon,
+  PsIcon,
+  WatchTrailer,
+  XboxIcon,
+} from "../svg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,139 +20,170 @@ function Hero() {
   const containerRef = useRef(null);
   const maskWrapperRef = useRef(null);
   const backgroundImageRef = useRef(null); // 1. إنشاء ref جديد للخلفية
-  const arrowRef = useRef(null);
   const buttonRef = useRef(null);
   const WatchRef = useRef(null);
   const bgKeyArtRef = useRef(null);
   const comingSoonRef = useRef(null);
+  const textRef = useRef(null);
+  const VIlogoRef = useRef(null);
+  const consolesRef = useRef(null);
+  const { initialMaskSize, maskPos, maskSize } = useMaskSettings();
 
   useGSAP(
     () => {
-      gsap.set(backgroundImageRef.current, { opacity: 1 }); // تعيين الحالة الابتدائية للخلفية
+      gsap.set(
+        [backgroundImageRef.current, buttonRef.current, bgKeyArtRef.current],
+        { opacity: 1 }
+      );
+      gsap.set(consolesRef.current, { opacity: 0 });
       gsap.set(maskWrapperRef.current, {
-        maskSize: "3500%",
+        maskSize: initialMaskSize,
         maskPosition: "50% 50%",
       });
-      gsap.set(buttonRef.current, { opacity: 1 });
-      gsap.set(WatchRef.current, { opacity: 1 });
-      gsap.set(bgKeyArtRef.current, { opacity: 1 });
       gsap.set(comingSoonRef.current, { scale: 1.2 });
-
-      gsap.to(arrowRef.current, {
-        y: 10,
-        scale: 0.9,
-        opacity: 0.8,
-        duration: 1,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut",
-      });
+      // Continuous bounce animation for the arrow
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=2000",
-          scrub: 1,
+          end: "+=1400 ",
+          scrub: 2.5,
           pin: true,
+          pinSpacer: false,
+          // markers: true,
         },
       });
 
       tl.to(
-        maskWrapperRef.current,
+        [backgroundImageRef.current, bgKeyArtRef.current],
         {
-          maskSize: "13.5%",
-          ease: "expo.inOut",
+          scale: 1,
+          ease: "power1.inOut",
         },
-        "0.1"
+        "<"
       )
-        .add("startfade", 0.1)
-        .add("startscale", 0.2)
         .to(
-          backgroundImageRef.current,
+          [buttonRef.current, WatchRef.current, bgKeyArtRef.current],
           {
-            scale: 1,
+            opacity: 0,
             ease: "power1.inOut",
           },
           "<"
         )
         .to(
-          bgKeyArtRef.current,
+          backgroundImageRef.current,
           {
-            scale: 1,
-            ease: "power1.inOut",
+            opacity: 0,
+            duration: 1,
+            ease: "expo.inOut",
           },
           "<"
         )
         .to(
-          buttonRef.current,
+          maskWrapperRef.current,
           {
-            opacity: 0,
-            ease: "power1.inOut",
+            maskSize: maskSize,
+            maskPosition: maskPos,
+            duration: 0.9,
+            ease: "expo.inOut",
           },
-          "0"
-        )
-        .to(
-          WatchRef.current,
-          {
-            opacity: 0,
-            ease: "power1.inOut",
-          },
-          "0"
-        )
-        .to(
-          bgKeyArtRef.current,
-          {
-            opacity: 0,
-            ease: "power1.inOut",
-          },
-          "0"
-        )
-        .to(
-          backgroundImageRef.current,
-          {
-            opacity: 0,
-            ease: "power1.inOut",
-          },
-          "startfade"
+          "<"
         )
         .to(
           comingSoonRef.current,
-          { scale: 1, ease: "expo.inOut" },
-          "startscale"
+          { scale: 1, duration: 0.9, ease: "expo.inOut" },
+          "<+0.3"
+        )
+        .fromTo(
+          textRef.current,
+          {
+            backgroundImage: `radial-gradient(
+          circle at 50% 150vh,
+          rgba(255, 214, 135, 0) 0vh,
+          rgba(157, 47, 106, 0.5) 50vh,
+          rgba(157, 47, 106, 0.8) 90vh,
+          rgba(32, 31, 66, 0) 100vh)`,
+            duration: 1.5,
+          },
+          {
+            backgroundImage: `radial-gradient(
+          circle at 50% -30vh, 
+          rgb(255, 213, 133) 0px,
+          rgb(247, 77, 82) 50vh,
+          rgb(145, 42, 105) 90vh,
+          rgba(32, 31, 66, 0) 150vh)`,
+            duration: 1.5,
+          },
+          "<+0.3"
+        )
+        .fromTo(
+          [VIlogoRef.current],
+          {
+            opacity: 0,
+            maskImage: `radial-gradient(circle at 40% 80vh, rgb(0, 0, 0) 20vh, rgba(0, 0, 0, 0) 50vh)`,
+            duration: 1,
+            ease: "power1.in",
+          },
+          {
+            opacity: 1,
+            maskImage: `radial-gradient(circle at 50% 10vh, rgb(0, 0, 0) 20vh, rgba(0, 0, 0, 0) 50vh)`,
+            duration: 1,
+            ease: "power1.out",
+          },
+          "<+0.1" // i want start a bit later than the text
+        )
+        .to(
+          consolesRef.current,
+          {
+            opacity: 1,
+            duration: 1,
+            ease: "power1.out",
+          },
+          "<+0.1"
         );
+      tl.fromTo(
+        comingSoonRef.current,
+        {
+          maskImage: `radial-gradient(circle at 50% 18vh, rgb(0, 0, 0) 50vh, rgba(0, 0, 0, 0) 80vh)`,
+        },
+        {
+          maskImage: `radial-gradient(circle at 50% -60vh, rgb(0, 0, 0) 0vh, rgba(0, 0, 0, 0) 60vh)`,
+          duration: 1.2,
+        },
+        ">-0.2" // يبدأ بعد آخر خطوة بقليل (عدّل حسب الحاجة)
+      );
+      tl.to(maskWrapperRef.current, { opacity: 0 }, "<+0.2");
+
     },
     { scope: containerRef }
   );
 
   return (
-    <section
-      ref={containerRef}
-      className="relative w-dvw h-dvh overflow-hidden bg-gta-gradient-primary "
-    >
+    <section id="hero" ref={containerRef} className="relative w-full h-dvh overflow-hidden HeroSection ">
       <div
         ref={maskWrapperRef}
-        className="mask-wrapper pb-92 absolute inset-0 z-1"
+        className="mask-wrapper pb-71  md:pb-92 absolute inset-0 z-1 "
       >
         <Image
           ref={backgroundImageRef}
           src="/images/hero-bg.webp"
           alt="Hero Background"
-          className="object-cover md:scale-125"
+          className="object-cover h-full md:scale-125"
           fill
           sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           unoptimized
           priority
         />
-          <Image
-            ref={bgKeyArtRef}
-            src="/images/heroKeyArt.webp"
-            alt="Hero Key Art"
-            className="object-cover scale-125"
-            fill
-            unoptimized
-            priority
-          />
+        <Image
+          ref={bgKeyArtRef}
+          src="/images/heroKeyArt.webp"
+          alt="Hero Key Art"
+          className="object-cover md:scale-125"
+          fill
+          unoptimized
+          priority
+        />
 
         <button
           ref={buttonRef}
@@ -170,14 +206,41 @@ function Hero() {
         </div>
       </div>
 
-      <BouncingArrow
-        ref={arrowRef}
-        className={
-          "absolute left-1/2 -translate-x-3 bottom-3 text-gta-pink scale-100 glow-arrow z-30"
-        }
-      />
+      <div
+        ref={comingSoonRef}
+        className="absolute inset-0 flex flex-col items-center justify-between pt-31 pb-20"
+      >
+        <div ref={VIlogoRef} className=" w-40 h-40 md:w-52 md:h-52 relative ">
+          <Image
+            src="/images/logo.webp"
+            alt="Grand Theft Auto VI Logo"
+            fill
+            sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-contain"
+          />
+        </div>
 
-      <ComingSoon comingSoonRef={comingSoonRef} />
+        {/* نص "COMING MAY 26 2026" */}
+        <h3
+          ref={textRef}
+          className=" text-center text-[4rem] md:text-[6.2rem] font-black mb-11 leading-15 md:leading-22 gradient-text "
+        >
+          COMING
+          <br />
+          MAY 26
+          <br />
+          2026
+        </h3>
+        {/* أيقونات المنصات */}
+        <div
+          ref={consolesRef}
+          className="flex items-center justify-between gap-4 text-gta-white mb-4"
+        >
+          {/* أيقونات المنصات */}
+          <PsIcon className="" />
+          <XboxIcon className="" />
+        </div>
+      </div>
     </section>
   );
 }

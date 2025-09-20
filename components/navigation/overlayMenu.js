@@ -167,11 +167,12 @@ function OverlayMenu({
           (activeTab === "People" || activeTab === "Places") &&
           hoveredItem.image ? (
             <Image
+              ref={null}
               src={hoveredItem.image}
               alt={hoveredItem.label || "Content"}
-              width={1200}
-              height={720}
-              className="animate-fade-in  object-cover h-full absolute "
+              fill
+              sizes="80vw"
+              className="animate-fade-in absolute "
             />
           ) : (
             <>
