@@ -42,7 +42,7 @@ function Part_2() {
         <div className="h-dvh">
           <video
             ref={VideoRef}
-            src="/videos/people/jason-2.mp4"
+            src="https://res.cloudinary.com/dlgi2ockk/video/upload/v1755803140/jason-2_qfzmgs.mp4"
             muted
             autoPlay
             playsInline
