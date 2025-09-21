@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { useRef } from "react";
 
 import Hero from "../components/sections/hero.js";
-// import Jason from "@/components/sections/jason/index";
+import Jason from "../components/sections/jason/index.js";
 import JasonIntro from "../components/sections/jason-intro.js";
 import { BouncingArrow } from "../components/svg";
 
@@ -59,7 +59,7 @@ export default function Home() {
     <main>
       <Hero />
       <JasonIntro />
-      {/* <Jason /> */}
+      <Jason />
 
       <div ref={arrowWrapperRef}>
         <BouncingArrow
