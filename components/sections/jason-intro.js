@@ -129,7 +129,7 @@ function JasonIntro() {
         <div className="h-dvh ">
           <video
             ref={videoRef}
-            src="https://res.cloudinary.com/dlgi2ockk/video/upload/q_auto,f_auto/v1755803408/jason-1_yamm5e.mp4"
+            src="https://res.cloudinary.com/dlgi2ockk/video/upload/v1755803408/jason-1_yamm5e.mp4"
             aria-label="Jason embracing Lucia while looking into the distance."
             preload="auto"
             playsInline
