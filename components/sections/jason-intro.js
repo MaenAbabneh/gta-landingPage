@@ -26,14 +26,17 @@ function JasonIntro() {
         maskImage:
           "radial-gradient(circle at 105vw 50vh, rgb(0, 0, 0) 100vw, rgb(0, 0, 0) 150vw)",
       });
+       videoRef.current.onloadeddata = () => {
+        videoRef.current.currentTime = 0;
+      };
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: introRef.current,
           start: "top top",
-          end: "+=2000 top",
+          end: "+=200% top",
           pin: true,
           scrub: true,
-          anticipatePin: 1,
         },
       });
       tl.fromTo(
@@ -52,7 +55,6 @@ function JasonIntro() {
           {
             maskImage:
               "radial-gradient(at 20% -120vh, rgb(0, 0, 0) 0vh, rgba(0, 0, 0, 0) 50vh)",
-            duration: 1,
             ease: "power1.inOut",
           },
           "<"
@@ -62,34 +64,20 @@ function JasonIntro() {
           {
             opacity: 1,
             filter: "brightness(1) blur(0px)",
-            duration: 1,
           },
           "<+=0.1"
         );
-      const video = videoRef.current;
-      if (video) {
-        video.onloadeddata = () => {
-          tl.to(
-            video,
-            {
-              currentTime: video.duration,
-              ease: "none",
-            },
-            "<+=0.6"
-          );
-        };
-        if (video.readyState >= 3) {
-          tl.to(
-            video,
-            {
-              currentTime: video.duration,
-              ease: "none",
-            },
-            "<+=0.6"
-          );
-        }
-      }
 
+      if (videoRef.current) {
+        tl.to(
+          videoRef.current,
+          {
+            currentTime: videoRef.current.duration,
+            ease: "power1.inOut",
+          },
+          "<+=90%"
+        );
+      }
       tl.to(
         FirstVideoRef.current,
         {
@@ -141,7 +129,7 @@ function JasonIntro() {
         <div className="h-dvh ">
           <video
             ref={videoRef}
-            src="https://res.cloudinary.com/dlgi2ockk/video/upload/v1755803408/jason-1_yamm5e.mp4"
+            src="https://res.cloudinary.com/dlgi2ockk/video/upload/q_auto,f_auto/v1755803408/jason-1_yamm5e.mp4"
             aria-label="Jason embracing Lucia while looking into the distance."
             preload="auto"
             playsInline
