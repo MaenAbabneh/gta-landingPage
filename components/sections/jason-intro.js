@@ -15,15 +15,24 @@ function JasonIntro() {
   useGSAP(
     () => {
       gsap.set(introRef.current, { marginTop: "-100vh" });
-      gsap.set(storytextRef.current, { opacity: 1 ,  maskImage:"radial-gradient(at 50% 0vh, rgb(0, 0, 0) 120vh, rgba(0, 0, 0, 0) 200vh)",});
-      gsap.set(FirstVideoRef.current, { filter: "brightness(0.2) blur(100px)" , opacity:0 , maskImage:"radial-gradient(circle at 105vw 50vh, rgb(0, 0, 0) 100vw, rgb(0, 0, 0) 150vw)" });
+      gsap.set(storytextRef.current, {
+        opacity: 1,
+        maskImage:
+          "radial-gradient(at 50% 0vh, rgb(0, 0, 0) 120vh, rgba(0, 0, 0, 0) 200vh)",
+      });
+      gsap.set(FirstVideoRef.current, {
+        filter: "brightness(0.2) blur(100px)",
+        opacity: 0,
+        maskImage:
+          "radial-gradient(circle at 105vw 50vh, rgb(0, 0, 0) 100vw, rgb(0, 0, 0) 150vw)",
+      });
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: introRef.current,
           start: "top top",
           end: "+=2000 top",
           pin: true,
-          scrub: 2,
+          scrub: true,
           anticipatePin: 1,
         },
       });
@@ -38,32 +47,58 @@ function JasonIntro() {
           backgroundImage: `radial-gradient(circle at 40% 0vh, rgb(255, 179, 135) 0%, rgb(252, 82, 67) 70%, rgb(157, 47, 106) 100%, rgba(32, 31, 66, 0) 150%)`,
         }
       )
-      .to( storytextRef.current,{
-        maskImage:"radial-gradient(at 20% -120vh, rgb(0, 0, 0) 0vh, rgba(0, 0, 0, 0) 50vh)",
-        duration: 1,
-        ease: "power1.inOut",
-      },"<")
-      .to( FirstVideoRef.current,{
-        opacity:1,
-        filter: "brightness(1) blur(0px)" ,
-        duration: 1,
-      },"<+=0.1")
-
-      if (videoRef.current) {
-        tl.to(
-          videoRef.current,
+        .to(
+          storytextRef.current,
           {
-            currentTime: videoRef.current.duration,
-            ease: "none",
+            maskImage:
+              "radial-gradient(at 20% -120vh, rgb(0, 0, 0) 0vh, rgba(0, 0, 0, 0) 50vh)",
+            duration: 1,
+            ease: "power1.inOut",
           },
-          "<+=0.6"
+          "<"
+        )
+        .to(
+          FirstVideoRef.current,
+          {
+            opacity: 1,
+            filter: "brightness(1) blur(0px)",
+            duration: 1,
+          },
+          "<+=0.1"
         );
+      const video = videoRef.current;
+      if (video) {
+        video.onloadeddata = () => {
+          tl.to(
+            video,
+            {
+              currentTime: video.duration,
+              ease: "none",
+            },
+            "<+=0.6"
+          );
+        };
+        if (video.readyState >= 3) {
+          tl.to(
+            video,
+            {
+              currentTime: video.duration,
+              ease: "none",
+            },
+            "<+=0.6"
+          );
+        }
       }
-      tl.to(FirstVideoRef.current, {
-        maskImage: "radial-gradient(circle at 95vw 0vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
-        ease: "power1.inOut",
-      }, "<+=90%")
-      .to(FirstVideoRef.current, {
+
+      tl.to(
+        FirstVideoRef.current,
+        {
+          maskImage:
+            "radial-gradient(circle at 95vw 0vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
+          ease: "power1.inOut",
+        },
+        "<+=90%"
+      ).to(FirstVideoRef.current, {
         opacity: 0,
         ease: "power1.inOut",
       });
@@ -106,7 +141,7 @@ function JasonIntro() {
         <div className="h-dvh ">
           <video
             ref={videoRef}
-            src="/videos/people/jason-1.mp4"
+            src="https://res.cloudinary.com/dlgi2ockk/video/upload/v1755803408/jason-1_yamm5e.mp4"
             aria-label="Jason embracing Lucia while looking into the distance."
             preload="auto"
             playsInline

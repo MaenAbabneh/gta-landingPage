@@ -6,14 +6,15 @@ import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Jason = () => {
-  const jasonRef = useRef(null);
+const Part_1 = () => {
+  const PartOneRef = useRef(null);
+
   useGSAP(() => {
-    gsap.set(jasonRef.current, { marginTop: "-120vh" });
+    gsap.set(PartOneRef.current, { marginTop: "-120vh" });
 
     gsap.timeline({
       scrollTrigger: {
-        trigger: jasonRef.current,
+        trigger: PartOneRef.current,
         start: "top 90%",
         end: "40% center",
         scrub: 2,
@@ -25,7 +26,7 @@ const Jason = () => {
       " .img-box",
       {
         scrollTrigger: {
-          trigger: jasonRef.current,
+          trigger: PartOneRef.current,
           start: "top center",
           end: "80% center",
           scrub: 2,
@@ -41,7 +42,7 @@ const Jason = () => {
   return (
     <section
       id="jason"
-      ref={jasonRef}
+      ref={PartOneRef}
       className="relative z-10 mt-60 py-38 ps-70 flex lg:flex-row flex-col justify-between  w-full overflow-hidden"
     >
       <div className="max-w-lg jason-content">
@@ -95,4 +96,4 @@ const Jason = () => {
   );
 };
 
-export default Jason;
+export default Part_1;
