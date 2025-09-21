@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useRef } from "react";
 
 import Hero from "@/components/sections/hero";
+import JasonIntro from "@/components/sections/jason-intro";
 import { BouncingArrow } from "@/components/svg";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -56,6 +57,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
+      <JasonIntro />
 
       <div ref={arrowWrapperRef}>
         <BouncingArrow
