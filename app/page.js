@@ -6,10 +6,9 @@ import { ScrollToPlugin, ScrollTrigger } from "gsap/all";
 import { usePathname } from "next/navigation";
 import { useRef } from "react";
 
-import Hero from "@/components/sections/hero.js";
+import Hero from "../components/sections/hero.js";
 // import Jason from "@/components/sections/jason/index";
-import JasonIntro from "@/components/sections/jason-intro.js";
-
+import JasonIntro from "../components/sections/jason-intro.js";
 import { BouncingArrow } from "../components/svg";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
