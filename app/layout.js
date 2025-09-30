@@ -3,6 +3,9 @@ import "./globals.css";
 import localFont from "next/font/local";
 
 import Navbar from "@/components/navigation/Navbar";
+import Precacher from "@/components/precacher";
+import LenisProvider from "@/lib/lenis";
+
 const fontLong = localFont({
   src: [
     {
@@ -55,8 +58,11 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${fontLong.variable} ${fontRound.variable}`}>
       <body className="font-round antialiased ">
         <div className="bg-gta-gradient-secondary fixed inset-0 -z-10" />
-        <Navbar />
-        {children}
+        <LenisProvider>
+          <Navbar />
+          {children}
+          <Precacher />
+        </LenisProvider>
       </body>
     </html>
   );

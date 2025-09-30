@@ -392,7 +392,7 @@ body {
     margin-left: min(calc(7vw / 3), calc(2560px * 0.07 / 3));
     padding: 0 min(calc(8vw / 3), calc(2560px * 0.08 / 3));
   }
-
+/* 
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -412,9 +412,9 @@ body {
 
   /* app/globals.css */
 
-  .scroll-fade-container {
+  /* .scroll-fade-container {
     position: relative;
-  }
+  }  */
 
   .mask-wrapper {
     @apply bg-white;
@@ -486,3 +486,4 @@ body {
 .jason-content {
   background: radial-gradient(ellipse, #111117 20%, transparent 70%);
 }
+

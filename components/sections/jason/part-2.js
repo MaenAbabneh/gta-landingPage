@@ -1,3 +1,4 @@
+"use client";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -42,7 +43,7 @@ function Part_2() {
         <div className="h-dvh">
           <video
             ref={VideoRef}
-            src="https://res.cloudinary.com/dlgi2ockk/video/upload/v1755803140/jason-2_qfzmgs.mp4"
+            src="https://res.cloudinary.com/dlgi2ockk/video/upload/v1758474909/Jason-2_aimjrt.webm"
             muted
             autoPlay
             playsInline

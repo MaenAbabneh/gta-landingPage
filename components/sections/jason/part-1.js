@@ -1,3 +1,5 @@
+"use client";
+
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -29,9 +31,9 @@ const Part_1 = () => {
           trigger: PartOneRef.current,
           start: "top center",
           end: "80% center",
-          scrub: 2,
+          scrub: true,
         },
-        y: -150,
+        y: -300,
         duration: 1,
         ease: "power1.inOut",
       },
@@ -43,7 +45,7 @@ const Part_1 = () => {
     <section
       id="jason"
       ref={PartOneRef}
-      className="relative z-10 mt-60 py-38 ps-70 flex lg:flex-row flex-col justify-between  w-full overflow-hidden"
+      className="relative z-10 mt-60 py-38 ps-70 flex lg:flex-row flex-col justify-between  w-full overflow-hidden bg-transparent"
     >
       <div className="max-w-lg jason-content">
         <h1 className="text-yellow font-long uppercase text-[5.5rem] mb-10">

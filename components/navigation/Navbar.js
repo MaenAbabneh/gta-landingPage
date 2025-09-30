@@ -55,7 +55,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="fixed z-20  px-14 py-11  bg-transparent flex justify-between items-center justify-items-center">
+      <nav className="fixed z-[9998]  px-14 py-11  bg-transparent flex justify-between items-center justify-items-center">
         {!isMenuOpen && (
           <Link
             href="/"
@@ -69,10 +69,10 @@ function Navbar() {
         <Burger
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
-          ClassName="fixed z-50 top-12 right-14 "
+          ClassName="fixed z-[9999] top-12 right-14 "
         />
       </nav>
-      <div className="fixed inset-0 pointer-events-none z-10">
+      <div className="fixed inset-0 pointer-events-none z-[9997]">
         {isMenuOpen && (
           <OverlayMenu
             isMenuOpen={isMenuOpen}

@@ -7,12 +7,7 @@ import Image from "next/image";
 import { useRef } from "react";
 
 import { useMaskSettings } from "../../constants";
-import {
-  PlayIcon,
-  PsIcon,
-  WatchTrailer,
-  XboxIcon,
-} from "../svg";
+import { PlayIcon, PsIcon, WatchTrailer, XboxIcon } from "../svg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -154,13 +149,16 @@ function Hero() {
         ">-0.2" // يبدأ بعد آخر خطوة بقليل (عدّل حسب الحاجة)
       );
       tl.to(maskWrapperRef.current, { opacity: 0 }, "<+0.2");
-
     },
     { scope: containerRef }
   );
 
   return (
-    <section id="hero" ref={containerRef} className="relative w-full h-dvh overflow-hidden HeroSection ">
+    <section
+      id="hero"
+      ref={containerRef}
+      className="relative w-full h-dvh overflow-hidden HeroSection "
+    >
       <div
         ref={maskWrapperRef}
         className="mask-wrapper pb-71  md:pb-92 absolute inset-0 z-1 "

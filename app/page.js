@@ -2,36 +2,39 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollToPlugin, ScrollTrigger } from "gsap/all";
+import { ScrollTrigger } from "gsap/all";
+import { useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import Hero from "@/components/sections/hero";
 import Jason from "@/components/sections/jason/jason";
 import JasonIntro from "@/components/sections/jason-intro";
 import { BouncingArrow } from "@/components/svg";
+import { useGSAPLenis } from "@/lib/gsap-lenis";
 
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const pathname = usePathname();
   const arrowRef = useRef(null);
   const arrowWrapperRef = useRef(null);
+  const lenis = useLenis();
 
-  useGSAP(() => {
+  // تفعيل التكامل بين GSAP و Lenis لجميع ScrollTriggers
+  useGSAPLenis();
+
+  useEffect(() => {
     const sectionId = pathname.substring(1);
-    if (sectionId && document.getElementById(sectionId)) {
+    if (sectionId && document.getElementById(sectionId) && lenis) {
       const timer = setTimeout(() => {
-        gsap.to(window, {
-          duration: 0,
-          scrollTo: `#${sectionId}`,
-          ease: "power2.inOut",
-        });
+        lenis.scrollTo(`#${sectionId}`, { duration: 1.2 });
       }, 500);
-
       return () => clearTimeout(timer);
     }
+  }, [pathname, lenis]);
 
+  useGSAP(() => {
     gsap.to(arrowRef.current, {
       y: 10,
       scale: 0.9,
@@ -53,7 +56,7 @@ export default function Home() {
       },
       ease: "none",
     });
-  }, [pathname]);
+  });
 
   return (
     <main>
@@ -65,7 +68,7 @@ export default function Home() {
           ref={arrowRef}
           className="fixed left-1/2 -translate-x-1/2 bottom-4 text-gta-pink scale-100 glow-arrow z-50 pointer-events-none"
         />
-      </div>
+       </div>
     </main>
   );
 }

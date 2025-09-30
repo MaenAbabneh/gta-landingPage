@@ -10,13 +10,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.14.3",
+    "@cloudinary/url-gen": "^1.22.0",
     "@gsap/react": "^2.1.2",
-    "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "gsap": "^3.13.0",
+    "lenis": "^1.3.11",
     "lucide-react": "^0.539.0",
-    "next": "15.4.6",
+    "next": "^15.5.3",
     "prettier": "^3.6.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",

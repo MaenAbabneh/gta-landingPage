@@ -43,3 +43,9 @@ next-env.d.ts
 
 # extra-files
 .background.txt
+# next-video
+videos/*
+!videos/*.json
+!videos/*.js
+!videos/*.ts
+public/_next-video
