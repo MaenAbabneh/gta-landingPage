@@ -42,8 +42,8 @@ function Hero() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=1400 ",
-          scrub: 2.5,
+          end: "+=2000 ",
+          scrub: 2,
           pin: true,
           pinSpacer: false,
           // markers: true,
@@ -132,7 +132,7 @@ function Hero() {
           consolesRef.current,
           {
             opacity: 1,
-            duration: 1,
+            duration: 1.5,
             ease: "power1.out",
           },
           "<+0.1"
@@ -186,18 +186,18 @@ function Hero() {
         <button
           ref={buttonRef}
           alt="Play Button"
-          className="absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-10 flex items-center justify-center z-10  pointer-cursor "
+          className="absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10 transform hover:scale-105 transition-transform duration-750 pointer-cursor "
         >
-          <PlayIcon className="w-28 h-28 text-gta-white backdrop-blur-lg rounded-full pointer-cursor" />
+          <PlayIcon className="w-26 h-26 text-gta-white backdrop-blur-[100px] rounded-full " />
         </button>
 
         <div className="absolute inset-0 flex flex-col items-center justify-end z-10 pb-12 pointer-events-none">
           <div
             ref={WatchRef}
-            className="relative w-57 h-12 flex items-center justify-center "
+            className="relative w-55 h-14 flex items-center justify-center "
           >
             <WatchTrailer className="absolute inset-0 -translate-y-10 translate-x-13 text-white glow-logo " />
-            <span className="absolute text-[0.9rem] font-round font-black tracking-[0.35em] -translate-y-1.5 uppercase text-center text-white whitespace-nowrap glow-text">
+            <span className="absolute text-[0.8rem] font-round font-black tracking-[0.35em] -translate-y-2.5 uppercase text-center text-white whitespace-nowrap glow-text">
               Watch Trailer 2
             </span>
           </div>

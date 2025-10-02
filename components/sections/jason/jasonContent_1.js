@@ -8,42 +8,29 @@ import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Part_1 = () => {
+const JasonContent_1 = () => {
   const PartOneRef = useRef(null);
 
   useGSAP(() => {
-    gsap.set(PartOneRef.current, { marginTop: "-120vh" });
+    gsap.set(PartOneRef.current, { marginTop: "100vh" });
 
-    gsap.timeline({
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: PartOneRef.current,
-        start: "top 90%",
-        end: "40% center",
+        start: "top center",
+        end: "+=1500",
         scrub: 2,
         // markers: true
       },
     });
-
-    gsap.to(
-      " .img-box",
-      {
-        scrollTrigger: {
-          trigger: PartOneRef.current,
-          start: "top center",
-          end: "80% center",
-          scrub: true,
-        },
-        y: -300,
-        duration: 1,
-        ease: "power1.inOut",
-      },
-      "<"
-    );
-  });
+    tl.to(".img-box", { y: -100, ease: "none", duration: 1 })
+   
+  },
+  {scope: PartOneRef}
+);
 
   return (
     <section
-      id="jason"
       ref={PartOneRef}
       className="relative z-10 mt-60 py-38 ps-70 flex lg:flex-row flex-col justify-between  w-full overflow-hidden bg-transparent"
     >
@@ -61,7 +48,7 @@ const Part_1 = () => {
           time to try something new.
         </p>
 
-        <div className="bg-yellow h-[95vh] w-[30vw] md:mt-36 mt-20 -translate-x-5">
+        <div className="bg-yellow h-[95vh] w-[30vw] md:mt-36 mt-20 -translate-x-5 relative">
           <Image
             src="/images/People/jason/jason-1.webp"
             alt="Jason Duval"
@@ -73,8 +60,8 @@ const Part_1 = () => {
         </div>
       </div>
 
-      <div className="space-y-5 mt-70 ml-5 img-box">
-        <div className="bg-yellow h-[90vh] w-[60vw] -translate-x-5">
+      <div className=" space-y-5 mt-70 ml-5 img-box">
+        <div className="bg-yellow h-[90vh] w-[60vw] -translate-x-5 relative">
           <Image
             src="/images/People/jason/jason-2.webp"
             alt="Jason Duval"
@@ -83,7 +70,7 @@ const Part_1 = () => {
             className="object-cover [object-position:5%_center] hover:scale-[0.98] transition duration-700 ease-in-out"
           />
         </div>
-        <div className="bg-yellow h-[55vh] md:w-[32vw] -translate-x-5">
+        <div className="bg-yellow h-[55vh] md:w-[32vw] -translate-x-5 relative">
           <Image
             src="/images/People/jason/jason-6.webp"
             alt="Jason Duval"
@@ -98,4 +85,4 @@ const Part_1 = () => {
   );
 };
 
-export default Part_1;
+export default JasonContent_1;

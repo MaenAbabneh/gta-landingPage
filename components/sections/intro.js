@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 
 import { useResponsiveVideo } from "@/hooks/useResponsive";
-import { buildImageUrl } from "@/lib/cloudinary"; // Make sure you have this import
+import { buildImageUrl } from "@/lib/cloudinary";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,13 +55,11 @@ function JasonIntro() {
             start: "top top",
             end: "+=2000 ",
             pin: true,
+            pinSpacing: false,
             scrub: 1,
-            // ✅ Add the onUpdate callback HERE
             onUpdate: (self) => {
-              // self.progress is the magic value (0 to 1)
               if (video.duration) {
                 const newTime = self.progress * video.duration;
-                // Only update if the time has changed enough to avoid flooding the player
                 if (Math.abs(newTime - video.currentTime) > 0.03) {
                   video.currentTime = newTime;
                 }
@@ -112,11 +110,10 @@ function JasonIntro() {
             opacity: 0,
             ease: "power1.inOut",
           });
-        // Add the GSAP ticker to draw frames on the canvas
+
         gsap.ticker.add(() => {
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
         });
-        // Cleanup function to remove the ticker when the component unmounts or animation re-runs
         return () => {
           gsap.ticker.remove(() => {
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -130,7 +127,6 @@ function JasonIntro() {
         if (video.readyState >= 1 && video.duration) {
           setupAnimation();
         } else {
-          console.log("⏳ Waiting for video metadata...");
           video.addEventListener(
             "loadedmetadata",
             () => {
@@ -183,7 +179,7 @@ function JasonIntro() {
 
       <div
         ref={FirstVideoRef}
-        className="sticky z-0 w-full h-full overflow-hidden inset-0 "
+        className="absolute z-0 w-full h-full overflow-hidden inset-0 "
       >
         <div className="h-dvh ">
           <video
@@ -194,15 +190,15 @@ function JasonIntro() {
             playsInline
             muted
             aria-label="Jason embracing Lucia while looking into the distance."
-            style={{ 
+            style={{
               display: "none",
-              crossOrigin: "anonymous" 
-              }}
+              crossOrigin: "anonymous",
+            }}
           />
 
           <canvas
             ref={canvasRef}
-            className="h-screen w-screen object-cover  [object-position:70%_center] md:[object-position:20%_center] aspect-[4/3] md:aspect-[16/9]"
+            className="h-screen w-screen object-cover [object-position:70%_center] md:[object-position:20%_center] aspect-[4/3] md:aspect-[16/9]"
             style={{
               imageRendering: "optimizeSpeed",
               willChange: "auto",

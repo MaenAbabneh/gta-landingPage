@@ -1,12 +1,14 @@
-import Part_1 from "./part-1";
-import Part_2 from "./part-2";
+import JasonContent_1 from "./jasonContent_1";
+import JasonContent_2 from "./jasonContent_2";
+import JasonVideo from "./jasonVideo";
 
 function Jason() {
   return (
-    <>
-      <Part_1 />
-      {/* <Part_2 /> */}
-    </>
+    <section id="jason" className="relative overflow-hidden">
+      <JasonContent_1 />
+      <JasonVideo />
+      <JasonContent_2 />
+    </section>
   );
 }
 

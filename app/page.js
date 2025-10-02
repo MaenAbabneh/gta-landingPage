@@ -9,7 +9,7 @@ import { useEffect, useRef } from "react";
 
 import Hero from "@/components/sections/hero";
 import Jason from "@/components/sections/jason/jason";
-import JasonIntro from "@/components/sections/jason-intro";
+import JasonIntro from "@/components/sections/intro";
 import { BouncingArrow } from "@/components/svg";
 import { useGSAPLenis } from "@/lib/gsap-lenis";
 
