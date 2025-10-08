@@ -11,15 +11,15 @@ import { buildImageUrl } from "@/lib/cloudinary";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function JasonVideo() {
+function LuciaVideo_2() {
   const videoTwoRef = useRef(null);
   const videoOverlayRef = useRef(null);
   const VideoRef = useRef(null);
   const canvasRef = useRef(null);
   const quoteRef = useRef(null);
 
-  const videoSrc = useResponsiveVideo("Jason_Duval_2_so4cun");
-  const posterUrl = buildImageUrl("Jason_Duval_2_so4cun", {
+  const videoSrc = useResponsiveVideo("Lucai_Caminos_2_rqqw1q");
+  const posterUrl = buildImageUrl("Lucai_Caminos_2_rqqw1q", {
     videoThumbnail: true,
   });
 
@@ -42,7 +42,7 @@ function JasonVideo() {
         }
       );
 
-      gsap.set(videoTwoRef.current, { marginTop: "-0vh" });
+      gsap.set(videoTwoRef.current, { marginTop: "-60vh" });
       gsap.set(canvasRef.current, { scale: 1.1 });
       gsap.set(quoteRef.current, { opacity: 0, y: 200 });
       gsap.set(videoOverlayRef.current, {
@@ -56,7 +56,7 @@ function JasonVideo() {
       };
       let tl;
       let isVideoComplete = false;
-      let lastTime = -1; // تتبع آخر وقت لتجنب القفزات الصغيرة
+      let lastTime = -1; // تتبع آخر وقت
 
       const setupAnimation = () => {
         canvas.width = video.videoWidth;
@@ -66,7 +66,7 @@ function JasonVideo() {
           scrollTrigger: {
             trigger: videoTwoRef.current,
             start: "top top",
-            end: "+=3100 bottom",
+            end: "+=3000 bottom",
             scrub: true,
             pin: true,
             pinSpacing: false,
@@ -94,7 +94,7 @@ function JasonVideo() {
                   isVideoComplete = true;
                 }
 
-                // تثبيت الوقت على 60fps لتقليل Range requests
+                // تثبيت الوقت على 60fps
                 const targetTime =
                   Math.round(videoProgress * video.duration * 60) / 60;
 
@@ -240,12 +240,12 @@ function JasonVideo() {
           ref={quoteRef}
           className="absolute inset-0 z-10 flex items-end justify-start text-center px-60 py-25 "
         >
-          <q className="text-gta-yellow text-4xl md:text-[4.8rem] font-long font-bold uppercase leading-18">
-            If anything happens,
+          <q className="text-gta-yellow text-4xl md:text-[4.8rem] font-long font-bold uppercase leading-18 text-left">
+            The only thing that matters is
             <br />
-            <span className="inline-block pl-[1.4ch] ">
-              I&apos;m right behind you.
-            </span>
+            <span className="inline-block ml-6 md:ml-8">
+              who you know and what you got.
+            </span>{" "}
           </q>
         </div>
       </div>
@@ -253,4 +253,4 @@ function JasonVideo() {
   );
 }
 
-export default JasonVideo;
+export default LuciaVideo_2;

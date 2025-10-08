@@ -157,7 +157,7 @@ function Hero() {
     <section
       id="hero"
       ref={containerRef}
-      className="relative w-full h-dvh overflow-hidden HeroSection "
+      className="relative w-full h-dvh overflow-hidden HeroSection bg-transparent "
     >
       <div
         ref={maskWrapperRef}

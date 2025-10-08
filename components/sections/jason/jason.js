@@ -4,11 +4,13 @@ import JasonVideo from "./jasonVideo";
 
 function Jason() {
   return (
-    <section id="jason" className="relative overflow-hidden">
-      <JasonContent_1 />
-      <JasonVideo />
+    <>
+      <section id="jason" className="relative overflow-hidden">
+        <JasonContent_1 />
+        <JasonVideo />
+      </section>
       <JasonContent_2 />
-    </section>
+    </>
   );
 }
 

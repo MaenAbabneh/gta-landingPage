@@ -3,9 +3,9 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { useScrollSpy } from "@/hooks/useScrollSpy";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 import Burger from "../burger";
 import { MainLogo } from "../svg";
@@ -18,17 +18,8 @@ function Navbar() {
   const [activeTab, setActiveTab] = useState("People");
   const [hoveredItem, setHoveredItem] = useState(null);
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isMenuOpen]);
+  // استخدام الـ Hook لإيقاف التمرير
+  useScrollLock(isMenuOpen);
 
   const handleLinkClick = (href) => {
     setIsMenuOpen(false);
@@ -55,7 +46,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="fixed z-[9998]  px-14 py-11  bg-transparent flex justify-between items-center justify-items-center">
+      <nav className="fixed z-[9991]  px-14 py-11  bg-transparent flex justify-between items-center justify-items-center">
         {!isMenuOpen && (
           <Link
             href="/"
@@ -69,10 +60,11 @@ function Navbar() {
         <Burger
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
-          ClassName="fixed z-[9999] top-12 right-14 "
+          ClassName="fixed z-[9995] top-12 right-14 "
+          isOpenStyle="bg-white/5 hover:bg-gta-white/10 transform-all duration-75 ease-in-out"
         />
       </nav>
-      <div className="fixed inset-0 pointer-events-none z-[9997]">
+      <div className="fixed inset-0 pointer-events-none z-[9990]">
         {isMenuOpen && (
           <OverlayMenu
             isMenuOpen={isMenuOpen}

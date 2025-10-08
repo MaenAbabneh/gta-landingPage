@@ -7,9 +7,11 @@ import { useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
+import Cal from "@/components/sections/cal/cal";
 import Hero from "@/components/sections/hero";
-import Jason from "@/components/sections/jason/jason";
 import JasonIntro from "@/components/sections/intro";
+import Jason from "@/components/sections/jason/jason";
+import Lucia from "@/components/sections/lucia/lucia";
 import { BouncingArrow } from "@/components/svg";
 import { useGSAPLenis } from "@/lib/gsap-lenis";
 
@@ -19,6 +21,8 @@ export default function Home() {
   const pathname = usePathname();
   const arrowRef = useRef(null);
   const arrowWrapperRef = useRef(null);
+  const backgroundRef = useRef(null); // <-- 1. مرجع جديد للخلفية
+
   const lenis = useLenis();
 
   // تفعيل التكامل بين GSAP و Lenis لجميع ScrollTriggers
@@ -35,6 +39,50 @@ export default function Home() {
   }, [pathname, lenis]);
 
   useGSAP(() => {
+    const sections = gsap.utils.toArray("section[data-background]");
+
+    sections.forEach((section) => {
+      const bgClass = section.dataset.background;
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top bottom",
+        end: "bottom bottom",
+        scrub: true,
+        // markers: true,
+        onEnter: () => {
+          gsap.to(backgroundRef.current, {
+            opacity: 0,
+            duration: 0.5,
+            ease: "power2.inOut",
+            onComplete: () => {
+              backgroundRef.current.className = `fixed inset-0 -z-10 pointer-events-none ${bgClass}`;
+              gsap.to(backgroundRef.current, {
+                opacity: 1,
+                duration: 0.5,
+                ease: "power2.inOut",
+              });
+            },
+          });
+        },
+        onEnterBack: () => {
+          gsap.to(backgroundRef.current, {
+            opacity: 0,
+            duration: 0.3,
+            ease: "power2.inOut",
+            onComplete: () => {
+              backgroundRef.current.className = `fixed inset-0 -z-10 pointer-events-none ${bgClass}`;
+              gsap.to(backgroundRef.current, {
+                opacity: 1,
+                duration: 0.1,
+                ease: "power2.inOut",
+              });
+            },
+          });
+        },
+      });
+    });
+
     gsap.to(arrowRef.current, {
       y: 10,
       scale: 0.9,
@@ -60,15 +108,21 @@ export default function Home() {
 
   return (
     <main>
+      <div
+        ref={backgroundRef}
+        className="bg-hero-gradient fixed inset-0 -z-10 transition-colors"
+      />
       <Hero />
       <JasonIntro />
       <Jason />
+      <Lucia />
+      <Cal />
       <div ref={arrowWrapperRef}>
         <BouncingArrow
           ref={arrowRef}
           className="fixed left-1/2 -translate-x-1/2 bottom-4 text-gta-pink scale-100 glow-arrow z-50 pointer-events-none"
         />
-       </div>
+      </div>
     </main>
   );
 }

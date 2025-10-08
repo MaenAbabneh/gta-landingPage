@@ -57,7 +57,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${fontLong.variable} ${fontRound.variable}`}>
       <body className="font-round antialiased ">
-        <div className="bg-gta-gradient-secondary fixed inset-0 -z-10" />
         <LenisProvider>
           <Navbar />
           {children}
