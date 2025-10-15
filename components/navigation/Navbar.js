@@ -1,83 +1,76 @@
 "use client";
 
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import Link from "next/link";
 import { useState } from "react";
+import { createPortal } from "react-dom";
 
 import { useScrollLock } from "@/hooks/useScrollLock";
 
 import Burger from "../burger";
 import { MainLogo } from "../svg";
-import OverlayMenu from "./overlayMenu";
+import OverlayMenu from "./overlayNav/overlayMenu";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollToPlugin);
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("People");
   const [hoveredItem, setHoveredItem] = useState(null);
 
-  // استخدام الـ Hook لإيقاف التمرير
   useScrollLock(isMenuOpen);
 
   const handleLinkClick = (href) => {
     setIsMenuOpen(false);
 
-    // Clean the href and extract section name
-    const sectionName = href.replace(/^\/+|#+/g, ""); // Remove leading slashes and hashes
+    const sectionName = href.replace(/^\/+|#+/g, "");
 
-    // Skip if invalid section name
     if (!sectionName) {
-      console.warn("Invalid href for scrolling:", href);
       return;
     }
 
-    // Update URL immediately
-    window.history.pushState({}, "", `/${sectionName}`);
+    const target = document.getElementById(sectionName);
+    if (!target) {
+      return;
+    }
 
-    // Scroll to the section using the ID
+    window.history.replaceState({}, "", `/${sectionName}`);
+
     gsap.to(window, {
-      duration: 1.5,
-      scrollTo: `#${sectionName}`,
+      duration: 1.2,
       ease: "power2.inOut",
+      scrollTo: {
+        y: target,
+        autoKill: true,
+        offsetY: 0,
+      },
     });
   };
 
   return (
-    <>
-      <nav className="fixed z-[9991]  px-14 py-11  bg-transparent flex justify-between items-center justify-items-center">
-        {!isMenuOpen && (
-          <Link
-            href="/"
-            className="fixed top-16 md:top-12  left-14 inline-flex flex-row items-center justify-center w-button h-button box-border rounded-full outline-[4px] outline-transparent outline-solid"
-          >
-            <MainLogo />
-            <span className="sr-only">GTA VI Logo</span>
-          </Link>
-        )}
-
-        <Burger
-          isMenuOpen={isMenuOpen}
-          setIsMenuOpen={setIsMenuOpen}
-          ClassName="fixed z-[9995] top-12 right-14 "
-          isOpenStyle="bg-white/5 hover:bg-gta-white/10 transform-all duration-75 ease-in-out"
+    <nav className="nav z-50">
+      <Link
+        href="/"
+        className={`${isMenuOpen ? "hidden" : "block"} GTA-VI-Logo group`}
+      >
+        <MainLogo
+          ClassName={`${isMenuOpen ? "hidden" : "block"} main-logo group-hover:text-gta-yellow`}
         />
-      </nav>
-      <div className="fixed inset-0 pointer-events-none z-[9990]">
-        {isMenuOpen && (
-          <OverlayMenu
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            hoveredItem={hoveredItem}
-            setHoveredItem={setHoveredItem}
-            handleLinkClick={handleLinkClick}
-          />
-        )}
-      </div>
-    </>
+        <span className="sr-only">GTA VI Logo</span>
+      </Link>
+
+      <Burger isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+
+      <OverlayMenu
+        isMenuOpen={isMenuOpen}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        hoveredItem={hoveredItem}
+        setHoveredItem={setHoveredItem}
+        handleLinkClick={handleLinkClick}
+      />
+    </nav>
   );
 }
 

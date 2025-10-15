@@ -1,0 +1,34 @@
+"use client";
+
+import { gtaData } from "@/constants/Links";
+
+export default function PeopleList({
+  activeSection,
+  onHover,
+  onLeave,
+  onClick,
+}) {
+  return (
+    <div className="flex flex-col items-start pt-9">
+      {gtaData.People.map((person, index) => {
+        const sectionName = person.href.replace(/^\/+|#+/g, "");
+        const isActive = activeSection === sectionName;
+        return (
+          <button
+            key={index}
+            className={`cursor-pointer text-wrap font-long font-black text-[3.56rem] uppercase transition-colors duration-500 leading-none ${
+              isActive
+                ? "text-gta-pink"
+                : "text-gta-white hover:text-gta-yellow"
+            }`}
+            onClick={() => onClick(person.href)}
+            onMouseEnter={() => onHover(person)}
+            onMouseLeave={onLeave}
+          >
+            {person.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}

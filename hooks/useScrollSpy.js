@@ -12,13 +12,14 @@ export function useScrollSpy() {
       catagory.filter((item) => item.href)
     );
 
+    const triggers = [];
+
     sectionsToTrack.forEach((item) => {
       // Clean the href and ensure it's a valid section name
       let sectionName = item.href.replace(/^\/+|#+/g, ""); // Remove leading slashes and hashes
 
       // Skip empty or invalid section names
       if (!sectionName || sectionName.includes("/")) {
-        console.warn("Skipping invalid section:", item.href);
         return;
       }
 
@@ -26,11 +27,10 @@ export function useScrollSpy() {
 
       // Check if element exists before creating ScrollTrigger
       if (!document.querySelector(sectionId)) {
-        console.warn("Section element not found:", sectionId);
         return;
       }
 
-      ScrollTrigger.create({
+      const trigger = ScrollTrigger.create({
         trigger: sectionId,
         start: "top center",
         end: "bottom center",
@@ -41,9 +41,12 @@ export function useScrollSpy() {
           setActiveSection(sectionName);
         },
       });
+      triggers.push(trigger);
     });
+    return () => {
+      triggers.forEach((trigger) => trigger.kill());
+    };
   }, []);
-  
 
   return activeSection;
 }

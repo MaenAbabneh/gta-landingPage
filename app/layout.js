@@ -2,7 +2,6 @@ import "./globals.css";
 
 import localFont from "next/font/local";
 
-import Navbar from "@/components/navigation/Navbar";
 import Precacher from "@/components/precacher";
 import LenisProvider from "@/lib/lenis";
 
@@ -58,7 +57,6 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${fontLong.variable} ${fontRound.variable}`}>
       <body className="font-round antialiased ">
         <LenisProvider>
-          <Navbar />
           {children}
           <Precacher />
         </LenisProvider>

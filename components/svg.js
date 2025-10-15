@@ -1,15 +1,15 @@
 import { forwardRef } from "react";
 
-function MainLogo() {
+function MainLogo({ClassName}) {
   return (
     <div>
       <svg
         fill="none"
-        height="100%"
         width="100%"
+        height="100%"
         viewBox="0 0 46 35"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-12 h-auto sm:w-9 text-gta-white cursor-pointer hover:text-gta-yellow transition-all duration-200 ease-in-out"
+        className={`${ClassName}`}
         aria-hidden="true"
         focusable="false"
       >

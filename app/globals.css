@@ -15,6 +15,7 @@
   --gta-black: #111117;
   --gta-gray: #36364e;
   --gta-gray-dark: #2c2c44;
+  --gta-blue: #91dfec;
   --gta-white-05: hsla(0, 0%, 100%, 0.05);
   --gta-white-10: hsla(0, 0%, 100%, 0.1);
   --gta-white-20: hsla(0, 0%, 100%, 0.2);
@@ -24,6 +25,7 @@
   --gta-overlay-30: rgba(17, 17, 23, 0.3);
   --gta-overlay-50: rgba(17, 17, 23, 0.6);
   --gta-overlay-80: rgba(17, 17, 23, 0.9);
+  --gta-transparent: rgba(0, 0, 0, 0);
 
   /* GTA VI Gradient - Original from official site */
   --gta-gradient-primary: linear-gradient(
@@ -48,7 +50,7 @@
     #111117 51.63%
   );
 
-  --gta-cal-gradient-tertiary: linear-gradient(
+  --gta-gradient-tertiary: linear-gradient(
     223.17deg,
     rgb(35, 114, 135) 0%,
     rgb(36, 108, 132) 8.61%,
@@ -58,7 +60,8 @@
     rgb(40, 58, 95) 43.03%,
     rgb(40, 55, 92) 51.63%
   );
-  --text-button-size: min(calc(3vw / 3), calc(2560px * 0.04 / 3));
+
+  --text-button-size: min(calc(3vw / 3), calc(2560px * 0.03 / 3));
   --padding-button: min(calc(6vw / 3), calc(2560px * 0.06 / 3));
   --height-button: min(calc(13vw / 3), calc(2560px * 0.13 / 3));
 
@@ -66,6 +69,8 @@
   --font-sans: var(--font-round);
   --font-round: var(--font-round);
   --font-long: var(--font-long);
+
+  /* color theme */
   --color-yellow: var(--gta-accent-yellow);
   --color-pink: var(--gta-accent-pink);
   --color-gta-yellow: var(--gta-accent-yellow);
@@ -76,29 +81,30 @@
   --color-gta-gradient-primary: var(--gta-gradient-primary);
   --color-gta-gradient-secondary: var(--gta-gradient-secondary);
   --color-gta-gradient-tertiary: var(--gta-gradient-tertiary);
-  --color-gta-cal-gradient: var(--gta-cal-gradient-tertiary);
   --color-gta-white: var(--gta-white);
   --color-gta-black: var(--gta-black);
   --color-gta-gray: var(--gta-gray);
   --color-gta-gray-dark: var(--gta-gray-dark);
+  --color-gta-blue: var(--gta-blue);
   --color-gta-white-05: var(--gta-white-05);
   --color-gta-white-10: var(--gta-white-10);
   --color-gta-white-20: var(--gta-white-20);
   --color-gta-white-30: var(--gta-white-30);
   --color-gta-white-60: var(--gta-white-60);
+  --color-gta-transparent: var(--gta-transparent);
+  --text-gta-blue: var(--gta-blue);
+
+  /* Overlay sizes */
   --text-size: var(--text-button-size);
 
+  /* Overlay sizes */
+  --padding-hero: min(calc(8vw / 4), calc(2560px * 0.08 / 4));
   /* Border radius */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-full: 9999px;
-
-  /* navbar */
-  --nav-padding-x: min(calc(12vw / 3), calc(2560px * 0.12 / 3));
-  --nav-padding-y: min(calc(15vw / 3), calc(2560px * 0.15 / 3));
-  --nav-logo: min(calc(9vw / 3), calc(2560px * 0.09 / 3));
 }
 
 body {
@@ -226,40 +232,89 @@ body {
   }
 }
 @layer utilities {
-  .flex-center {
-    @apply flex justify-center items-center;
-  }
-  .bg {
-    @apply bg-background;
-  }
-
   /* Navbar utility */
-  .p-y {
-    padding-left: var(--nav-padding-y);
-    padding-right: var(--nav-padding-y);
+  .nav {
+    --padding-y: 7vw;
+    --padding-x: 8vw;
+    --max-padding-y: 179.2px; /* 2560 * 0.07 */
+    --max-padding-x: 204.8px; /* 2560 * 0.08 */
+
+    @apply fixed flex justify-items-center justify-between items-center w-[100vw];
+
+    padding: min(var(--padding-y), var(--max-padding-y))
+      min(var(--padding-x), var(--max-padding-x));
   }
 
-  .p-x {
-    padding-top: var(--nav-padding-x);
-    padding-bottom: var(--nav-padding-x);
-  }
+  .GTA-VI-Logo {
+    --logo-width: 7vw;
+    --logo-hight: 5vw;
+    --max-logo-width: 179.2px; /* 2560 * 0.03 */
+    --max-logo-hight: 128px; /* 2560 * 0.05 */
 
-  .w-nav-logo {
-    width: var(--nav-logo);
-  }
-  .h-nav-logo {
-    height: var(--nav-logo);
-  }
+    @apply box-border rounded-full  outline-4  justify-center items-center flex outline-transparent  outline-solid cursor-pointer;
 
+    width: min(var(--logo-width), var(--max-logo-width));
+    height: min(var(--logo-hight), var(--max-logo-hight));
+  }
   .main-logo {
-    @apply transition-all duration-300;
-    cursor: pointer;
-    height: var(--nav-logo);
-    width: var(--nav-logo);
-    color: var(--color-gta-white);
+    @apply w-full h-full text-gta-white transition-all duration-200 ease-in-out;
   }
-  .main-logo:hover {
-    @apply text-[var(--color-gta-yellow)];
+  .burger {
+    --burger-width: 7vw;
+    --burger-hight: 5vw;
+    --max-burger-width: 179.2px; /* 2560 * 0.03 */
+    --max-burger-hight: 128px; /* 2560 * 0.05 */
+
+    width: min(var(--burger-width), var(--max-burger-width));
+    height: min(var(--burger-hight), var(--max-burger-hight));
+  }
+  .burgerNav {
+    @apply cursor-pointer flex justify-center items-center rounded-full outline-4 outline-solid outline-transparent p-6 md:p-4 transition-all duration-200 ease-in-out;
+  }
+  .burgerOverlay {
+    --burger-Top: 8vw;
+    --burger-right: 8vw;
+    --max-burger-Top: 300px; /* 2560 * 0.03 */
+    --max-burger-right: 300px; /* 2560 * 0.03 */
+
+    @apply fixed top-17 right-16 z-[9995] flex justify-center items-center rounded-full p-8 md:p-7 bg-white/5 hover:bg-gta-white/10  duration-75 ease-in-out;
+    top: min(var(--burger-Top), var(--max-burger-Top));
+    right: min(var(--burger-right), var(--max-burger-right));
+  }
+
+  @media (min-width: 768px) {
+    .nav {
+      --padding-y: 4vw;
+      --padding-x: 5vw;
+      --max-padding-y: 102.4px; /* 2560 * 0.04 */
+      --max-padding-x: 128px; /* 2560 * 0.05 */
+    }
+    .GTA-VI-Logo {
+      --logo-width: 2.5vw;
+      --logo-hight: 2.5vw;
+      --max-logo-width: 64px; /* 2560 * 0.025 */
+      --max-logo-hight: 64px; /* 2560 * 0.026 */
+    }
+    .burger {
+      --burger-width: 2.5vw;
+      --burger-hight: 2.5vw;
+      --max-burger-width: 64px; /* 2560 * 0.025 */
+      --max-burger-hight: 64px; /* 2560 * 0.026 */
+    }
+    .burgerOverlay {
+      --burger-Top: 5vw;
+      --burger-right: 11vw;
+      --max-burger-Top: 400px; /* 2560 * 0.03 */
+      --max-burger-right: 400px; /* 2560 * 0.07 */
+    }
+  }
+
+  /* overlay nav */
+
+  /* Hero Section */
+  .hero {
+    @apply relative z-10 flex flex-col justify-center items-center text-center gap-5 w-dvw overflow-x-hidden;
+    padding: 0 var(--padding-hero);
   }
 
   /* GTA Gradients */
@@ -326,20 +381,6 @@ body {
       opacity: 1;
       transform: scale(1);
     }
-  }
-
-  /* Burger menu animations */
-  .burger-line {
-    transform-origin: center;
-    border-radius: 1px;
-  }
-
-  .burger-line-top.open {
-    transform: translateY(calc(var(--button-gap) / 2)) rotate(45deg);
-  }
-
-  .burger-line-bottom.open {
-    transform: translateY(calc(var(--button-gap) / -2)) rotate(-45deg);
   }
 
   /* Logo glow effect with circular shadows */
@@ -478,9 +519,24 @@ body {
   .jason-content {
     background: radial-gradient(ellipse, #111117 20%, transparent 70%);
   }
-  .trapezoid-shape {
-    clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 98%);
+
+  .calBGColor {
+    background: var(--gta-gradient-tertiary);
   }
+
+  .outroLucia {
+    clip-path: polygon(
+      0% 0%,
+      100% 0%,
+      100% calc(100% - (var(--outroShift, 6) * 1vw)),
+      0% 100%
+    );
+
+    will-change: clip-path, transform;
+    transform: translateZ(0);
+    contain: paint;
+  }
+
   .CalHeroBg {
     mask-image: "linear-gradient(180deg,#000 80%,transparent)";
   }
@@ -489,5 +545,56 @@ body {
   }
   .bg-cal-gradient {
     background: var(--gta-cal-gradient-tertiary);
+  }
+  .caloverlay {
+    will-change: clip-path, transform;
+    contain: paint;
+    transform: translateZ(0);
+    clip-path: polygon(0 calc(var(--avvi50) * 1vw), 100% 0, 100% 100%, 0 100%);
+  }
+  .CalHeroBg {
+    -webkit-mask-image: linear-gradient(
+      246deg,
+      #000 30%,
+      rgba(0, 0, 0, 0.35) 72%
+    );
+    mask-image: linear-gradient(246deg, #000 30%, rgba(0, 0, 0, 0.35) 72%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+  .calContent {
+    background: linear-gradient(
+      223.17deg,
+      #237287,
+      #246c84 8.61%,
+      #265f7c 17.21%,
+      #274f72 25.82%,
+      #284367 34.42%,
+      #283a5f 43.03%,
+      #28375c 51.63%
+    );
+    opacity: 0.8;
+    filter: blur(80px);
+  }
+
+  .grid-gallary {
+    --cols-count: 4;
+    width: 100%;
+    display: grid;
+    grid-template-columns:
+      [main-start] 1fr
+      [content-start] repeat(var(--cols), minmax(0, 1fr))
+      [content-end]
+      1fr [main-end];
+  }
+  @media (min-width: 768px) {
+    .grid-gallary {
+      --cols: 8;
+    }
+  }
+  @media (min-width: 1280px) {
+    .grid-gallary {
+      --cols: 12;
+    }
   }
 }

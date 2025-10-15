@@ -7,6 +7,7 @@ import { useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
+import Navbar from "@/components/navigation/Navbar";
 import Cal from "@/components/sections/cal/cal";
 import Hero from "@/components/sections/hero";
 import JasonIntro from "@/components/sections/intro";
@@ -39,49 +40,49 @@ export default function Home() {
   }, [pathname, lenis]);
 
   useGSAP(() => {
-    const sections = gsap.utils.toArray("section[data-background]");
+    // const sections = gsap.utils.toArray("section[data-background]");
 
-    sections.forEach((section) => {
-      const bgClass = section.dataset.background;
+    // sections.forEach((section) => {
+    //   const bgClass = section.dataset.background;
 
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top bottom",
-        end: "bottom bottom",
-        scrub: true,
-        // markers: true,
-        onEnter: () => {
-          gsap.to(backgroundRef.current, {
-            opacity: 0,
-            duration: 0.5,
-            ease: "power2.inOut",
-            onComplete: () => {
-              backgroundRef.current.className = `fixed inset-0 -z-10 pointer-events-none ${bgClass}`;
-              gsap.to(backgroundRef.current, {
-                opacity: 1,
-                duration: 0.5,
-                ease: "power2.inOut",
-              });
-            },
-          });
-        },
-        onEnterBack: () => {
-          gsap.to(backgroundRef.current, {
-            opacity: 0,
-            duration: 0.3,
-            ease: "power2.inOut",
-            onComplete: () => {
-              backgroundRef.current.className = `fixed inset-0 -z-10 pointer-events-none ${bgClass}`;
-              gsap.to(backgroundRef.current, {
-                opacity: 1,
-                duration: 0.1,
-                ease: "power2.inOut",
-              });
-            },
-          });
-        },
-      });
-    });
+    //   ScrollTrigger.create({
+    //     trigger: section,
+    //     start: "top center",
+    //     end: "bottom center",
+    //     scrub: true,
+    //     // markers: true,
+    //     onEnter: () => {
+    //       gsap.to(backgroundRef.current, {
+    //         opacity: 0,
+    //         duration: 0.5,
+    //         ease: "none",
+    //         onComplete: () => {
+    //           backgroundRef.current.className = `fixed inset-0 -z-10 pointer-events-none ${bgClass}`;
+    //           gsap.to(backgroundRef.current, {
+    //             opacity: 1,
+    //             duration: 0.5,
+    //             ease: "none",
+    //           });
+    //         },
+    //       });
+    //     },
+    //     onEnterBack: () => {
+    //       gsap.to(backgroundRef.current, {
+    //         opacity: 0,
+    //         duration: 0.5,
+    //         ease: "none",
+    //         onComplete: () => {
+    //           backgroundRef.current.className = `fixed inset-0 -z-10 pointer-events-none ${bgClass}`;
+    //           gsap.to(backgroundRef.current, {
+    //             opacity: 1,
+    //             duration: 0.5,
+    //             ease: "none",
+    //           });
+    //         },
+    //       });
+    //     },
+    //   });
+    // });
 
     gsap.to(arrowRef.current, {
       y: 10,
@@ -108,10 +109,9 @@ export default function Home() {
 
   return (
     <main>
-      <div
-        ref={backgroundRef}
-        className="bg-hero-gradient fixed inset-0 -z-10 transition-colors"
-      />
+      <div className="bg-hero-gradient fixed inset-0 -z-10 transition-colors" />
+      <Navbar />
+
       <Hero />
       <JasonIntro />
       <Jason />
@@ -120,7 +120,7 @@ export default function Home() {
       <div ref={arrowWrapperRef}>
         <BouncingArrow
           ref={arrowRef}
-          className="fixed left-1/2 -translate-x-1/2 bottom-4 text-gta-pink scale-100 glow-arrow z-50 pointer-events-none"
+          className="fixed left-1/2 -translate-x-1/2 bottom-4 text-gta-pink scale-100 glow-arrow z-30 pointer-events-none"
         />
       </div>
     </main>

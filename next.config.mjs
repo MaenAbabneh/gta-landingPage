@@ -14,16 +14,20 @@ const nextConfig = {
       destination: "/",
     }));
   },
-images: {
+  images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-        port: '',
-        pathname: '/**', 
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/**",
       },
     ],
   },
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
+  },
+  reactCompiler: true,
 };
 
 export default nextConfig;

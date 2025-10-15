@@ -9,7 +9,7 @@ function Lucia() {
     <section
       id="lucia"
       data-background="bg-hero-gradient"
-      className="overflow-hidden bg-transparent"
+      className=" bg-transparent"
     >
       <LuciaVideo />
       <LuciaContent_1 />
