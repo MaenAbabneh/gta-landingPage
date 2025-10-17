@@ -176,7 +176,7 @@ function OverlayMenu({
 
       <div
         ref={panelRef}
-        className="overlay-panel  col-[2/7] md:col-[3/7] lg:col-[4/7] bg-gta-column-left w-full h-screen "
+        className="overlay-panel  col-[2/7] md:col-[3/7] lg:col-[4/7] bg-gta-column-left w-full h-dvh "
       >
         <div className="justify-center items-center flex md:hidden row-[header] font-round font-bold mt-10 mb-10 mr-20 gap-5 ">
           <button className="flex  items-center justify-center  text-lg bg-transparent text-gta-white gap-0 md:gap-2  hover:text-gta-white-60">
