@@ -37,6 +37,7 @@ function OverlayMenu({
       case "People":
         return (
           <PeopleList
+            activeTab={activeTab}
             activeSection={activeSection}
             onHover={handleItemHover}
             onLeave={handleItemLeave}
@@ -46,6 +47,7 @@ function OverlayMenu({
       case "Places":
         return (
           <PlacesList
+            activeTab={activeTab}
             activeSection={activeSection}
             onHover={handleItemHover}
             onLeave={handleItemLeave}
@@ -56,6 +58,7 @@ function OverlayMenu({
       case "Trailers":
         return (
           <TrailersList
+            activeTab={activeTab}
             onHover={handleItemHover}
             onLeave={handleItemLeave}
           />
@@ -64,6 +67,7 @@ function OverlayMenu({
       case "Downloads":
         return (
           <DownloadsGrid
+            activeTab={activeTab}
             onHover={handleItemHover}
             onLeave={handleItemLeave}
           />
@@ -78,6 +82,7 @@ function OverlayMenu({
   const overlayRef = useRef(null);
   const panelRef = useRef(null);
   const leftColumRef = useRef(null);
+  const timelineRef = useRef(null); // لحفظ التايملاين الحالي
 
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -89,6 +94,12 @@ function OverlayMenu({
       const leftColum = leftColumRef.current;
 
       if (!container || !overlay || !panel) return;
+
+      // إلغاء أي أنيميشن سابق
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+      }
 
       if (isMenuOpen) {
         setIsAnimating(true);
@@ -103,12 +114,16 @@ function OverlayMenu({
               visibility: "visible",
             });
             setIsAnimating(false);
+            timelineRef.current = null;
           },
         });
+
+        timelineRef.current = tl;
+
         tl.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0)
           .fromTo(
             panel,
-            { x: 300, opacity: 0 },
+            { x: 500, opacity: 0 },
             { x: 0, opacity: 1, duration: 0.4 },
             "<"
           )
@@ -119,19 +134,24 @@ function OverlayMenu({
             "<"
           );
       } else {
-        if (isAnimating) return;
-
         setIsAnimating(true);
 
         gsap.set(container, { pointerEvents: "none" });
 
         const tl = gsap.timeline({
           ease: "power2.in",
-          onComplete: () => setIsAnimating(false),
+          onComplete: () => {
+            gsap.set(container, { visibility: "hidden" });
+            setIsAnimating(false);
+            timelineRef.current = null;
+          },
         });
-        tl.to(overlay, { opacity: 0, duration: 0.4 }, 0)
-          .to(panel, { x: 300, opacity: 0, duration: 0.3 }, 0)
-          .to(leftColum, { opacity: 0, duration: 0.2 }, 0);
+
+        timelineRef.current = tl;
+
+        tl.to(overlay, { opacity: 0, duration: 0.5 }, 0)
+          .to(panel, { x: 500, opacity: 0, duration: 0.4 }, 0)
+          .to(leftColum, { opacity: 0, duration: 0.3 }, 0);
       }
     },
     { dependencies: [isMenuOpen], scope: containerRef }
@@ -140,7 +160,7 @@ function OverlayMenu({
   return (
     <div
       ref={containerRef}
-      className="grid grid-cols-6 w-screen h-screen fixed inset-0 z-40 "
+      className="fixed inset-0 grid grid-cols-6 z-40 h-screen w-screen"
     >
       <div
         ref={overlayRef}
@@ -156,27 +176,36 @@ function OverlayMenu({
 
       <div
         ref={panelRef}
-        className="flex flex-col col-[2/7] md:col-[3/7] lg:col-[4/7] bg-gta-column-left   h-screen z-10  "
+        className="overlay-panel  col-[2/7] md:col-[3/7] lg:col-[4/7] bg-gta-column-left w-full h-screen "
       >
-        <div className="justify-center mt-13 ml-5 mr-35 lg:mt-12 lg:ml-9 lg:mr-35 items-center font-round font-bold flex md:hidden">
-          <button className="flex items-center justify-center px-2 py-2 bg-transparent text-gta-white gap-2  hover:text-gta-white-60">
-            <GloableSvg />
-            En
-            <ArrowSvg className={"rotate-180"} />
+        <div className="justify-center items-center flex md:hidden row-[header] font-round font-bold m-15 mr-80 gap-5 ">
+          <button className="flex  items-center justify-center  text-lg bg-transparent text-gta-white gap-0 md:gap-2  hover:text-gta-white-60">
+            <GloableSvg className="w-9 h-10" />
+            <span className="hidden md:block">En</span>
+            <ArrowSvg className={"rotate-180 w-6 h-10"} />
           </button>
-          <button className="flex items-center justify-center px-2 py-2 bg-transparent text-gta-white gap-2 hover:text-gta-white-60">
-            Motion
-            <ArrowSvg className={"rotate-180"} />
+          <button className="flex items-center justify-center text-2xl px-2 py-2 bg-transparent text-gta-white gap-2 hover:text-gta-white-60">
+            <span>Motion</span>
+            <ArrowSvg className={"rotate-180 w-6 h-10"} />
           </button>
         </div>
 
-        <div className="flex justify-between items-center mt-12 ml-5 mr-35 lg:mt-12 lg:ml-14 lg:mr-35  ">
-          <TabsBar activeTab={activeTab} onChange={setActiveTab} />
+        <div className=" relative flex justify-between items-center mr-0 ml-0 mt-0 mb-0 md:mr-30 md:ml-10 md:mt-20 md:mb-0 xl:mr-30 xl:ml-15 xl:mt-16 xl:mb-0  row-[footer]  md:row-[header]  Taps-mask ">
+          <div className="bg-gta-gradient-secondary md:bg-transparent w-full h-full md:w-0 md:h-0 border-t md:border-none border-[hsla(0,0%,100%,.1)] md:border-transparent ">
+            <TabsBar activeTab={activeTab} onChange={setActiveTab} />
+          </div>
         </div>
 
-        <div className="flex-1 py-14 px-15">{renderTabContent()}</div>
+        <div
+          className=" row-[content] pt-5 pb-5 px-10 md:px-20 md:pb-0 md:pt-10 xl:pb-15 xl:pt-15  overflow-y-auto  scrollbar-none overscroll-contain  ios-scroll rendered-content"
+          data-lenis-prevent
+          data-lenis-prevent-wheel
+          data-lenis-prevent-touch
+        >
+          {renderTabContent()}
+        </div>
 
-        <div className="justify-between pl-12 pb-10 pr-13 items-center font-round font-bold hidden md:flex">
+        <div className="justify-between items-center font-round font-bold hidden md:flex row-[footer] px-15 pb-10 pt-5">
           <button className="flex items-center justify-center px-2 py-2 bg-transparent text-gta-white gap-1.5  hover:text-gta-white-60">
             <GloableSvg />
             English

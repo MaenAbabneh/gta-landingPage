@@ -4,7 +4,6 @@ import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import Link from "next/link";
 import { useState } from "react";
-import { createPortal } from "react-dom";
 
 import { useScrollLock } from "@/hooks/useScrollLock";
 
@@ -55,12 +54,16 @@ function Navbar() {
         className={`${isMenuOpen ? "hidden" : "block"} GTA-VI-Logo group`}
       >
         <MainLogo
-          ClassName={`${isMenuOpen ? "hidden" : "block"} main-logo group-hover:text-gta-yellow`}
+          ClassName={`${isMenuOpen ? "hidden" : "block"} main-logo  group-hover:text-gta-yellow`}
         />
         <span className="sr-only">GTA VI Logo</span>
       </Link>
 
-      <Burger isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <Burger 
+      isMenuOpen={isMenuOpen} 
+      setIsMenuOpen={setIsMenuOpen} 
+      isOpenStyle="burgerOverlay"  
+      />
 
       <OverlayMenu
         isMenuOpen={isMenuOpen}

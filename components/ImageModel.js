@@ -51,6 +51,7 @@ const ImageModal = ({
       const viewerImg = portal.querySelector(".viewer-image");
       const zoomWrap = portal.querySelector(".zoom-wrap");
       const vignette = portal.querySelector(".vignette");
+      const modalBurger = portal.querySelector(".modal-burger"); // زر الإغلاق داخل الـ modal
 
       // الخطوة 1: جهّز الحالة الأولية للـ modal ليبدو مطابقًا للزر
       gsap.set(modalImage, {
@@ -65,6 +66,10 @@ const ImageModal = ({
       // ... تحضير باقي العناصر الداخلية
       gsap.set(zoomWrap, { scale: 1, filter: "blur(2px)" });
       gsap.set(vignette, { opacity: 0 });
+
+      if (modalBurger) {
+        gsap.set(modalBurger, { opacity: 0 , scale: 0.95 , pointerEvents: "none" });
+      }
 
       // الخطوة 2: التقط هذه الحالة الأولية كنقطة بداية للأنيميشن
       const state = Flip.getState(modalImage);
@@ -97,6 +102,9 @@ const ImageModal = ({
             { opacity: 1, duration: 0.45, ease: "power2.out" },
             0.15
           );
+          if (modalBurger) {
+            tl.to(modalBurger, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out", pointerEvents: "auto" }, 0.9);
+          }
         },
       });
     },
@@ -120,7 +128,7 @@ const ImageModal = ({
     const viewerImg = portal.querySelector(".viewer-image");
     const zoomWrap = portal.querySelector(".zoom-wrap");
     const vignette = portal.querySelector(".vignette");
-
+    const modalBurger = portal.querySelector(".modal-burger"); 
     // الخطوة 1: التقط الحالة الحالية (ملء الشاشة)
     const state = Flip.getState(modalImage);
 
@@ -143,6 +151,9 @@ const ImageModal = ({
         tl.to(zoomWrap, { scale: 0.98, filter: "blur(1px)", duration: 0.6 }, 0);
         tl.to(vignette, { opacity: 0, duration: 0.3, ease: "power2.in" }, 0);
         tl.to(modalBg, { opacity: 0, duration: 0.3, ease: "power2.in" }, 0);
+        if (modalBurger) {
+          tl.to(modalBurger, { opacity: 0, scale: 0.95, duration: 0.3, ease: "power2.in", pointerEvents: "none" }, 0);
+        }
       },
       onComplete: () => {
         setIsOpen(false);
@@ -226,10 +237,9 @@ const ImageModal = ({
             <Burger
               isMenuOpen={true}
               setIsMenuOpen={closeModal}
-              ClassName="absolute top-8 right-16 z-[9999]"
-              isOpenStyle="bg-gta-gray hover:bg-gta-gray-dark transition-colors"
-              spanStyleUp="!bg-gta-pink !h-0.5 !w-6 md:!w-4 !translate-y-0.5"
-              spanStyleDown="!bg-gta-pink !h-0.5 !w-6 md:!w-4 !-translate-y-1"
+              isOpenStyle="modal-burger absolute flex items-center justify-center rounded-full p-8 md:p-7  top-12 right-25 z-[9999] bg-gta-gray hover:bg-gta-gray-dark transition-colors"
+              spanStyleUp=" !bg-gta-pink"
+              spanStyleDown="!mb-1 !bg-gta-pink"
             />
           </div>,
           document.body

@@ -61,10 +61,6 @@
     rgb(40, 55, 92) 51.63%
   );
 
-  --text-button-size: min(calc(3vw / 3), calc(2560px * 0.03 / 3));
-  --padding-button: min(calc(6vw / 3), calc(2560px * 0.06 / 3));
-  --height-button: min(calc(13vw / 3), calc(2560px * 0.13 / 3));
-
   /* Font variables */
   --font-sans: var(--font-round);
   --font-round: var(--font-round);
@@ -93,12 +89,10 @@
   --color-gta-white-60: var(--gta-white-60);
   --color-gta-transparent: var(--gta-transparent);
   --text-gta-blue: var(--gta-blue);
+  --text-gta-white: var(--gta-white);
+  --text-gta-black: var(--gta-black);
+  --text-gta-gray: var(--gta-gray);
 
-  /* Overlay sizes */
-  --text-size: var(--text-button-size);
-
-  /* Overlay sizes */
-  --padding-hero: min(calc(8vw / 4), calc(2560px * 0.08 / 4));
   /* Border radius */
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -239,61 +233,69 @@ body {
     --max-padding-y: 179.2px; /* 2560 * 0.07 */
     --max-padding-x: 204.8px; /* 2560 * 0.08 */
 
-    @apply fixed flex justify-items-center justify-between items-center w-[100vw];
+    @apply fixed flex justify-items-center justify-between items-center w-full;
 
     padding: min(var(--padding-y), var(--max-padding-y))
       min(var(--padding-x), var(--max-padding-x));
   }
 
   .GTA-VI-Logo {
-    --logo-width: 7vw;
-    --logo-hight: 5vw;
-    --max-logo-width: 179.2px; /* 2560 * 0.03 */
-    --max-logo-hight: 128px; /* 2560 * 0.05 */
+    @apply box-border rounded-full   outline-4  justify-center items-center flex outline-transparent  outline-solid cursor-pointer;
+  }
 
-    @apply box-border rounded-full  outline-4  justify-center items-center flex outline-transparent  outline-solid cursor-pointer;
+  .main-logo {
+    --logo-width: 7vw;
+    --logo-hight: 6vw;
+    --max-logo-width: 179.2px; /* 2560 * 0.07 */
+    --max-logo-hight: 153.6px; /* 2560 * 0.05 */
+
+    @apply w-full h-full text-gta-white transition-all duration-200 ease-in-out;
 
     width: min(var(--logo-width), var(--max-logo-width));
     height: min(var(--logo-hight), var(--max-logo-hight));
   }
-  .main-logo {
-    @apply w-full h-full text-gta-white transition-all duration-200 ease-in-out;
-  }
   .burger {
-    --burger-width: 7vw;
+    --burger-width: 6vw;
     --burger-hight: 5vw;
-    --max-burger-width: 179.2px; /* 2560 * 0.03 */
+    --max-burger-width: 153.6px; /* 2560 * 0.06 */
     --max-burger-hight: 128px; /* 2560 * 0.05 */
 
     width: min(var(--burger-width), var(--max-burger-width));
     height: min(var(--burger-hight), var(--max-burger-hight));
   }
   .burgerNav {
-    @apply cursor-pointer flex justify-center items-center rounded-full outline-4 outline-solid outline-transparent p-6 md:p-4 transition-all duration-200 ease-in-out;
+    @apply cursor-pointer flex justify-center items-center rounded-full p-8 md:p-6  transition-all duration-200 ease-in-out;
   }
   .burgerOverlay {
-    --burger-Top: 8vw;
+    --burger-Top: 7vw;
     --burger-right: 8vw;
-    --max-burger-Top: 300px; /* 2560 * 0.03 */
-    --max-burger-right: 300px; /* 2560 * 0.03 */
+    --max-burger-Top: 179.2px; /* 2560 * 0.07 */
+    --max-burger-right: 204.8px; /* 2560 * 0.08 */
 
-    @apply fixed top-17 right-16 z-[9995] flex justify-center items-center rounded-full p-8 md:p-7 bg-white/5 hover:bg-gta-white/10  duration-75 ease-in-out;
+    @apply fixed z-[9995] flex justify-center items-center rounded-full p-8 md:p-6 bg-white/5 hover:bg-gta-white/10  duration-75 ease-in-out;
+
     top: min(var(--burger-Top), var(--max-burger-Top));
     right: min(var(--burger-right), var(--max-burger-right));
   }
 
+  /* iOS smooth scroll utility */
+  .ios-scroll {
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
   @media (min-width: 768px) {
     .nav {
-      --padding-y: 4vw;
-      --padding-x: 5vw;
-      --max-padding-y: 102.4px; /* 2560 * 0.04 */
-      --max-padding-x: 128px; /* 2560 * 0.05 */
+      --padding-y: 7vw;
+      --padding-x: 6vw;
+      --max-padding-y: 300px; /* 2560 * 0.05 */
+      --max-padding-x: 300px; /* 2560 * 0.06 */
     }
-    .GTA-VI-Logo {
+    .main-logo {
       --logo-width: 2.5vw;
       --logo-hight: 2.5vw;
-      --max-logo-width: 64px; /* 2560 * 0.025 */
-      --max-logo-hight: 64px; /* 2560 * 0.026 */
+      --max-logo-width: 64px; /* 2560 * 0.03 */
+      --max-logo-hight: 64px; /* 2560 * 0.03 */
     }
     .burger {
       --burger-width: 2.5vw;
@@ -302,14 +304,125 @@ body {
       --max-burger-hight: 64px; /* 2560 * 0.026 */
     }
     .burgerOverlay {
+      --burger-Top: 6vw;
+      --burger-right: 6vw;
+      --max-burger-Top: 300px; /* 2560 * 0.05 */
+      --max-burger-right: 300px; /* 2560 * 0.06 */
+    }
+  }
+
+@media (min-width: 1024px) {
+    .nav {
+      --padding-y: 5vw;
+      --padding-x: 5vw;
+      --max-padding-y: 128px; /* 2560 * 0.05 */
+      --max-padding-x: 153.6px; /* 2560 * 0.06 */
+    }
+    .burgerOverlay {
       --burger-Top: 5vw;
-      --burger-right: 11vw;
-      --max-burger-Top: 400px; /* 2560 * 0.03 */
-      --max-burger-right: 400px; /* 2560 * 0.07 */
+      --burger-right: 5vw;
+      --max-burger-Top: 128px; /* 2560 * 0.05 */
+      --max-burger-right: 153.6px; /* 2560 * 0.06 */
+    }
+  }
+  @media (min-width: 1280px) {
+    .nav {
+      --padding-y: 3vw;
+      --padding-x: 3.75vw;
+      --max-padding-y: 76.8px; /* 2560 * 0.03 */
+      --max-padding-x: 69.18px; /* 2560 * 0.05 */
+    }
+    .burgerOverlay {
+      --burger-Top: 3vw;
+      --burger-right: 3.75vw;
+      --max-burger-Top: 76.8px; /* 2560 * 0.03 */
+      --max-burger-right: 69.18px; /* 2560 * 0.05 */
     }
   }
 
   /* overlay nav */
+  .overlay-panel {
+    @apply grid;
+    grid-template-columns: auto;
+    grid-template-rows: min-content 1fr min-content;
+    grid-template-areas: "header" "content" "footer";
+    
+  }
+
+  .Taps-mask {
+    --mask-taps-left: 9vw;
+    --mask-taps-right: 9vw;
+    --max-mask-taps-left: 230.4px; /* 2560 * 0.09 */
+    --max-mask-taps-right: 230.4px; 
+  }
+
+  .Taps-mask::after {
+    @apply block md:hidden;
+    content: "";
+    position: absolute;
+    background-color: black;
+    inset: -0px 0px;
+    margin-top: 0px;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      #000 0,
+      transparent min(var(--mask-taps-left), var(--max-mask-taps-left)),
+      transparent
+        calc(100% - min(var(--mask-taps-right), var(--max-mask-taps-right))),
+      #000 100%
+    );
+
+    mask-image: linear-gradient(
+      90deg,
+      #000 0,
+      transparent min(var(--mask-taps-left), var(--max-mask-taps-left)),
+      transparent
+        calc(100% - min(var(--mask-taps-right), var(--max-mask-taps-right))),
+      #000 100%
+    );
+  }
+
+  .rendered-content {
+    --mask-renderd-left: 6vw;
+    --mask-renderd-right: 60vw;
+    --max-mask-renderd-left: 230.4px; /* 2560 * 0.09 */
+    --max-mask-renderd-right: 230.4px; /* 2560 * 0.09 */
+    
+    -webkit-mask-image: linear-gradient(
+        180deg,
+        transparent 0,
+        #000 min(var(--mask-renderd-left), var(--max-mask-renderd-left)),
+        #000
+          calc(
+            100% - min(var(--mask-renderd-right), var(--max-mask-renderd-right))
+          ),
+        transparent 100%
+      ),
+      linear-gradient(to left, #000 5px, transparent 17px);
+    mask-image:
+      linear-gradient(
+        180deg,
+        transparent 0,
+        #000 min(var(--mask-renderd-left), var(--max-mask-renderd-left)),
+        #000
+          calc(
+            100% - min(var(--mask-renderd-right), var(--max-mask-renderd-right))
+          ),
+        transparent 100%
+      ),
+      linear-gradient(to left, #000 5px, transparent 17px);
+  }
+  
+
+  @media (min-width: 768px) {
+    .rendered-content {
+      --mask-renderd-left: 10vw;
+      --mask-renderd-right: 8vw;
+      --max-mask-renderd-left: 256px; /* 2560 * 0.1 */
+      --max-mask-renderd-right: 204.8px; /* 2560 * 0.08 */
+    }
+  }
 
   /* Hero Section */
   .hero {
@@ -596,5 +709,10 @@ body {
     .grid-gallary {
       --cols: 12;
     }
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }

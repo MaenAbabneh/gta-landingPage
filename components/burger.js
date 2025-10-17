@@ -15,7 +15,7 @@ function Burger({
       className={clsx(
         "burger",
         {
-          [` ${isOpenStyle} burgerOverlay`]: isMenuOpen,
+          [` ${isOpenStyle} `]: isMenuOpen,
           [`group burgerNav`]: !isMenuOpen,
         },
         ClassName

@@ -7,16 +7,18 @@ export default function PeopleList({
   onHover,
   onLeave,
   onClick,
+  activeTab,
 }) {
   return (
-    <div className="flex flex-col items-start pt-9">
+    <div className="flex flex-col items-start pt-5 ">
+      <h3 className="text-2xl font-bold font-round mb-5 text-gray-300">{activeTab}</h3>
       {gtaData.People.map((person, index) => {
         const sectionName = person.href.replace(/^\/+|#+/g, "");
         const isActive = activeSection === sectionName;
         return (
           <button
             key={index}
-            className={`cursor-pointer text-wrap font-long font-black text-[3.56rem] uppercase transition-colors duration-500 leading-none ${
+            className={`cursor-pointer text-wrap font-long font-black text-7xl md:text-[3.56rem] uppercase transition-colors duration-500 leading-none ${
               isActive
                 ? "text-gta-pink"
                 : "text-gta-white hover:text-gta-yellow"

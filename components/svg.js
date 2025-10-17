@@ -60,7 +60,7 @@ function NavLogo() {
   );
 }
 
-function GloableSvg() {
+function GloableSvg({className}) {
   return (
     <svg
       fill="none"
@@ -68,7 +68,7 @@ function GloableSvg() {
       height="15"
       viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"
-      className=""
+      className={className}
       aria-hidden="true"
       focusable="false"
     >
