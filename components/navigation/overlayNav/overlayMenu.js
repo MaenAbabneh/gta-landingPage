@@ -178,7 +178,7 @@ function OverlayMenu({
         ref={panelRef}
         className="overlay-panel  col-[2/7] md:col-[3/7] lg:col-[4/7] bg-gta-column-left w-full h-screen "
       >
-        <div className="justify-center items-center flex md:hidden row-[header] font-round font-bold m-15 mr-80 gap-5 ">
+        <div className="justify-center items-center flex md:hidden row-[header] font-round font-bold mt-10 mb-10 mr-20 gap-5 ">
           <button className="flex  items-center justify-center  text-lg bg-transparent text-gta-white gap-0 md:gap-2  hover:text-gta-white-60">
             <GloableSvg className="w-9 h-10" />
             <span className="hidden md:block">En</span>
@@ -197,7 +197,7 @@ function OverlayMenu({
         </div>
 
         <div
-          className=" row-[content] pt-5 pb-5 px-10 md:px-20 md:pb-0 md:pt-10 xl:pb-15 xl:pt-15  overflow-y-auto  scrollbar-none overscroll-contain  ios-scroll rendered-content"
+          className=" row-[content] pt-0 pb-5 px-5 md:px-20 md:pb-0 md:pt-10 xl:pb-15 xl:pt-15  overflow-y-auto  scrollbar-none overscroll-contain  ios-scroll rendered-content"
           data-lenis-prevent
           data-lenis-prevent-wheel
           data-lenis-prevent-touch

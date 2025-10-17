@@ -11,7 +11,7 @@ export default function PlacesList({
 }) {
   return (
     <div className="flex flex-col items-start pt-5 ">
-      <h3 className="text-2xl font-bold font-round mb-5 text-gray-300">
+      <h3 className="text-2xl font-bold font-round mb-10 text-gray-300">
         {activeTab}
       </h3>
 
@@ -21,7 +21,7 @@ export default function PlacesList({
         return (
           <button
             key={index}
-            className={`font-long text-7xl md:text-[3.56rem] uppercase leading-none transition-colors duration-300 text-left ${
+            className={`font-long text-5xl md:text-[3.56rem] uppercase leading-none transition-colors duration-300 text-left ${
               isActive
                 ? "text-gta-pink"
                 : "text-gta-white hover:text-gta-yellow"

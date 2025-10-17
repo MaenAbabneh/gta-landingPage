@@ -6,7 +6,7 @@ import { gtaData } from "@/constants/Links";
 
 export default function TrailersList({ onHover, onLeave, activeTab }) {
   return (
-    <div className="w-full h-full space-y-6 py-5">
+    <div className="w-full h-full space-y-6 pt-5">
       <h3 className="text-2xl font-bold font-round mb-10 text-gray-300">
         {activeTab}
       </h3>
@@ -18,7 +18,7 @@ export default function TrailersList({ onHover, onLeave, activeTab }) {
           onMouseEnter={() => onHover({ image: trailer.thumbnail })}
           onMouseLeave={onLeave}
         >
-          <div className="relative min-w-90 min-h-40 md:min-w-60 md:min-h-34 lg:min-w-80 lg:min-h-44">
+          <div className="relative w-full min-h-40 md:min-w-60 md:min-h-34 lg:min-w-80 lg:min-h-44">
             <Image
               src={trailer.thumbnail || "/placeholder.svg"}
               alt={trailer.title}

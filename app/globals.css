@@ -361,7 +361,7 @@ body {
     content: "";
     position: absolute;
     background-color: black;
-    inset: -0px 0px;
+    inset: -0px -1px;
     margin-top: 0px;
     pointer-events: none;
     -webkit-mask-image: linear-gradient(
