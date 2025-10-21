@@ -36,19 +36,27 @@ export function useScrollSpy() {
         end: "bottom center",
         onEnter: () => {
           setActiveSection(sectionName);
-          window.history.replaceState({}, "", `/${sectionName}`);
+          window.history.replaceState(
+            { fromScroll: true },
+            "",
+            `/${sectionName}`
+          );
         },
         onEnterBack: () => {
           setActiveSection(sectionName);
-          window.history.replaceState({}, "", `/${sectionName}`);
+          window.history.replaceState(
+            { fromScroll: true },
+            "",
+            `/${sectionName}`
+          );
         },
         onLeave: () => {
           setActiveSection("");
-          window.history.replaceState({}, "", "/");
+          window.history.replaceState({ fromScroll: true }, "", "/");
         },
         onLeaveBack: () => {
           setActiveSection("");
-          window.history.replaceState({}, "", "/");
+          window.history.replaceState({ fromScroll: true }, "", "/");
         },
       });
       triggers.push(trigger);

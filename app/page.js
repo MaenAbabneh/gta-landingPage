@@ -30,6 +30,11 @@ export default function Home() {
   useGSAPLenis();
 
   useEffect(() => {
+    // تحقق من أن التغيير ليس من scroll طبيعي
+    if (window.history.state?.fromScroll) {
+      return;
+    }
+
     const sectionId = pathname.substring(1);
     if (sectionId && document.getElementById(sectionId) && lenis) {
       const timer = setTimeout(() => {

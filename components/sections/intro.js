@@ -53,7 +53,7 @@ function JasonIntro() {
           scrollTrigger: {
             trigger: introRef.current,
             start: "top top",
-            end: "+=2000 ",
+            end: "+=2000",
             pin: true,
             pinSpacing: false,
             scrub: 1,
@@ -157,7 +157,7 @@ function JasonIntro() {
     >
       <div
         ref={storyRef}
-        className="sticky z-2 inset-0 flex items-center h-screen w-screen justify-center px-6 md:px-20 lg:px-40 bg-transparent pb-10 "
+        className=" absolute z-2 inset-0 flex items-center h-screen w-screen justify-center px-6 md:px-20 lg:px-40 bg-transparent pb-10 "
       >
         <div
           ref={storytextRef}

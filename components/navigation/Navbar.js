@@ -34,6 +34,7 @@ function Navbar() {
       return;
     }
 
+    // تحديث URI بدون علامة fromScroll (لأن هذا من نقر مباشر)
     window.history.replaceState({}, "", `/${sectionName}`);
 
     gsap.to(window, {
@@ -59,10 +60,10 @@ function Navbar() {
         <span className="sr-only">GTA VI Logo</span>
       </Link>
 
-      <Burger 
-      isMenuOpen={isMenuOpen} 
-      setIsMenuOpen={setIsMenuOpen} 
-      isOpenStyle="burgerOverlay"  
+      <Burger
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
+        isOpenStyle="burgerOverlay"
       />
 
       <OverlayMenu
