@@ -237,7 +237,7 @@ const ImageModal = ({
             <Burger
               isMenuOpen={true}
               setIsMenuOpen={closeModal}
-              isOpenStyle="modal-burger absolute flex items-center justify-center rounded-full p-8 md:p-7  top-12 right-25 z-[9999] bg-gta-gray hover:bg-gta-gray-dark transition-colors"
+              isOpenStyle="modal-burger burger-lightbox hover:bg-gta-gray-dark transition-colors"
               spanStyleUp=" !bg-gta-pink"
               spanStyleDown="!mb-1 !bg-gta-pink"
             />

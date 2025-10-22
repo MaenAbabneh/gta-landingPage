@@ -57,6 +57,8 @@ function JasonIntro() {
             pin: true,
             pinSpacing: false,
             scrub: 1,
+            ease: "none",
+            // markers: true,
             onUpdate: (self) => {
               if (video.duration) {
                 const newTime = self.progress * video.duration;
@@ -68,17 +70,28 @@ function JasonIntro() {
           },
         });
 
-        tl.fromTo(
-          storytextRef.current,
+        tl.to(
+          FirstVideoRef.current,
           {
-            scale: 1.4,
-            backgroundImage: `radial-gradient(circle at 50% 200vh, rgb(255, 210, 123) 0%, rgb(223, 58, 147) 15%, rgb(92, 22, 99) 30%, rgba(32, 31, 66, 0) 50%)`,
+            opacity: 1,
+            filter: "brightness(1) blur(0px)",
           },
-          {
-            scale: 0.9,
-            backgroundImage: `radial-gradient(circle at 40% 0vh, rgb(255, 179, 135) 0%, rgb(252, 82, 67) 70%, rgb(157, 47, 106) 100%, rgba(32, 31, 66, 0) 150%)`,
-          }
+          0
         )
+          .fromTo(
+            storytextRef.current,
+            {
+              opacity: 1,
+              scale: 1,
+              backgroundImage: `radial-gradient(circle at 50% 200vh, rgb(255, 210, 123) 0%, rgb(223, 58, 147) 15%, rgb(92, 22, 99) 30%, rgba(32, 31, 66, 0) 50%)`,
+            },
+            {
+              opacity: 0,
+              scale: 0.7,
+              backgroundImage: `radial-gradient(circle at 40% 0vh, rgb(255, 179, 135) 0%, rgb(252, 82, 67) 70%, rgb(157, 47, 106) 100%, rgba(32, 31, 66, 0) 150%)`,
+            },
+            "<"
+          )
           .to(
             storytextRef.current,
             {
@@ -88,14 +101,6 @@ function JasonIntro() {
             },
             "<"
           )
-          .to(
-            FirstVideoRef.current,
-            {
-              opacity: 1,
-              filter: "brightness(1) blur(0px)",
-            },
-            0
-          )
 
           .to(
             FirstVideoRef.current,
@@ -104,12 +109,16 @@ function JasonIntro() {
                 "radial-gradient(circle at 95vw 0vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
               ease: "power1.inOut",
             },
-            "<+=90%"
+            "<80%"
           )
-          .to(FirstVideoRef.current, {
-            opacity: 0,
-            ease: "power1.inOut",
-          });
+          .to(
+            FirstVideoRef.current,
+            {
+              opacity: 0,
+              ease: "power1.inOut",
+            },
+            "<80%"
+          );
 
         gsap.ticker.add(() => {
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -145,7 +154,7 @@ function JasonIntro() {
     },
     {
       scope: introRef,
-      dependencies: [videoSrc], // إعادة التشغيل عند تغيير مصدر الفيديو
+      dependencies: [videoSrc],
     }
   );
 
@@ -161,12 +170,12 @@ function JasonIntro() {
       >
         <div
           ref={storytextRef}
-          className="max-w-[900px] space-y-12 gradient-text"
+          className="min-w-100 md:min-w-200 space-y-2 md:space-y-4 p-[50px]  md:p-22 xl:p-0 xl:space-y-12 gradient-text"
         >
-          <h3 className="text-start text-4xl md:text-6xl font-round font-black text-transparent ">
+          <h3 className="text-start text-2xl md:text-5xl xl:text-7xl font-round font-black text-transparent ">
             Vice City, USA.
           </h3>
-          <p className="text-start text-2xl md:text-[2rem] font-round font-bold tracking-tight text-transparent">
+          <p className=" text-[0.6rem] md:text-2xl xl:text-[2.7rem] font-round font-bold tracking-tight  text-transparent  ">
             Jason and Lucia have always known the deck is stacked against them.
             But when an easy score goes wrong, they find themselves on the
             darkest side of the sunniest place in America, in the middle of a
@@ -190,6 +199,7 @@ function JasonIntro() {
             playsInline
             muted
             aria-label="Jason embracing Lucia while looking into the distance."
+            className="h-screen w-screen object-cover [object-position:70%_center] md:[object-position:90%_center] aspect-video"
             style={{
               display: "none",
               crossOrigin: "anonymous",
@@ -198,7 +208,7 @@ function JasonIntro() {
 
           <canvas
             ref={canvasRef}
-            className="h-screen w-screen object-cover [object-position:70%_center] md:[object-position:20%_center] aspect-[4/3] md:aspect-[16/9]"
+            className="h-screen w-screen object-cover [object-position:70%_center] md:[object-position:90%_center] aspect-video"
             style={{
               imageRendering: "optimizeSpeed",
               willChange: "auto",

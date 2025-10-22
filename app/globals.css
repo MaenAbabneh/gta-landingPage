@@ -244,10 +244,10 @@ body {
   }
 
   .main-logo {
-    --logo-width: 7vw;
-    --logo-hight: 6vw;
-    --max-logo-width: 179.2px; /* 2560 * 0.07 */
-    --max-logo-hight: 153.6px; /* 2560 * 0.05 */
+    --logo-width: 8vw;
+    --logo-hight: 7vw;
+    --max-logo-width: 204.8px; /* 2560 * 0.07 */
+    --max-logo-hight: 179.4px; /* 2560 * 0.06 */
 
     @apply w-full h-full text-gta-white transition-all duration-200 ease-in-out;
 
@@ -452,31 +452,70 @@ body {
   }
 
   .hidden-VI-Logo {
-    height: clamp(20vh , 25% , 30vh);
-    width: clamp(20vh , 25% , 30vh);
+    height: clamp(17vh, 20%, 30vh);
+    width: clamp(17vh, 20%, 30vh);
   }
 
   .ps-size {
-    width: clamp(15vh , 25% , 30vh);
+    width: clamp(15vh, 25%, 30vh);
   }
 
   .xbox-size {
-    width: clamp(10vh , 25% , 20vh);
+    width: clamp(10vh, 25%, 20vh);
   }
 
   @media (min-width: 768px) {
     .hidden-VI-Logo {
-      height: clamp(15vh , 20% , 25vh);
-      width: clamp(15vh , 20% , 25vh);
+      height: clamp(15vh, 20%, 25vh);
+      width: clamp(15vh, 20%, 25vh);
     }
   }
 
   @media (min-width: 1280px) {
     .hidden-VI-Logo {
-      height: clamp(15vh , 20% , 25vh);
-      width: clamp(15vh , 20% , 25vh);
+      height: clamp(15vh, 20%, 25vh);
+      width: clamp(15vh, 20%, 25vh);
     }
-  } 
+  }
+
+  /* image lightbox */
+  .burger-lightbox {
+    --burger-Top: 7vw;
+    --burger-right: 8vw;
+    --max-burger-Top: 179.2px; /* 2560 * 0.07 */
+    --max-burger-right: 204.8px; /* 2560 * 0.08 */
+
+    @apply absolute flex items-center justify-center rounded-full p-8 md:p-7 z-[9999] bg-gta-gray;
+
+    top: min(var(--burger-Top), var(--max-burger-Top));
+    right: min(var(--burger-right), var(--max-burger-right));
+  }
+
+  @media (min-width: 768px) {
+    .burgerOverlay {
+      --burger-Top: 6vw;
+      --burger-right: 6vw;
+      --max-burger-Top: 300px; /* 2560 * 0.05 */
+      --max-burger-right: 300px; /* 2560 * 0.06 */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .burgerOverlay {
+      --burger-Top: 5vw;
+      --burger-right: 5vw;
+      --max-burger-Top: 128px; /* 2560 * 0.05 */
+      --max-burger-right: 153.6px; /* 2560 * 0.06 */
+    }
+  }
+  @media (min-width: 1280px) {
+    .burgerOverlay {
+      --burger-Top: 3vw;
+      --burger-right: 3.75vw;
+      --max-burger-Top: 76.8px; /* 2560 * 0.03 */
+      --max-burger-right: 69.18px; /* 2560 * 0.05 */
+    }
+  }
 
   /* GTA Gradients */
   .bg-gta-gradient-primary {
@@ -667,6 +706,7 @@ body {
     filter: blur(80px);
   }
 
+  /* Gallery Grid Utility */
   .grid-gallary {
     --cols-count: 4;
     width: 100%;
@@ -688,6 +728,7 @@ body {
     }
   }
 
+  /* Hide scrollbar utility */
   .scrollbar-none {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
