@@ -61,6 +61,7 @@ function OverlayMenu({
             activeTab={activeTab}
             onHover={handleItemHover}
             onLeave={handleItemLeave}
+            onTrailerClick={handleLinkClick}
           />
         );
 
@@ -197,7 +198,7 @@ function OverlayMenu({
         </div>
 
         <div
-          className=" row-[content] pt-0 pb-5 px-5 md:px-20 md:pb-0 md:pt-10 xl:pb-15 xl:pt-15  overflow-y-auto  scrollbar-none overscroll-contain  ios-scroll rendered-content"
+          className=" row-[content] pt-0 pb-5 pr-15 pl-5 md:pl-10 md:pr-10  md:pb-0 md:pt-10 xl:pb-15 xl:pt-15  overflow-y-auto  scrollbar-none overscroll-contain  ios-scroll rendered-content"
           data-lenis-prevent
           data-lenis-prevent-wheel
           data-lenis-prevent-touch

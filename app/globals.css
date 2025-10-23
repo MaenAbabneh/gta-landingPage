@@ -6,13 +6,12 @@
 
 @theme {
   /* GTA VI Colors from original site */
-  --gta-bg-primary: #111117;
-  --gta-bg-secondary: #1d1d23;
-  --gta-bg-tertiary: #29292e;
+  --gta-charcoal-black: #1d1d23;
+  --gta-dark-slate: #29292e;
+  --gta-black: #111117;
+  --gta-white: #fff;
   --gta-accent-yellow: #fff9cb;
   --gta-accent-pink: #ffb0c4;
-  --gta-white: #fff;
-  --gta-black: #111117;
   --gta-gray: #36364e;
   --gta-gray-dark: #2c2c44;
   --gta-blue: #91dfec;
@@ -82,6 +81,8 @@
   --color-gta-gray: var(--gta-gray);
   --color-gta-gray-dark: var(--gta-gray-dark);
   --color-gta-blue: var(--gta-blue);
+  --color-gta-charcoal-black: var(--gta-charcoal-black);
+  --color-gta-dark-slate: var(--gta-dark-slate);
   --color-gta-white-05: var(--gta-white-05);
   --color-gta-white-10: var(--gta-white-10);
   --color-gta-white-20: var(--gta-white-20);
@@ -105,7 +106,7 @@ body {
   width: 100%;
   overflow-x: hidden;
   font-family: var(--font-round), sans-serif;
-  background-color: var(--gta-bg-primary);
+  background-color: var(--gta-black);
 }
 
 ::selection {
@@ -272,7 +273,7 @@ body {
     --max-burger-Top: 179.2px; /* 2560 * 0.07 */
     --max-burger-right: 204.8px; /* 2560 * 0.08 */
 
-    @apply fixed z-[9995] flex justify-center items-center rounded-full p-8 md:p-6 bg-white/5 hover:bg-gta-white/10  duration-75 ease-in-out;
+    @apply fixed z-[100] flex justify-center items-center rounded-full p-8 md:p-6 bg-white/5 hover:bg-gta-white/10  duration-75 ease-in-out;
 
     top: min(var(--burger-Top), var(--max-burger-Top));
     right: min(var(--burger-right), var(--max-burger-right));

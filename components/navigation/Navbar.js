@@ -9,6 +9,7 @@ import { useScrollLock } from "@/hooks/useScrollLock";
 
 import Burger from "../burger";
 import { MainLogo } from "../svg";
+import TrailerOverlay from "../trailervideo";
 import OverlayMenu from "./overlayNav/overlayMenu";
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -17,10 +18,23 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("People");
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+  const [selectedTrailer, setSelectedTrailer] = useState(null);
 
   useScrollLock(isMenuOpen);
 
   const handleLinkClick = (href) => {
+    // التحقق إذا كان العنصر المنقور عليه هو trailer
+    if (typeof href === "object" && href.video_ID) {
+      // إغلاق القائمة الرئيسية
+      setIsMenuOpen(false);
+      // حفظ معلومات الفيديو المختار
+      setSelectedTrailer(href);
+      // فتح TrailerOverlay
+      setIsTrailerOpen(true);
+      return;
+    }
+
     setIsMenuOpen(false);
 
     const sectionName = href.replace(/^\/+|#+/g, "");
@@ -73,6 +87,12 @@ function Navbar() {
         hoveredItem={hoveredItem}
         setHoveredItem={setHoveredItem}
         handleLinkClick={handleLinkClick}
+      />
+
+      <TrailerOverlay
+        isOpen={isTrailerOpen}
+        onClose={() => setIsTrailerOpen(false)}
+        initialTrailer={selectedTrailer}
       />
     </nav>
   );

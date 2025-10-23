@@ -22,7 +22,7 @@ export default function Home() {
   const pathname = usePathname();
   const arrowRef = useRef(null);
   const arrowWrapperRef = useRef(null);
-  const backgroundRef = useRef(null); // <-- 1. مرجع جديد للخلفية
+  // const backgroundRef = useRef(null); // <-- 1. مرجع جديد للخلفية
 
   const lenis = useLenis();
 
@@ -34,7 +34,6 @@ export default function Home() {
     if (window.history.state?.fromScroll) {
       return;
     }
-
     const sectionId = pathname.substring(1);
     if (sectionId && document.getElementById(sectionId) && lenis) {
       const timer = setTimeout(() => {
@@ -116,8 +115,8 @@ export default function Home() {
     <main>
       <div className="bg-hero-gradient fixed inset-0 -z-10 transition-colors" />
       <Navbar />
-
-      <Hero />
+      
+      <Hero/>
       <JasonIntro />
       <Jason />
       <Lucia />
