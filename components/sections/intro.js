@@ -50,10 +50,11 @@ function JasonIntro() {
         canvas.height = video.videoHeight;
 
         const tl = gsap.timeline({
+          defaults: { ease: "none" },
           scrollTrigger: {
             trigger: introRef.current,
             start: "top top",
-            end: "+=2000",
+            end: "+=2500",
             pin: true,
             pinSpacing: false,
             scrub: 1,
@@ -75,6 +76,7 @@ function JasonIntro() {
           {
             opacity: 1,
             filter: "brightness(1) blur(0px)",
+            duration: 1.5,
           },
           0
         )
@@ -88,6 +90,7 @@ function JasonIntro() {
             {
               opacity: 0,
               scale: 0.7,
+              duration: 1,
               backgroundImage: `radial-gradient(circle at 40% 0vh, rgb(255, 179, 135) 0%, rgb(252, 82, 67) 70%, rgb(157, 47, 106) 100%, rgba(32, 31, 66, 0) 150%)`,
             },
             "<"
@@ -97,7 +100,7 @@ function JasonIntro() {
             {
               maskImage:
                 "radial-gradient(at 20% -120vh, rgb(0, 0, 0) 0vh, rgba(0, 0, 0, 0) 50vh)",
-              ease: "power1.inOut",
+              duration: 1.5,
             },
             "<"
           )
@@ -107,7 +110,7 @@ function JasonIntro() {
             {
               maskImage:
                 "radial-gradient(circle at 95vw 0vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
-              ease: "power1.inOut",
+              duration: 0.7,
             },
             "<80%"
           )
@@ -115,7 +118,7 @@ function JasonIntro() {
             FirstVideoRef.current,
             {
               opacity: 0,
-              ease: "power1.inOut",
+              duration: 0.5,
             },
             "<80%"
           );
@@ -123,6 +126,7 @@ function JasonIntro() {
         gsap.ticker.add(() => {
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
         });
+
         return () => {
           gsap.ticker.remove(() => {
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -170,12 +174,12 @@ function JasonIntro() {
       >
         <div
           ref={storytextRef}
-          className="min-w-100 md:min-w-200 space-y-2 md:space-y-4 p-[50px]  md:p-22 xl:p-0 xl:space-y-12 gradient-text"
+          className="min-w-120 md:min-w-200 space-y-2 md:space-y-4 p-[50px]  md:p-22 xl:p-0 xl:space-y-12 gradient-text"
         >
           <h3 className="text-start text-2xl md:text-5xl xl:text-7xl font-round font-black text-transparent ">
             Vice City, USA.
           </h3>
-          <p className=" text-[0.6rem] md:text-2xl xl:text-[2.7rem] font-round font-bold tracking-tight  text-transparent  ">
+          <p className=" text-[0.8rem] md:text-2xl xl:text-[2.7rem] font-round font-bold tracking-tight  text-transparent  ">
             Jason and Lucia have always known the deck is stacked against them.
             But when an easy score goes wrong, they find themselves on the
             darkest side of the sunniest place in America, in the middle of a
@@ -190,7 +194,7 @@ function JasonIntro() {
         ref={FirstVideoRef}
         className="absolute z-0 w-full h-full overflow-hidden inset-0 "
       >
-        <div className="h-dvh ">
+        <div className="h-lvh ">
           <video
             ref={videoRef}
             src={videoSrc}
@@ -199,7 +203,7 @@ function JasonIntro() {
             playsInline
             muted
             aria-label="Jason embracing Lucia while looking into the distance."
-            className="h-screen w-screen object-cover [object-position:70%_center] md:[object-position:90%_center] aspect-video"
+            className="h-screen w-screen object-cover [object-position:70%_center] md:[object-position:70%_center] aspect-video"
             style={{
               display: "none",
               crossOrigin: "anonymous",
@@ -208,7 +212,7 @@ function JasonIntro() {
 
           <canvas
             ref={canvasRef}
-            className="h-screen w-screen object-cover [object-position:70%_center] md:[object-position:90%_center] aspect-video"
+            className="h-screen w-screen object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center] aspect-video"
             style={{
               imageRendering: "optimizeSpeed",
               willChange: "auto",

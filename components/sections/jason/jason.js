@@ -8,8 +8,8 @@ function Jason() {
       <section id="jason" className="relative overflow-hidden">
         <JasonContent_1 />
         <JasonVideo />
-      </section>
       <JasonContent_2 />
+      </section>
     </>
   );
 }

@@ -102,6 +102,10 @@
   --radius-full: 9999px;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   width: 100%;
   overflow-x: hidden;
@@ -109,7 +113,19 @@ body {
   background-color: var(--gta-black);
 }
 
-::selection {
+#jason::selection {
+  background-color: var(--gta-accent-pink);
+  color: var(--gta-gray);
+}
+#jason::-moz-selection {
+  background-color: var(--gta-accent-pink);
+  color: var(--gta-gray);
+}
+#lucia::-moz-selection {
+  background-color: var(--gta-accent-pink);
+  color: var(--gta-gray);
+}
+#lucia::selection {
   background-color: var(--gta-accent-pink);
   color: var(--gta-gray);
 }
@@ -453,8 +469,8 @@ body {
   }
 
   .hidden-VI-Logo {
-    height: clamp(17vh, 20%, 30vh);
-    width: clamp(17vh, 20%, 30vh);
+    height: clamp(17vh, 20vmin, 25vh);
+    width: clamp(17vh, 20vmin, 25vh);
   }
 
   .ps-size {
@@ -465,17 +481,17 @@ body {
     width: clamp(10vh, 25%, 20vh);
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 400px) and (max-width: 767px) {
     .hidden-VI-Logo {
-      height: clamp(15vh, 20%, 25vh);
-      width: clamp(15vh, 20%, 25vh);
+      height: clamp(12vh, 18vmin, 23vh);
+      width: clamp(12vh, 18vmin, 23vh);
     }
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 768px) {
     .hidden-VI-Logo {
-      height: clamp(15vh, 20%, 25vh);
-      width: clamp(15vh, 20%, 25vh);
+      height: clamp(15vh, 20vmin, 25vh);
+      width: clamp(15vh, 20vmin, 25vh);
     }
   }
 

@@ -30,19 +30,19 @@ const JasonContent_1 = () => {
           if (isDesktop) {
             end_scroll = "+=1500";
             scrup_value = 1.5;
-            y = -150;
-            gsap.set(PartOneRef.current, { marginTop: "150vh" });
+            y = -100;
+            gsap.set(PartOneRef.current, { marginTop: "190vh" });
           }
           else if (isTablet) {
             end_scroll = "+=1500";
             scrup_value = 1.5;
-            y = -100;
+            y = -50;
             gsap.set(PartOneRef.current, { marginTop: "200vh" });
           }
           else if (isMobile) {
             end_scroll = "+=2100";
             scrup_value = 2.1;
-            y = -50;
+            y = -30;
             gsap.set(PartOneRef.current, { marginTop: "250vh" });
           }
 

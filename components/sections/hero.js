@@ -28,152 +28,184 @@ function Hero() {
 
   useGSAP(
     () => {
-      gsap.set(
-        [backgroundImageRef.current, buttonRef.current, bgKeyArtRef.current],
-        { opacity: 1 }
-      );
-      gsap.set([consolesRef.current], { opacity: 0 });
-      gsap.set([maskWrapperRef.current, viLogoOverlayRef.current], {
-        BackgroundSize: "clamp(5340.91vh, 3573.84%, 0.0001vh)",
-        backgroundPosition: "50% 47%",
-        webkitMaskSize: "clamp(5340.91vh, 3573.84%, 0.0001vh)",
-        maskSize: "clamp(5340.91vh, 3573.84%, 0.0001vh)",
-        webkitMaskPosition: "50% 47%",
-        maskPosition: "50% 47%",
-      });
-      gsap.set(viLogoOverlayRef.current, { opacity: 0 });
-
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "+=3000",
-          scrub: 3,
-          pin: true,
-          ease: "none",
-          // pinSpacer: false,
-          // markers: true,
-        },
-      });
-
-      tl.to(
-        [maskWrapperRef.current, viLogoOverlayRef.current],
+      const mm = gsap.matchMedia();
+      mm.add(
         {
-          maskSize: "clamp(17vh, 20%, 25vh)",
-          webkitMaskSize: "clamp(17vh, 20%, 25vh)",
-          maskPosition: "50% 50%",
-          webkitMaskPosition: "50% 50%",
-          backgroundSize: "clamp(17vh, 20%, 25vh)",
-          backgroundPosition: "50% 50%",
-          duration: 1,
+          isDesktop: "(min-width: 1024px)",
+          isTablet: "(min-width: 768px) and (max-width: 1023px)",
+          isMobile: "(max-width: 767px)",
+          isminiMobile: "(min-width: 400px) and (max-width: 767px)",
         },
-        0
-      )
-        .to(
-          [backgroundImageRef.current, bgKeyArtRef.current],
-          {
-            scale: 1,
-            duration: 0.4,
-            // ease: "power2.out",
-          },
-          "<"
-        )
-        .to(
-          [buttonRef.current, WatchRef.current, bgKeyArtRef.current],
-          {
-            opacity: 0,
-            duration: 0.4,
-            // ease: "power2.out",
-          },
-          "<"
-        )
-        .to(
-          backgroundImageRef.current,
-          {
-            opacity: 0,
-            duration: 0.8,
-            // ease: "power2.out",
-          },
-          "<40%"
-        )
-        .fromTo(
-          textRef.current,
-          {
-            backgroundImage: `radial-gradient(
+        (context) => {
+          let { isDesktop, isTablet, isMobile, isminiMobile } =
+            context.conditions;
+          let maskSize;
+          if (isminiMobile) {
+            maskSize = "clamp(12vh, 18vmin, 23vh)";
+          } else {
+            maskSize = "clamp(17vh, 20vmin, 25vh)";
+          }
+          gsap.set(
+            [
+              backgroundImageRef.current,
+              buttonRef.current,
+              bgKeyArtRef.current,
+            ],
+            { opacity: 1, pointerEvents: "auto" }
+          );
+          gsap.set([consolesRef.current], { opacity: 0 });
+          gsap.set([maskWrapperRef.current, viLogoOverlayRef.current], {
+            BackgroundSize: "clamp(5340.91vh, 3573.84%, 0.0001vh)",
+            backgroundPosition: "50% 47%",
+            webkitMaskSize: "clamp(5340.91vh, 3573.84%, 0.0001vh)",
+            maskSize: "clamp(5340.91vh, 3573.84%, 0.0001vh)",
+            webkitMaskPosition: "50% 47%",
+            maskPosition: "50% 47%",
+          });
+          gsap.set(viLogoOverlayRef.current, { opacity: 0 });
+
+          const tl = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top top",
+              end: "+=3000",
+              scrub: true,
+              pin: true,
+              ease: "none",
+              // pinSpacer: false,
+              // markers: true,
+            },
+          });
+
+          tl.to(
+            [maskWrapperRef.current, viLogoOverlayRef.current],
+            {
+              maskSize: maskSize,
+              webkitMaskSize: maskSize,
+              maskPosition: "50% 50%",
+              webkitMaskPosition: "50% 50%",
+              backgroundSize: maskSize,
+              backgroundPosition: "50% 50%",
+              duration: 1,
+            },
+            0
+          )
+            .to(
+              [backgroundImageRef.current, bgKeyArtRef.current],
+              {
+                scale: 1,
+                duration: 0.4,
+                // ease: "power2.out",
+              },
+              0
+            )
+            .to(
+              bgKeyArtRef.current,
+              {
+                opacity: 0,
+                duration: 0.4,
+              },
+              "<"
+            )
+            .to(
+              [buttonRef.current, WatchRef.current],
+              {
+                opacity: 0,
+                zIndex: -1,
+                duration: 0.4,
+                // ease: "power2.out",
+              },
+              "<"
+            )
+            .to(
+              backgroundImageRef.current,
+              {
+                opacity: 0,
+                duration: 0.8,
+                // ease: "power2.out",
+              },
+              "<40%"
+            )
+            .fromTo(
+              textRef.current,
+              {
+                backgroundImage: `radial-gradient(
           circle at 50% 150vh,
           rgba(255, 214, 135, 0) 0vh,
           rgba(157, 47, 106, 0.5) 50vh,
           rgba(157, 47, 106, 0.8) 90vh,
           rgba(32, 31, 66, 0) 100vh)`,
-          },
-          {
-            backgroundImage: `radial-gradient(
+              },
+              {
+                backgroundImage: `radial-gradient(
           circle at 50% -30vh,
           rgb(255, 213, 133) 0px,
           rgb(247, 77, 82) 50vh,
           rgb(145, 42, 105) 90vh,
           rgba(32, 31, 66, 0) 150vh)`,
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          "<30%"
-        )
-        .fromTo(
-          [viLogoOverlayRef.current],
-          {
-            opacity: 0,
-            maskImage: `radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 50%)`,
-            webkitMaskImage: `radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 50%)`,
-          },
-          {
-            opacity: 1,
-            maskImage: `radial-gradient(circle, rgb(255, 255, 255) 100%, rgba(255, 255, 255, 0) 100%)`,
-            webkitMaskImage: `radial-gradient(circle, rgb(255, 255, 255) 100%, rgba(255, 255, 255, 0) 100%)`,
-            duration: 0.7,
-            ease: "power2.inOut",
-          },
-          "<40%" // i want start a bit later than the text
-        )
-        .to(
-          consolesRef.current,
-          {
-            opacity: 1,
-            duration: 0.7,
-            ease: "power2.out",
-          },
-          "<10%"
-        )
-        .to(
-          containerRef.current,
-          {
-            scale: 0.8,
-            duration: 1.5,
-            ease: "power2.inOut",
-          },
-          "<"
-        );
+                duration: 2,
+                ease: "power2.inOut",
+              },
+              "<30%"
+            )
+            .fromTo(
+              [viLogoOverlayRef.current],
+              {
+                opacity: 0,
+                maskImage: `radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 50%)`,
+                webkitMaskImage: `radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 50%)`,
+              },
+              {
+                opacity: 1,
+                maskImage: `radial-gradient(circle, rgb(255, 255, 255) 100%, rgba(255, 255, 255, 0) 100%)`,
+                webkitMaskImage: `radial-gradient(circle, rgb(255, 255, 255) 100%, rgba(255, 255, 255, 0) 100%)`,
+                duration: 0.7,
+                ease: "power2.inOut",
+              },
+              "<40%" // i want start a bit later than the text
+            )
+            .to(
+              consolesRef.current,
+              {
+                opacity: 1,
+                duration: 0.7,
+                ease: "power2.out",
+              },
+              "<10%"
+            )
+            .to(
+              containerRef.current,
+              {
+                scale: 0.8,
+                duration: 1.5,
+                ease: "power2.inOut",
+              },
+              "<"
+            );
 
-      tl.fromTo(
-        comingSoonRef.current,
-        {
-          maskImage: `radial-gradient(circle at 50% 18vh, rgb(0, 0, 0) 50vh, rgba(0, 0, 0, 0) 80vh)`,
-        },
-        {
-          maskImage: `radial-gradient(circle at 50% -60vh, rgb(0, 0, 0) 0vh, rgba(0, 0, 0, 0) 60vh)`,
-          duration: 1,
-          ease: "power2.inOut",
-        },
-        "<40%" // يبدأ بعد آخر خطوة بقليل (عدّل حسب الحاجة)
-      ).fromTo(
-        [viLogoOverlayRef.current, maskWrapperRef.current],
-        { opacity: 1 },
-        {
-          opacity: 0,
-          duration: 0.7,
-          ease: "power2.out",
-        },
-        "<" // يبدأ في نفس وقت الخطوة السابقة
+          tl.fromTo(
+            comingSoonRef.current,
+            {
+              maskImage: `radial-gradient(circle at 50% 18vh, rgb(0, 0, 0) 50vh, rgba(0, 0, 0, 0) 80vh)`,
+            },
+            {
+              maskImage: `radial-gradient(circle at 50% -60vh, rgb(0, 0, 0) 0vh, rgba(0, 0, 0, 0) 60vh)`,
+              duration: 1,
+              ease: "power2.inOut",
+            },
+            "<40%" // يبدأ بعد آخر خطوة بقليل (عدّل حسب الحاجة)
+          ).fromTo(
+            [viLogoOverlayRef.current, maskWrapperRef.current],
+            { opacity: 1 },
+            {
+              opacity: 0,
+              duration: 0.7,
+              ease: "power2.out",
+            },
+            "<" // يبدأ في نفس وقت الخطوة السابقة
+          );
+        }
       );
     },
     { scope: containerRef }
@@ -184,18 +216,18 @@ function Hero() {
       <section
         id="hero"
         ref={containerRef}
-        className="relative w-full min-h-dvh h-dvh overflow-hidden "
+        className="relative w-full min-h-lvh  overflow-hidden "
       >
         <div
           ref={viLogoOverlayRef}
-          className="fixed inset-0 z-[2] viLogo pb-30 md:pb-75 xl:pb-70 "
+          className="fixed inset-0 z-[2] viLogo pb-35 md:pb-57  xl:pb-70 "
           style={{
             willChange: "width height",
           }}
         />
         <div
           ref={maskWrapperRef}
-          className="mask-wrapper absolute inset-0 z-[1] pb-30 md:pb-75 xl:pb-70"
+          className="mask-wrapper absolute inset-0 z-[1] pb-35 md:pb-57  xl:pb-70"
           style={{
             willChange: "widht height",
           }}
@@ -266,7 +298,7 @@ function Hero() {
           {/* نص "COMING MAY 26 2026" */}
           <h3
             ref={textRef}
-            className=" text-center text-[2.8rem] md:text-7xl xl:text-[5.4rem] font-black leading-9 md:leading-16 xl:leading-20 gradient-text "
+            className=" text-center text-[3rem] md:text-[5rem] lg:text-[5.4rem] xl:text-[5.9rem] font-black leading-10 md:leading-17 lg:leading-19 xl:leading-20 gradient-text "
           >
             COMING
             <br />
@@ -277,7 +309,7 @@ function Hero() {
 
           <div
             ref={consolesRef}
-            className="flex flex-row items-center justify-canter gap-5 text-gta-white "
+            className="flex flex-row items-center justify-canter gap-5  text-gta-white "
           >
             <PsIcon className="max-w-16  md:min-w-25 xl:max-w-100 md:max-h-40 xl:max-h-100" />
             <XboxIcon className="max-w-25  md:min-w-40 xl:max-w-170 md:max-h-40 xl:max-h-100" />
@@ -286,6 +318,7 @@ function Hero() {
       </section>
       <TrailerOverlay
         isOpen={isOpenOverlay}
+        isOpenfalse={!isOpenOverlay}
         onClose={() => setIsOpenOverlay(false)}
       />
     </>

@@ -1,61 +1,96 @@
 "use client";
+
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
-import { useMemo, useRef, useState } from "react";
+import { use, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { gtaData } from "@/constants/Links";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { useYoutubeVideo } from "@/hooks/useYotubeVideo";
 
-function TrailerOverlay({ isOpen, onClose, initialTrailer }) {
+function TrailerOverlay({ isOpen, onClose, isOpenfalse }) {
   const overlaybgRef = useRef(null);
   const videoRef = useRef(null);
   const buttonRef = useRef(null);
 
   const Defult_video_ID = gtaData.Trailers.find(
     (trailer) => trailer.isNew
-  ).video_ID;
+  )?.video_ID;
 
-  // تحديد الفيديو الأولي بناءً على initialTrailer
   const initialVideoID = useMemo(() => {
-    return initialTrailer?.video_ID || Defult_video_ID;
-  }, [initialTrailer?.video_ID, Defult_video_ID]);
+    return Defult_video_ID || "";
+  }, [Defult_video_ID]);
 
   const [videoID, setVideoID] = useState(initialVideoID);
 
-  // تحديث videoID عند تغيير initialVideoID (عند فتح overlay جديد)
-  if (isOpen && videoID !== initialVideoID && initialTrailer?.video_ID) {
+  if (isOpen && videoID !== initialVideoID) {
     setVideoID(initialVideoID);
   }
 
-  useScrollLock(isOpen);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // تنظيف video_ID من المعاملات الإضافية
+  useEffect(() => {
+    if (isOpen) {
+      setIsMounted(true);
+    }
+  }, [isOpen]);
+
+  useScrollLock(isMounted);
+
   const cleanVideoID = videoID ? videoID.split("?")[0] : "";
 
-  // استخدام YouTube Player API
-  const { isReady } = useYoutubeVideo("youtube-player", cleanVideoID, isOpen);
-  useGSAP(() => {
-    gsap.fromTo(
-      overlaybgRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.8 }
-    );
-    gsap.fromTo(
-      buttonRef.current,
-      { opacity: 0},
-      { opacity: 1, duration: 0.8 }
-    );
-    gsap.fromTo(
-      videoRef.current,
-      { opacity: 0, y: 1000 },
-      { opacity: 1, y: 0, duration: 0.8 }
-    );
-  }, [videoID, isOpen]);
+  const { isReady } = useYoutubeVideo(
+    "youtube-player",
+    cleanVideoID,
+    isMounted
+  );
 
-  if (!isOpen) return null;
+  useGSAP(
+    () => {
+      if (!overlaybgRef.current || !buttonRef.current || !videoRef.current)
+        return;
+
+      if (isOpen) {
+        const tl = gsap.timeline({
+          defaults: { ease: "power2.out" },
+        });
+        tl.to({}, {}); // إضافة تأخير بسيط لضمان التشغيل السلس للأنيميشن
+        tl.to("#hero", { scale: 1.25, duration: 0.8, ease: "power2.out" }, 0);
+        tl.fromTo(
+          overlaybgRef.current,
+          { opacity: 0 },
+          { opacity: 1 , duration: 0.5 },
+          0
+        ).fromTo(buttonRef.current, { opacity: 0 }, { opacity: 1 , duration:0.4 }, "<");
+        gsap.fromTo(
+          videoRef.current,
+          { opacity: 0, y: 1000 },
+          { opacity: 1, y: 0 , duration: 0.7},
+          "<"
+        );
+      } else if ((!isOpen, isMounted)) {
+        const tl = gsap.timeline({
+          defaults: { ease: "power2.out"},
+          onComplete: () => {
+            setIsMounted(false);
+          },
+        });
+        tl.to("#hero", { scale: 1, duration: 0.3, ease: "power2.out" }, 0);
+        tl.fromTo(
+          overlaybgRef.current,
+          { opacity: 1 },
+          { opacity: 0, duration: 0.6 },
+          0
+        ).fromTo(buttonRef.current, { opacity: 1 }, { opacity: 0 , duration: 0.3}, "<")
+        .fromTo(videoRef.current, { opacity: 1 }, { opacity: 0 , duration: 0.5 }, "<");
+      }
+    },
+    { dependencies: [isOpen, isMounted] }
+  );
+
+  if (!isMounted) return null;
 
   return createPortal(
     <div id="trailers" className="fixed inset-0 z-[9998] p-2 sm:p-4 md:p-0">
@@ -89,7 +124,10 @@ function TrailerOverlay({ isOpen, onClose, initialTrailer }) {
           {gtaData.Trailers.map((trailer, index) => (
             <button
               key={trailer.video_ID || index}
-              onClick={() => setVideoID(trailer.video_ID)}
+              onClick={() => {
+                setVideoID(trailer.video_ID);
+                console.log("Selected trailer ID:", trailer.video_ID);
+              }}
               className={`flex flex-col md:flex-row items-center justify-start md:justify-center w-full md:w-80 lg:w-90 group cursor-pointer`}
             >
               <div
