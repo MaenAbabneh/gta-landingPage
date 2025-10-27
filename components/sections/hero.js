@@ -31,20 +31,21 @@ function Hero() {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          isDesktop: "(min-width: 1024px)",
-          isTablet: "(min-width: 768px) and (max-width: 1023px)",
+          isTablet: "(min-width: 768px)",
           isMobile: "(max-width: 767px)",
-          isminiMobile: "(min-width: 400px) and (max-width: 767px)",
+          isminiMobile: "(min-width: 0px) and (max-width: 400px)",
         },
         (context) => {
-          let { isDesktop, isTablet, isMobile, isminiMobile } =
-            context.conditions;
+          let { isTablet, isMobile, isminiMobile } = context.conditions;
           let maskSize;
           if (isminiMobile) {
-            maskSize = "clamp(12vh, 18vmin, 23vh)";
-          } else {
-            maskSize = "clamp(17vh, 20vmin, 25vh)";
+            maskSize = "clamp(14vmin, 14vmax, 20vh)";
+          } else if (isMobile) {
+            maskSize = "clamp(12vmin, 12vmax, 20vh)";
+          } else if (isTablet) {
+            maskSize = "clamp(15vh, 20%, 25vh)";
           }
+
           gsap.set(
             [
               backgroundImageRef.current,
@@ -55,14 +56,15 @@ function Hero() {
           );
           gsap.set([consolesRef.current], { opacity: 0 });
           gsap.set([maskWrapperRef.current, viLogoOverlayRef.current], {
-            BackgroundSize: "clamp(5340.91vh, 3573.84%, 0.0001vh)",
+            BackgroundSize: "clamp(5000vh, 3200%, 0.0001vh)",
             backgroundPosition: "50% 47%",
-            webkitMaskSize: "clamp(5340.91vh, 3573.84%, 0.0001vh)",
-            maskSize: "clamp(5340.91vh, 3573.84%, 0.0001vh)",
+            webkitMaskSize: "clamp(5000vh, 3200%, 0.0001vh)",
+            maskSize: "clamp(5000vh, 3200%, 0.0001vh)",
             webkitMaskPosition: "50% 47%",
             maskPosition: "50% 47%",
           });
           gsap.set(viLogoOverlayRef.current, { opacity: 0 });
+          gsap.set(containerRef.current, { scale: 1 });
 
           const tl = gsap.timeline({
             defaults: { ease: "none" },
@@ -98,7 +100,7 @@ function Hero() {
                 duration: 0.4,
                 // ease: "power2.out",
               },
-              0
+              "<"
             )
             .to(
               bgKeyArtRef.current,
@@ -220,14 +222,14 @@ function Hero() {
       >
         <div
           ref={viLogoOverlayRef}
-          className="fixed inset-0 z-[2] viLogo pb-35 md:pb-57  xl:pb-70 "
+          className="fixed inset-0 z-[2] viLogo pb-35 md:pb-57  xl:pb-80 "
           style={{
             willChange: "width height",
           }}
         />
         <div
           ref={maskWrapperRef}
-          className="mask-wrapper absolute inset-0 z-[1] pb-35 md:pb-57  xl:pb-70"
+          className="mask-wrapper absolute inset-0 z-[1] pb-35 md:pb-57  xl:pb-80"
           style={{
             willChange: "widht height",
           }}
@@ -280,39 +282,41 @@ function Hero() {
 
         <div
           ref={comingSoonRef}
-          className="absolute z-[0] inset-0 w-dvw h-dvh  flex flex-col items-center justify-center md:gap-5"
+          className="absolute z-[0] inset-0 w-full h-lvh  flex flex-col items-center justify-center"
         >
-          <div ref={VIlogoRef} className="hidden-VI-Logo  relative">
-            <Image
-              src="/images/logo.webp"
-              alt="Grand Theft Auto VI Logo"
-              fill
-              sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="opacity-0 object-cover"
+          <div className="flex flex-col items-center justify-center h-full w-full md:gap-5">
+            <div
+              ref={VIlogoRef}
+              className="hidden-VI-Logo opacity-0 relative lg:mb-5"
               style={{
                 visibility: "hidden",
               }}
-            />
-          </div>
-
-          {/* نص "COMING MAY 26 2026" */}
-          <h3
-            ref={textRef}
-            className=" text-center text-[3rem] md:text-[5rem] lg:text-[5.4rem] xl:text-[5.9rem] font-black leading-10 md:leading-17 lg:leading-19 xl:leading-20 gradient-text "
-          >
-            COMING
-            <br />
-            MAY 26
-            <br />
-            2026
-          </h3>
-
-          <div
-            ref={consolesRef}
-            className="flex flex-row items-center justify-canter gap-5  text-gta-white "
-          >
-            <PsIcon className="max-w-16  md:min-w-25 xl:max-w-100 md:max-h-40 xl:max-h-100" />
-            <XboxIcon className="max-w-25  md:min-w-40 xl:max-w-170 md:max-h-40 xl:max-h-100" />
+            >
+              <Image
+                src="/images/logo.webp"
+                alt="Grand Theft Auto VI Logo"
+                fill
+                sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover "
+              />
+            </div>
+            <h3
+              ref={textRef}
+              className=" text-center text-[3rem] md:text-[5rem] lg:text-[5.4rem] xl:text-[6.3rem] font-black leading-10 md:leading-17 lg:leading-19 xl:leading-22 gradient-text "
+            >
+              COMING
+              <br />
+              MAY 26
+              <br />
+              2026
+            </h3>
+            <div
+              ref={consolesRef}
+              className="flex flex-row items-center justify-center gap-5  text-gta-white "
+            >
+              <PsIcon className="max-w-16  md:min-w-25 xl:max-w-100 md:max-h-40 xl:max-h-100" />
+              <XboxIcon className="max-w-25  md:min-w-40 xl:max-w-170 md:max-h-40 xl:max-h-100" />
+            </div>
           </div>
         </div>
       </section>

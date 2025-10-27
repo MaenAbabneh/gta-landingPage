@@ -34,6 +34,8 @@ function JasonIntro() {
       const context = canvas.getContext("2d");
 
       gsap.set(introRef.current, { marginTop: "-100vh" });
+      gsap.set([storyRef.current, storytextRef.current], { willChange: "transform", force3D: true });
+      gsap.set(FirstVideoRef.current, { willChange: "transform", force3D: true });
       gsap.set(storytextRef.current, {
         opacity: 1,
         maskImage:
@@ -121,7 +123,7 @@ function JasonIntro() {
               duration: 0.5,
             },
             "<80%"
-          );
+          ).to({},{}, "80%"); // empty tween to create a delay before cleanup
 
         gsap.ticker.add(() => {
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -166,20 +168,20 @@ function JasonIntro() {
     <section
       id="jason-intro"
       ref={introRef}
-      className="relative w-full h-dvh overflow-hidden "
+      className="relative w-full h-lvh overflow-hidden "
     >
       <div
         ref={storyRef}
-        className=" absolute z-2 inset-0 flex items-center h-screen w-screen justify-center px-6 md:px-20 lg:px-40 bg-transparent pb-10 "
+        className=" absolute z-2 inset-0 flex items-center justify-start bg-transparent  "
       >
         <div
           ref={storytextRef}
-          className="min-w-120 md:min-w-200 space-y-2 md:space-y-4 p-[50px]  md:p-22 xl:p-0 xl:space-y-12 gradient-text"
+          className="flex flex-col items-start justify-start mx-3 md:mx-10 lg:mx-20 xl:mx-35 gradient-text"
         >
-          <h3 className="text-start text-2xl md:text-5xl xl:text-7xl font-round font-black text-transparent ">
+          <h3 className="story-heading-size font-round font-black text-transparent text-nowrap">
             Vice City, USA.
           </h3>
-          <p className=" text-[0.8rem] md:text-2xl xl:text-[2.7rem] font-round font-bold tracking-tight  text-transparent  ">
+          <p className=" story-text-size font-round font-bold text-transparent text-pretty leading-4 md:leading-tight ">
             Jason and Lucia have always known the deck is stacked against them.
             But when an easy score goes wrong, they find themselves on the
             darkest side of the sunniest place in America, in the middle of a
@@ -192,7 +194,7 @@ function JasonIntro() {
 
       <div
         ref={FirstVideoRef}
-        className="absolute z-0 w-full h-full overflow-hidden inset-0 "
+        className="absolute z-0 inset-0 overflow-hidden "
       >
         <div className="h-lvh ">
           <video
@@ -203,7 +205,7 @@ function JasonIntro() {
             playsInline
             muted
             aria-label="Jason embracing Lucia while looking into the distance."
-            className="h-screen w-screen object-cover [object-position:70%_center] md:[object-position:70%_center] aspect-video"
+            className="h-full w-full object-cover [object-position:70%_center] md:[object-position:80%_center] aspect-video"
             style={{
               display: "none",
               crossOrigin: "anonymous",
@@ -212,7 +214,7 @@ function JasonIntro() {
 
           <canvas
             ref={canvasRef}
-            className="h-screen w-screen object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center] aspect-video"
+            className="w-full h-lvh object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center] aspect-video"
             style={{
               imageRendering: "optimizeSpeed",
               willChange: "auto",

@@ -93,14 +93,14 @@ function LeftPreviewPane({ hoveredItem, activeTab, ref }) {
   return (
     <div
       ref={leftColumRef}
-      className=" h-full w-full col-[1/2] md:col-[1/3] lg:col-[1/4] justify-center hidden md:grid grid-cols-3 items-center "
+      className="relative h-full w-full col-[1/2] md:col-[1/3] lg:col-[1/4] justify-center hidden md:grid grid-cols-3 items-center "
     >
       <Image
         ref={imageLayer1Ref}
         src={transparentPixel} // المصدر الأولي فارغ
         alt=""
         fill
-        sizes="50vw"
+        sizes="100vw"
         className="absolute inset-0 object-cover opacity-0 pointer-events-none"
       />
 
@@ -110,7 +110,7 @@ function LeftPreviewPane({ hoveredItem, activeTab, ref }) {
         src={transparentPixel} // المصدر الأولي فارغ
         alt=""
         fill
-        sizes="50vw"
+        sizes="100vw"
         className="absolute inset-0 object-cover opacity-0 pointer-events-none"
       />
       <div

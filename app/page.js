@@ -121,10 +121,10 @@ export default function Home() {
       <Jason />
       <Lucia />
       <Cal />
-      <div ref={arrowWrapperRef}>
+      <div ref={arrowWrapperRef} className=" w-full">
         <BouncingArrow
           ref={arrowRef}
-          className="fixed left-1/2 -translate-x-1/2 bottom-4 text-gta-pink scale-100 glow-arrow z-30 pointer-events-none"
+          className="fixed left-1/2 -translate-x-1/2 bottom-5 text-gta-pink scale-100 glow-arrow z-30 pointer-events-none"
         />
       </div>
     </main>

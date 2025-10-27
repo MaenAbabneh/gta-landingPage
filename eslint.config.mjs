@@ -1,20 +1,24 @@
-import { FlatCompat } from "@eslint/eslintrc";
 import importPlugin from "eslint-plugin-import";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import prettier from 'eslint-config-prettier/flat'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals"),
-  ...compat.extends("prettier"), // استخدام compat للتوافق مع Flat Config
+const eslintConfig = defineConfig( [
+  ...nextVitals,
+  ...prettier,
   {
+    globalIgnores: [
+      ...globalIgnores,
+      ".next/**",
+      "out/**",
+      "build/**",
+      "next-env.d.ts",
+      "public/**",
+      "node_modules/**",
+      "eslint.config.mjs",
+      "postcss.config.js",
+    ],
     plugins: {
       import: importPlugin,
       "simple-import-sort": simpleImportSort,
@@ -27,6 +31,6 @@ const eslintConfig = [
       "import/order": "off",
     },
   },
-];
+]);
 
 export default eslintConfig;

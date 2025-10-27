@@ -5,7 +5,7 @@ import JasonVideo from "./jasonVideo";
 function Jason() {
   return (
     <>
-      <section id="jason" className="relative overflow-hidden">
+      <section id="jason" className="relative ">
         <JasonContent_1 />
         <JasonVideo />
       <JasonContent_2 />

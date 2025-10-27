@@ -169,7 +169,7 @@ const ImageModal = ({
         className={`relative ${ButtonStyle}`}
         aria-label={`Open ${alt || "image"} in modal`}
       >
-        <div ref={fadeImageRef} className="group relative w-full h-full">
+        <div ref={fadeImageRef} className="group relative max-w-full h-full overflow-hidden">
           <Image
             src={src}
             alt={alt}

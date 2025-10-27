@@ -66,7 +66,7 @@ function JasonVideo() {
             trigger: videoTwoRef.current,
             start: "top top",
             end: "+=3100 bottom",
-            scrub: true,
+            scrub: 1,
             pin: true,
             pinSpacing: false,
             onEnter: () => {
@@ -211,9 +211,9 @@ function JasonVideo() {
   return (
     <section
       ref={videoTwoRef}
-      className="relative w-full h-[300vh] overflow-hidden "
+      className="relative w-full h-lvh overflow-hidden "
     >
-      <div className="absolute inset-0 h-dvh w-full">
+      <div className="absolute z-0 inset-0 h-lvh overflow-hidden">
         <div ref={videoOverlayRef}>
           <video
             ref={VideoRef}
@@ -228,18 +228,19 @@ function JasonVideo() {
           />
           <canvas
             ref={canvasRef}
-            className="absoulte inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:20%_center] aspect-[4/3] md:aspect-[16/9]"
+            className="absoulte inset-0 h-lvh w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-[4/3] md:aspect-[9/16]"
             style={{
               imageRendering: "optimizeSpeed",
               willChange: "transform",
+              force3D: "true",
             }}
           />
         </div>
         <div
           ref={quoteRef}
-          className="absolute inset-0 z-10 flex items-end justify-start text-center px-60 py-25 "
+          className="absolute inset-0 z-10 flex items-end justify-start h-lvh w-full md:p-20 lg:p-25 "
         >
-          <q className="text-gta-yellow text-4xl md:text-[4.8rem] font-long font-bold uppercase leading-18">
+          <q className="text-gta-yellow md:text-6xl lg:text-7xl xl:text-[4.8rem] text-nowrap font-long font-bold uppercase drop-shadow-lg">
             If anything happens,
             <br />
             <span className="inline-block pl-[1.4ch] ">

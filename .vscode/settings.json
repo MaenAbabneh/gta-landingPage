@@ -1,16 +1,26 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.format.enable": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.fixAll": "explicit"
+    "source.fixAll.eslint": "explicit"
   },
-  
+
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "jsx",
+  ],
+
   "prettier.tabWidth": 2,
   "prettier.useTabs": false,
   "prettier.semi": true,
   "prettier.trailingComma": "es5",
   "prettier.arrowParens": "always",
+
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -24,6 +34,7 @@
     "**/node_modules": true,
     "**/.next": true,
     "**/.vscode": true,
-    "**/next-env.d.ts": true
+    "**/next-env.d.ts": true,
+    "**/postcss.config.mjs": true
   }
 }

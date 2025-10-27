@@ -13,6 +13,8 @@ const fontLong = localFont({
     },
   ],
   variable: "--font-long",
+  display: "swap",
+  preload: true,
 });
 
 const fontRound = localFont({
@@ -34,6 +36,8 @@ const fontRound = localFont({
     },
   ],
   variable: "--font-round", // إنشاء متغير CSS لعائلة الخط
+  display: "swap",
+  preload: true,
 });
 
 export const metadata = {

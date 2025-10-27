@@ -70,7 +70,7 @@ function CalHero() {
     <section ref={containerRef} className="relative w-full overflow-hidden">
       <div
         ref={maskWrapperRef}
-        className="h-[135vh] bg-gta-transparent caloverlay"
+        className="h-[135vh] relative bg-gta-transparent caloverlay"
       >
         <Image
           ref={backgroundImageRef}
