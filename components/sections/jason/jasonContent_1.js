@@ -4,8 +4,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-
+import { buildImageUrl } from "@/lib/cloudinary";
 import ImageModal from "@/components/ImageModel";
+import { JasonImage } from "@/constants/assest";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,15 @@ const JasonContent_1 = () => {
   const PartOneRef = useRef(null);
   const rightColumRef = useRef(null);
   const fadeImageRef = useRef(null);
+
+  const ImageOne =  buildImageUrl(JasonImage.Image_1.src);
+  const ImageTwo =  buildImageUrl(JasonImage.Image_2.src);
+  const ImageThree =  buildImageUrl(JasonImage.Image_3.src);
+
+  const ImageViewerOne =  buildImageUrl(JasonImage.Viwer_1.src );
+  const ImageViewerTwo =  buildImageUrl(JasonImage.Viwer_2.src);
+  const ImageViewerThree =  buildImageUrl(JasonImage.Viwer_3.src );
+
 
   useGSAP(
     () => {
@@ -76,15 +86,15 @@ const JasonContent_1 = () => {
 
   return (
     <section ref={PartOneRef} className="relative z-10 grid-gallary gap-5">
-      <div className="col-[content-start/4] flex flex-col lg:gap-5">
-        <h1 className="text-yellow font-long uppercase md:text-[3.3rem] lg:text-[3.75rem] xl:text-[6rem] 2xl:text-9xl text-nowrap">
+      <div className="col-[content-start/4] flex flex-col gap-5 ">
+        <h1 className="text-yellow font-long uppercase md:text-[3.3rem] lg:text-[7vw] xl:text-[6rem] 2xl:text-9xl text-nowrap">
           Jason Duval
         </h1>
-        <div className="flex flex-col md:gap-4 2xl:gap-5 items-start justify-start ">
-          <h2 className="text-pink md:text-2xl lg:text-4xl xl:text-[2.5rem] 2xl:text-[3rem] font-round font-bold md:mx-5 xl:mx-15 2xl:mx-20 md:leading-6 lg:leading-8 xl:leading-9 2xl:leading-11 text-balance">
+        <div className="flex flex-col md:gap-4 2xl:gap-5 items-start justify-start mb-10">
+          <h2 className="text-pink md:text-2xl lg:text-4xl xl:text-[2.5rem] 2xl:text-[3rem] font-round font-bold md:mr-5 xl:mr-25 2xl:mr-20 md:leading-6 lg:leading-8 xl:leading-9 2xl:leading-11 text-balance">
             Jason wants an easy life, but things just keep getting harder.
           </h2>
-          <p className="text-white md:text-[0.8rem] lg:text-lg xl:text-[1.4rem] 2xl:text-[1.6rem] md:mx-5 lg:mx-6 xl:mx-10 2xl:mx-20  font-round font-black md:leading-4 lg:leading-5 xl:leading-7 text-balance md:mb-5 lg:mb-0 ">
+          <p className="text-white md:text-[0.8rem] lg:text-[1.25rem] xl:text-[1.4rem] 2xl:text-[1.6rem] md:mr-5 xl:mr-20 2xl:mx-20 font-round font-black md:leading-4 lg:leading-5 xl:leading-7 text-balance text-left  ">
             Jason grew up around grifters and crooks. After a stint in the Army
             trying to shake off his troubled teens, he found himself in the Keys
             doing what he knows best, working for local drug runners. It might
@@ -92,11 +102,12 @@ const JasonContent_1 = () => {
           </p>
         </div>
 
-        <div className="aspect-[9/16] max-w-full h-auto overflow-hidden ">
+        <div className="relative aspect-[9/16] max-w-full h-auto overflow-hidden ">
           <ImageModal
-            src="/images/People/jason/jason-1.webp"
-            alt="Jason Duval"
-            sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            src={ImageOne}
+            viewerImg={ImageViewerOne}
+            alt={JasonImage.Image_1.alt}
+            sizes={JasonImage.Image_1.size}
             className="object-cover [object-position:80%_center]"
             ButtonStyle="w-full h-full "
           />
@@ -105,22 +116,24 @@ const JasonContent_1 = () => {
 
       <div
         ref={rightColumRef}
-        className="col-[4/main-end] grid grid-cols-2 grid-rows-3 md:pt-25 lg:pt-40 gap-3 "
+        className="col-[4/main-end] grid grid-cols-3 grid-rows-2 gap-5 md:pt-25 xl:pt-40"
       >
-        <div className="relative aspect-[1/1] col-span-2">
+        <div className="relative max-w-full h-auto aspect-square overflow-hidden col-[1/4]">
           <ImageModal
-            src="/images/People/jason/jason-2.webp"
-            alt="Jason Duval"
-            sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            src={ImageTwo}
+            viewerImg={ImageViewerTwo}
+            alt={JasonImage.Image_2.alt}
+            sizes={JasonImage.Image_2.size}
             className="object-cover [object-position:5%_center]"
             ButtonStyle="h-full w-full "
           />
         </div>
-        <div className="relative row-span-1 col-span-1  aspect-[1/1]">
+        <div className="relative max-w-full h-auto  aspect-square overflow-hidden col-[1/3] ">
           <ImageModal
-            src="/images/People/jason/jason-6.webp"
-            alt="Jason Duval"
-            sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            src={ImageThree}
+            viewerImg={ImageViewerThree}
+            alt={JasonImage.Image_3.alt}
+            sizes={JasonImage.Image_3.size}
             className="object-cover"
             ButtonStyle="h-full w-full"
             fadeImageRef={fadeImageRef}

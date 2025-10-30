@@ -4,7 +4,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-
+import { buildImageUrl } from "@/lib/cloudinary";
+import { LuciaImage } from "@/constants/assest";
 import ImageModel from "@/components/ImageModel";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,78 +13,113 @@ gsap.registerPlugin(ScrollTrigger);
 function LuciaContent_2() {
   const PartTwoRef = useRef(null);
   const rightSideRef = useRef(null);
-
   const fadeImageRef = useRef(null);
+
+  const ImageFour = buildImageUrl(LuciaImage.Image_4.src);
+  const ImageFive = buildImageUrl(LuciaImage.Image_5.src);
+  const ImageSix = buildImageUrl(LuciaImage.Image_6.src);
+
+  const ImageViewerFour = buildImageUrl(LuciaImage.Viwer_4.src);
+  const ImageViewerFive = buildImageUrl(LuciaImage.Viwer_5.src);
+  const ImageViewerSix = buildImageUrl(LuciaImage.Viwer_6.src);
 
   useGSAP(
     () => {
-      gsap.set(PartTwoRef.current, { marginTop: "-20vh" });
-      gsap.set(fadeImageRef.current, { opacity: 0 });
+      const mm = gsap.matchMedia();
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: PartTwoRef.current,
-          start: "top top",
-          end: "+=1800 bottom",
-          scrub: true,
-          // markers: true,
+      mm.add(
+        {
+          isDesktop: "(min-width: 1024px)",
+          isTablet: "(min-width: 768px) and (max-width: 1023px)",
+          isMobile: "(max-width: 767px)",
         },
-      });
-      tl.to(rightSideRef.current, { y: -100, ease: "none", duration: 1 }).to(
-        fadeImageRef.current,
-        { opacity: 1, ease: "none", duration: 0.6 },
-        "0"
+        (context) => {
+          let { isDesktop, isTablet, isMobile } = context.conditions;
+          if (isDesktop) {
+            gsap.set(PartTwoRef.current, { marginTop: "190vh" });
+          } else if (isTablet) {
+            gsap.set(PartTwoRef.current, { marginTop: "200vh" });
+          } else if (isMobile) {
+            gsap.set(PartTwoRef.current, { marginTop: "150vh" });
+          }
+          gsap.set(fadeImageRef.current, { opacity: 0 });
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: PartTwoRef.current,
+              start: "top top",
+              end: "+=1800 bottom",
+              scrub: true,
+              // markers: true,
+            },
+          });
+          tl.to(rightSideRef.current, {
+            y: -100,
+            ease: "none",
+            duration: 1,
+          }).to(
+            fadeImageRef.current,
+            { opacity: 1, ease: "none", duration: 0.6 },
+            "0"
+          );
+        }
       );
     },
     {
       scope: PartTwoRef,
     }
   );
+
   return (
-    <section
-      ref={PartTwoRef}
-      className="relative py-10 w-full ps-49 min-h-dvw z-10 flex flex-col md:flex-row gap-5 overflow-hidden"
-    >
+    <section ref={PartTwoRef} className="relative z-10 grid-gallary gap-5">
       <div
         ref={rightSideRef}
-        className="flex flex-col  jason-content gap-20 mt-30"
+        className="flex flex-col col-[content-start/4] jason-content gap-20"
       >
-        <p className="text-white max-w-85 md:text-[1.4rem] text-lg font-round font-black leading-tight self-center mr-30">
+        <p className="text-white md:text-[0.8rem] lg:text-lg xl:text-[1.4rem] 2xl:text-[1.6rem] md:mx-5 lg:mx-8 xl:mx-25 2xl:mx-20  font-round font-black md:leading-4 lg:leading-5 xl:leading-6 text-pretty text-left md:mb-5 lg:mb-0">
           Fresh out of prison and ready to change the odds in her favor, Lucia’s
           committed to her plan — no matter what it takes.
         </p>
-        <ImageModel
-          src="/images/People/lucia/lucia-6.webp"
-          alt="Jason Duval"
-          sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-          className="object-cover [object-position:60%_center]"
-          ButtonStyle="w-[35vw] h-[110vh] "
-        />
+        <div className="relative max-w-full h-auto aspect-[9/16] overflow-hidden">
+          <ImageModel
+            src={ImageFive}
+            viewerImg={ImageViewerFive}
+            alt={LuciaImage.Image_5.alt}
+            sizes={LuciaImage.Image_5.size}
+            className="object-cover [object-position:60%_center]"
+            ButtonStyle="w-full h-full "
+          />
+        </div>
       </div>
 
-      <div className="flex flex-col w-full ">
-        <h2 className=" text-pink md:text-[2.7rem] font-round font-bold text-3xl ml-25 mb-25 leading-11 self-start">
+      <div className=" col-[4/main-end] grid grid-cols-3 items-center justify-center gap-5 ">
+        <h2 className=" text-pink md:text-[2.7rem] font-round font-bold text-3xl leading-11 col-[1/3] ml-20  text-pretty text-left  ">
           A life with
           <br />
           Jason could be
           <br />
           her way out.
         </h2>
-        <div className="relative w-full flex flex-col gap-5 justify-end items-start">
+        <div className="relative max-w-full h-auto aspect-square overflow-hidden col-[1/4] ">
           <ImageModel
-            src="/images/People/lucia/lucia-4.webp"
-            alt="Jason Duval"
-            sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
+            src={ImageFour}
+            viewerImg={ImageViewerFour}
+            alt={LuciaImage.Image_4.alt}
+            sizes={LuciaImage.Image_4.size}
             className="object-cover [object-position:0%_center] "
-            ButtonStyle="w-[50vw] h-[80vh] "
+            ButtonStyle="w-full h-full "
             priority
           />
+        </div>
+
+        <div className="relative max-w-full h-auto aspect-[1/1] overflow-hidden col-[1/3] ">
           <ImageModel
-            src="/images/People/lucia/Lucia-3.webp"
-            alt="Jason Duval"
-            sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 30vw"
+            src={ImageSix}
+            viewerImg={ImageViewerSix}
+            alt={LuciaImage.Image_6.alt}
+            sizes={LuciaImage.Image_6.size}
             className=" object-cover [object-position:20%_center]  "
-            ButtonStyle="h-[50vh] w-[30vw]"
+            ButtonStyle="h-full w-full"
             fadeImageRef={fadeImageRef}
           />
         </div>

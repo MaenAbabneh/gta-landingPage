@@ -6,19 +6,16 @@ import { useState } from "react";
 
 import { buildVideoUrl } from "@/lib/cloudinary";
 
-// --- The Reusable Hook ---
 export function useResponsiveVideo(publicId) {
   const [videoSource, setVideoSource] = useState(null);
 
-  // This hook only runs once to determine the correct video source.
   useGSAP(() => {
     if (!publicId) return;
 
-    // Build URLs using shared helper for consistency
     const desktopUrl = buildVideoUrl(publicId);
-    const mobileUrl = buildVideoUrl(publicId); // Can customize for mobile later
+    const mobileUrl = buildVideoUrl(publicId); 
 
-    // 3. Use GSAP's MatchMedia to detect the device and set the source
+
     const mm = gsap.matchMedia();
     mm
       .add("(min-width: 769px)", () => {
@@ -32,7 +29,7 @@ export function useResponsiveVideo(publicId) {
     return () => {
       mm.revert();
     };
-  }, [publicId]); // Dependency array ensures this runs if the publicId changes
+  }, [publicId]); 
 
   return videoSource;
 }

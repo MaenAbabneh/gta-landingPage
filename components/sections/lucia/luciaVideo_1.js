@@ -17,9 +17,6 @@ function LuciaVideo() {
   const canvasRef = useRef(null);
 
   const videoSrc = useResponsiveVideo("Lucia_Caminos_1_rlbk0h");
-  const posterUrl = buildImageUrl("Lucia_Caminos_1_rlbk0h", {
-    videoThumbnail: true,
-  });
 
   useGSAP(
     () => {
@@ -40,7 +37,7 @@ function LuciaVideo() {
         }
       );
 
-      gsap.set(videoTwoRef.current, { marginTop: "-100vh" });
+      gsap.set(videoTwoRef.current, { marginTop: "-80vh" });
       gsap.set(videoOverlayRef.current, {
         maskImage:
           "radial-gradient(circle at 50vw -50vh, rgb(0, 0, 0) 50vw, rgb(0, 0, 0) 100vw)",
@@ -52,34 +49,24 @@ function LuciaVideo() {
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
         }
       };
-      let tl;
-      let lastTime = -1; // تتبع آخر وقت
 
       const setupAnimation = () => {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
-        tl = gsap.timeline({
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: videoTwoRef.current,
             start: "top top",
-            end: "+=3000 bottom",
+            end: "+=2000",
             scrub: true,
             pin: true,
             pinSpacing: false,
-            onEnter: () => {
-              lastTime = -1;
-            },
             onUpdate: (self) => {
               if (video.duration) {
-                // تثبيت الوقت على 60fps
-                const targetTime =
-                  Math.round(self.progress * video.duration * 60) / 60;
-
-                // تحديث فقط إذا كان الفرق ملحوظاً
-                if (Math.abs(targetTime - lastTime) > 1 / 60) {
-                  video.currentTime = targetTime;
-                  lastTime = targetTime;
+                const newTime = self.progress * video.duration;
+                if (Math.abs(newTime - video.currentTime) > 0.05) {
+                  video.currentTime = newTime;
                 }
               }
             },
@@ -90,7 +77,7 @@ function LuciaVideo() {
           videoOverlayRef.current,
           {
             opacity: 1,
-            duration: 1.5,
+            duration: 0.3,
             ease: "expo.Out",
           },
           0
@@ -108,10 +95,10 @@ function LuciaVideo() {
           videoOverlayRef.current,
           {
             opacity: 0,
-            duration: 1.5,
+            duration: 1.2,
             ease: "expo.in",
           },
-          "<+=3"
+          "<90%"
         );
 
         gsap.ticker.add(drawVideoToCanvas);
@@ -153,23 +140,29 @@ function LuciaVideo() {
   return (
     <section
       ref={videoTwoRef}
-      className="relative w-full h-dvh overflow-hidden "
+      className="relative w-full h-lvh overflow-hidden "
     >
-      <div ref={videoOverlayRef} className="h-dvh">
+      <div
+        ref={videoOverlayRef}
+        className="absolute inset-0 z-0 overflow-hidden h-lvh"
+      >
         <video
           ref={VideoRef}
           src={videoSrc}
-          poster={posterUrl}
           muted
           aria-label="Video showing Jason Duval in various scenes"
           preload="auto"
           crossOrigin="anonymous"
           playsInline
           className="hidden"
+          style={{
+            display: "none",
+            crossOrigin: "anonymous",
+          }}
         />
         <canvas
           ref={canvasRef}
-          className="absoulte inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:20%_center] aspect-[4/3] md:aspect-[16/9]"
+          className="absoulte inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:40%_center] aspect-video"
           style={{
             imageRendering: "optimizeSpeed",
             willChange: "transform",

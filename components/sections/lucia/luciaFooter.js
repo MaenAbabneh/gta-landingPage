@@ -14,43 +14,61 @@ function LuciaFooter() {
 
   useGSAP(
     () => {
-      // ... أنيميشن GSAP الخاص بك يبقى كما هو ...
-      gsap.set(textRef.current, {
-        backgroundImage:
-          "radial-gradient(at 80% 40%, rgb(252, 82, 67) 0%, rgb(223, 58, 147) 50%, transparent 100%)",
-      });
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top center", // تم تعديل نقطة البداية لتناسب التخطيط الجديد
-          end: "+=2000", // يمكنك تعديل هذا حسب الطول المطلوب للأنيميشن
-          scrub: 2,
-          pinSpacing: false,
-          // markers: true,
-        },
-      });
-      tl.to(
-        textRef.current,
+      const mm = gsap.matchMedia();
+
+      mm.add(
         {
-          backgroundImage:
-            "radial-gradient(at 70% 70%, rgb(255, 185, 156) 0%, rgb(255, 249, 203) 100%)",
-          ease: "none",
-          duration: 1.5,
+          isDesktop: "(min-width: 1024px)",
+          isTablet: "(min-width: 768px) and (max-width: 1023px)",
+          isMobile: "(max-width: 767px)",
         },
-        0
-      );
-      tl.fromTo(
-        backgroundImageRef.current,
-        { objectPosition: "50% 10%",  },
-        { objectPosition: "50% 50%", ease: "none", duration: 1.2 },
-        0
-      ).fromTo(
-        overlayRef.current,
-        {
-          "--outroShift": 6,
-        },
-        { "--outroShift": 0, ease: "none" , duration: 1.2 },
-        0
+        (context) => {
+          let { isDesktop, isTablet, isMobile } = context.conditions;
+          if (isDesktop) {
+            gsap.set(containerRef.current, { marginTop: "20vh" });
+          } else if (isTablet) {
+            gsap.set(containerRef.current, { marginTop: "30vh" });
+          } else if (isMobile) {
+            gsap.set(containerRef.current, { marginTop: "80vh" });
+          }
+          gsap.set(textRef.current, {
+            backgroundImage:
+              "radial-gradient(at 80% 40%, rgb(252, 82, 67) 0%, rgb(223, 58, 147) 50%, transparent 100%)",
+          });
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top center", // تم تعديل نقطة البداية لتناسب التخطيط الجديد
+              end: "+=2000", // يمكنك تعديل هذا حسب الطول المطلوب للأنيميشن
+              scrub: 2,
+              pinSpacing: false,
+              // markers: true,
+            },
+          });
+          tl.to(
+            textRef.current,
+            {
+              backgroundImage:
+                "radial-gradient(at 70% 70%, rgb(255, 185, 156) 0%, rgb(255, 249, 203) 100%)",
+              ease: "none",
+              duration: 1.5,
+            },
+            0
+          );
+          tl.fromTo(
+            backgroundImageRef.current,
+            { objectPosition: "50% 10%" },
+            { objectPosition: "50% 50%", ease: "none", duration: 1.2 },
+            0
+          ).fromTo(
+            overlayRef.current,
+            {
+              "--outroShift": 6,
+            },
+            { "--outroShift": 0, ease: "none", duration: 1.2 },
+            0
+          );
+        }
       );
     },
     { scope: containerRef }
@@ -62,7 +80,6 @@ function LuciaFooter() {
       {/* 2. حاوية الصورة، الآن هي عنصر عادي بارتفاع شاشة كاملة */}
       <div
         ref={overlayRef}
-      
         className="relative w-full h-[110vh] bg-gta-transparent outroLucia"
       >
         <Image

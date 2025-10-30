@@ -18,9 +18,7 @@ function LuciaVideo_2() {
   const quoteRef = useRef(null);
 
   const videoSrc = useResponsiveVideo("Lucai_Caminos_2_rqqw1q");
-  const posterUrl = buildImageUrl("Lucai_Caminos_2_rqqw1q", {
-    videoThumbnail: true,
-  });
+
 
   useGSAP(
     () => {
@@ -211,14 +209,14 @@ function LuciaVideo_2() {
   return (
     <section
       ref={videoTwoRef}
-      className="relative w-full h-[300vh] overflow-hidden "
+      className="relative w-full h-lvh overflow-hidden "
     >
-      <div className="absolute inset-0 h-dvh w-full">
+    
+      <div className="absolute z-0 inset-0 h-lvh overflow-hidden">
         <div ref={videoOverlayRef}>
           <video
             ref={VideoRef}
             src={videoSrc}
-            poster={posterUrl}
             muted
             aria-label="Video showing Jason Duval in various scenes"
             preload="auto"
@@ -228,7 +226,7 @@ function LuciaVideo_2() {
           />
           <canvas
             ref={canvasRef}
-            className="absoulte inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:20%_center] aspect-[4/3] md:aspect-[16/9]"
+            className="absoulte inset-0 h-lvh w-full object-cover [object-position:70%_center] lg:[object-position:60%_center] xl:[object-position:60%_center] aspect-video"
             style={{
               imageRendering: "optimizeSpeed",
               willChange: "transform",

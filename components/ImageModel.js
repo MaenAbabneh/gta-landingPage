@@ -16,6 +16,7 @@ gsap.registerPlugin(Flip);
 
 const ImageModal = ({
   src,
+  viewerImg,
   alt,
   className,
   sizes,
@@ -34,7 +35,6 @@ const ImageModal = ({
 
   useScrollLock(isOpen);
 
-  // تم نقل منطق الأنيميشن إلى useGSAP ليعتمد على تغيير isOpen
   useGSAP(
     () => {
       if (!isOpen) return;
@@ -43,15 +43,12 @@ const ImageModal = ({
       const button = buttonRef.current;
       if (!portal || !button) return;
 
-      const rect = button.getBoundingClientRect(); // أبعاد الزر الأصلي
+      const rect = button.getBoundingClientRect();
 
       const modalImage = portal.querySelector(".modal-image");
       const modalBg = portal.querySelector(".modal-bg");
-      const thumbImg = portal.querySelector(".thumb-image");
-      const viewerImg = portal.querySelector(".viewer-image");
-      const zoomWrap = portal.querySelector(".zoom-wrap");
       const vignette = portal.querySelector(".vignette");
-      const modalBurger = portal.querySelector(".modal-burger"); // زر الإغلاق داخل الـ modal
+      const modalBurger = portal.querySelector(".modal-burger");
 
       // الخطوة 1: جهّز الحالة الأولية للـ modal ليبدو مطابقًا للزر
       gsap.set(modalImage, {
@@ -60,53 +57,98 @@ const ImageModal = ({
         width: rect.width,
         height: rect.height,
       });
-      gsap.set(thumbImg, { opacity: 1 });
-      gsap.set(viewerImg, { opacity: 0 });
       gsap.set(modalBg, { opacity: 0 });
-      // ... تحضير باقي العناصر الداخلية
-      gsap.set(zoomWrap, { scale: 1, filter: "blur(2px)" });
       gsap.set(vignette, { opacity: 0 });
 
       if (modalBurger) {
-        gsap.set(modalBurger, { opacity: 0 , scale: 0.95 , pointerEvents: "none" });
+        gsap.set(modalBurger, {
+          opacity: 0,
+          pointerEvents: "none",
+        });
       }
 
       // الخطوة 2: التقط هذه الحالة الأولية كنقطة بداية للأنيميشن
       const state = Flip.getState(modalImage);
 
-      // الخطوة 3: حدد الحالة النهائية (ملء الشاشة)
-      gsap.set(modalImage, {
-        width: "100vw",
-        height: "100vh",
-        top: 0,
-        left: 0,
-      });
+      const finalSrc = viewerImg || src;
 
-      // الخطوة 4: قم بالتحريك من الحالة الأولى إلى الحالة النهائية
-      Flip.from(state, {
-        duration: 1.2,
-        ease: "expo.inOut",
-        onStart: () => {
-          // هنا نقوم بالأنيميشنات الداخلية التي لم تتغير
-          const tl = gsap.timeline();
-          tl.to(modalBg, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0);
-          tl.to(zoomWrap, { filter: "blur(0px)", scale: 1, duration: 0.8 }, 0);
-          tl.to(vignette, { opacity: 0.5, duration: 1.2 }, 0);
-          tl.to(
-            thumbImg,
-            { opacity: 0, duration: 0.45, ease: "power2.out" },
-            0.15
+      const runFlipWithSize = (finalW, finalH) => {
+        // ضع modalImage في الحالة النهائية (مركزيّة مع الحفاظ على الحجم)
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const top = Math.max(0, (vh - finalH) / 2);
+        const left = Math.max(0, (vw - finalW) / 2);
+
+        gsap.set(modalImage, {
+          width: finalW,
+          height: finalH,
+          top,
+          left,
+        });
+
+        // الخطوة 4: قم بالتحريك من الحالة الأولى إلى الحالة النهائية
+        Flip.from(state, {
+          duration: 0.7,
+          ease: "expo.inOut",
+          onStart: () => {
+            // هنا نقوم بالأنيميشنات الداخلية التي لم تتغير
+            const tl = gsap.timeline();
+            tl.to(
+              modalBg,
+              { opacity: 1, duration: 0.6, ease: "power2.out" },
+              0
+            );
+            tl.to(vignette, { opacity: 0.5, duration: 1.2 }, 0);
+
+            if (modalBurger) {
+              tl.to(
+                modalBurger,
+                {
+                  opacity: 1,
+                  duration: 0.6,
+                  ease: "power2.out",
+                  pointerEvents: "auto",
+                },
+                0.9
+              );
+            }
+          },
+        });
+      };
+
+      // حاول تحميل الصورة للحصول على أبعادها الحقيقية
+      if (finalSrc) {
+        const probe = new window.Image();
+        probe.src = finalSrc;
+        const handle = () => {
+          const naturalW = probe.naturalWidth || window.innerWidth;
+          const naturalH = probe.naturalHeight || window.innerHeight;
+          // قيّد الحجم ليتناسب مع نافذة العرض
+          const scale = Math.min(
+            1,
+            Math.min(
+              window.innerWidth / naturalW,
+              window.innerHeight / naturalH
+            )
           );
-          tl.to(
-            viewerImg,
-            { opacity: 1, duration: 0.45, ease: "power2.out" },
-            0.15
+          runFlipWithSize(
+            Math.round(naturalW * scale),
+            Math.round(naturalH * scale)
           );
-          if (modalBurger) {
-            tl.to(modalBurger, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out", pointerEvents: "auto" }, 0.9);
-          }
-        },
-      });
+        };
+        if (probe.complete) {
+          handle();
+        } else {
+          probe.onload = handle;
+          probe.onerror = () => {
+            // في حال فشل تحميل الصورة، استخدم ملء الشاشة كاحتياط
+            runFlipWithSize(window.innerWidth, window.innerHeight);
+          };
+        }
+      } else {
+        // لا يوجد مصدر نهائي، استخدم ملء الشاشة
+        runFlipWithSize(window.innerWidth, window.innerHeight);
+      }
     },
     { dependencies: [isOpen], scope: portalRef }
   ); // يعتمد على isOpen
@@ -124,11 +166,9 @@ const ImageModal = ({
 
     const modalImage = portal.querySelector(".modal-image");
     const modalBg = portal.querySelector(".modal-bg");
-    const thumbImg = portal.querySelector(".thumb-image");
-    const viewerImg = portal.querySelector(".viewer-image");
-    const zoomWrap = portal.querySelector(".zoom-wrap");
     const vignette = portal.querySelector(".vignette");
-    const modalBurger = portal.querySelector(".modal-burger"); 
+    const modalBurger = portal.querySelector(".modal-burger");
+
     // الخطوة 1: التقط الحالة الحالية (ملء الشاشة)
     const state = Flip.getState(modalImage);
 
@@ -142,17 +182,24 @@ const ImageModal = ({
 
     // الخطوة 3: قم بالتحريك من حالة ملء الشاشة إلى الحالة النهائية
     Flip.from(state, {
-      duration: 0.6,
-      ease: "power3.inOut",
+      duration: 0.7,
+      ease: "expo.inOut",
       onStart: () => {
         const tl = gsap.timeline();
-        tl.to(viewerImg, { opacity: 0, duration: 0.2, ease: "power2.in" }, 0);
-        tl.to(thumbImg, { opacity: 1, duration: 0.2, ease: "power2.in" }, 0);
-        tl.to(zoomWrap, { scale: 0.98, filter: "blur(1px)", duration: 0.6 }, 0);
         tl.to(vignette, { opacity: 0, duration: 0.3, ease: "power2.in" }, 0);
         tl.to(modalBg, { opacity: 0, duration: 0.3, ease: "power2.in" }, 0);
         if (modalBurger) {
-          tl.to(modalBurger, { opacity: 0, scale: 0.95, duration: 0.3, ease: "power2.in", pointerEvents: "none" }, 0);
+          tl.to(
+            modalBurger,
+            {
+              opacity: 0,
+              scale: 0.95,
+              duration: 0.3,
+              ease: "power2.in",
+              pointerEvents: "none",
+            },
+            0
+          );
         }
       },
       onComplete: () => {
@@ -169,8 +216,12 @@ const ImageModal = ({
         className={`relative ${ButtonStyle}`}
         aria-label={`Open ${alt || "image"} in modal`}
       >
-        <div ref={fadeImageRef} className="group relative max-w-full h-full overflow-hidden">
+        <div
+          ref={fadeImageRef}
+          className="group relative max-w-full h-full overflow-hidden"
+        >
           <Image
+            suppressHydrationWarning={true}
             src={src}
             alt={alt}
             fill
@@ -203,27 +254,14 @@ const ImageModal = ({
                 {/* الصورة الأولى (تبدأ بحجم الزر) */}
                 <div className="absolute inset-0">
                   <Image
-                    src={src}
-                    alt={alt}
-                    fill
-                    sizes={sizes}
-                    unoptimized
-                    className={`${className} thumb-image`}
-                  />
-                </div>
-
-                {/* الصورة الثانية (التي تظهر في النهاية) */}
-                <div className="absolute inset-0">
-                  <Image
-                    src={src}
+                    src={viewerImg}
                     alt={alt}
                     fill
                     sizes="100vw"
                     unoptimized
-                    className="object-contain viewer-image"
+                    className={`${className} thumb-image`}
                   />
                 </div>
-
                 <div
                   className="vignette absolute inset-0 pointer-events-none"
                   style={{
@@ -239,7 +277,7 @@ const ImageModal = ({
               setIsMenuOpen={closeModal}
               isOpenStyle="modal-burger burger-lightbox hover:bg-gta-gray-dark transition-colors"
               spanStyleUp=" !bg-gta-pink"
-              spanStyleDown="!mb-1 !bg-gta-pink"
+              spanStyleDown="!bg-gta-pink"
             />
           </div>,
           document.body

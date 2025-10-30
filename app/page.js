@@ -2,7 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -26,11 +26,9 @@ export default function Home() {
 
   const lenis = useLenis();
 
-  // تفعيل التكامل بين GSAP و Lenis لجميع ScrollTriggers
   useGSAPLenis();
 
   useEffect(() => {
-    // تحقق من أن التغيير ليس من scroll طبيعي
     if (window.history.state?.fromScroll) {
       return;
     }
@@ -115,8 +113,8 @@ export default function Home() {
     <main>
       <div className="bg-hero-gradient fixed inset-0 -z-10 transition-colors" />
       <Navbar />
-      
-      <Hero/>
+
+      <Hero />
       <JasonIntro />
       <Jason />
       <Lucia />

@@ -39,8 +39,8 @@ function LeftPreviewPane({ hoveredItem, activeTab, ref }) {
     if (!shouldShowImage) {
       if (activeLayerRef.current === logoLayerRef.current) return;
 
-      gsap.to(activeLayerRef.current, { opacity: 0, duration: 0.4 });
-      gsap.to(logoLayerRef.current, { opacity: 1, duration: 0.4 });
+      gsap.to(activeLayerRef.current, { opacity: 0, duration: 0.6 });
+      gsap.to(logoLayerRef.current, { opacity: 1, duration: 0.6, delay: 0.2 });
       activeLayerRef.current = logoLayerRef.current;
       return;
     }
@@ -59,6 +59,7 @@ function LeftPreviewPane({ hoveredItem, activeTab, ref }) {
     nextImageLayer.dataset.src = hoveredItem.image;
 
     gsap.set(nextImageLayer, { x: "0%" });
+
     // قم بتشغيل أنيميشن التلاشي المتقاطع
     const tl = gsap.timeline({
       defaults: { ease: "power2.inOut" },
@@ -91,35 +92,39 @@ function LeftPreviewPane({ hoveredItem, activeTab, ref }) {
     isLayer1Next.current = !isLayer1Next.current;
   }, [hoveredItem, activeTab]);
   return (
-    <div
-      ref={leftColumRef}
-      className="relative h-full w-full col-[1/2] md:col-[1/3] lg:col-[1/4] justify-center hidden md:grid grid-cols-3 items-center "
-    >
-      <Image
-        ref={imageLayer1Ref}
-        src={transparentPixel} // المصدر الأولي فارغ
-        alt=""
-        fill
-        sizes="100vw"
-        className="absolute inset-0 object-cover opacity-0 pointer-events-none"
-      />
-
-      {/* طبقة الصورة الثانية */}
-      <Image
-        ref={imageLayer2Ref}
-        src={transparentPixel} // المصدر الأولي فارغ
-        alt=""
-        fill
-        sizes="100vw"
-        className="absolute inset-0 object-cover opacity-0 pointer-events-none"
-      />
+    <>
       <div
-        ref={logoLayerRef}
-        className="logo-glow w-full h-full  col-start-1 col-span-3  flex items-center justify-center"
+        ref={leftColumRef}
+        className="relative h-full w-full col-[1/2] md:col-[1/3] lg:col-[1/4] justify-center hidden md:grid grid-cols-3 items-center "
       >
-        <NavLogo />
+        <div
+          ref={logoLayerRef}
+          className="logo-glow w-full h-full  col-start-1 col-span-3  flex items-center justify-center"
+        >
+          <NavLogo />
+        </div>
       </div>
-    </div>
+      <div className="absolute inset-0 h-full w-full pointer-events-none overflow-visible ">
+        <Image
+          ref={imageLayer1Ref}
+          src={transparentPixel} // المصدر الأولي فارغ
+          alt=""
+          fill
+          sizes="100vw"
+          className="absolute inset-0 object-cover opacity-0 w-full h-full pointer-events-none"
+        />
+
+        {/* طبقة الصورة الثانية */}
+        <Image
+          ref={imageLayer2Ref}
+          src={transparentPixel} // المصدر الأولي فارغ
+          alt=""
+          fill
+          sizes="100vw"
+          className="absolute inset-0 object-cover w-full h-full   opacity-0 pointer-events-none"
+        />
+      </div>
+    </>
   );
 }
 
