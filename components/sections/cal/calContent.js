@@ -4,80 +4,320 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-
+import { buildImageUrl } from "@/lib/cloudinary";
+import { CalImage } from "@/constants/assest";
 import ImageModel from "@/components/ImageModel";
+import { useResponsiveVideo } from "@/hooks/useResponsive";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function CalContent() {
   const PartTwoRef = useRef(null);
   const rightSideRef = useRef(null);
+  const leftImageRef = useRef(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const FirstVideoRef = useRef(null);
+  const textRef = useRef(null);
 
-  const fadeImageRef = useRef(null);
+  const videoSrc = useResponsiveVideo("Cal_Hampton_mnncgn");
+
+  const ImageOne = buildImageUrl(CalImage.Image_1.src);
+  const ImageTwo = buildImageUrl(CalImage.Image_4.src);
+  const ImageThree = buildImageUrl(CalImage.Image_2.src);
+  const ImageFour = buildImageUrl(CalImage.Image_3.src);
+
+  const ImageViewerOne = buildImageUrl(CalImage.Viwer_1.src);
+  const ImageViewerTwo = buildImageUrl(CalImage.Viwer_4.src);
+  const ImageViewerThree = buildImageUrl(CalImage.Viwer_2.src);
+  const ImageViewerFour = buildImageUrl(CalImage.Viwer_3.src);
 
   useGSAP(
     () => {
-      gsap.set(PartTwoRef.current, { marginTop: "-20vh" });
-      gsap.set(fadeImageRef.current, { opacity: 0 });
+      if (!videoSrc) return;
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: PartTwoRef.current,
-          start: "top top",
-          end: "+=1800 bottom",
-          scrub: true,
-          pinSpacing: false,
-          // markers: true,
-        },
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+
+      if (!video) return;
+
+      const context = canvas.getContext("2d");
+      if (!canvas || !context) return;
+
+      gsap.set([FirstVideoRef.current, canvasRef.current, videoRef.current], {
+        willChange: "transform, opacity, filter",
+        force3D: true,
       });
-      tl.to(rightSideRef.current, { y: -100, ease: "none", duration: 1 }).to(
-        fadeImageRef.current,
-        { opacity: 1, ease: "none", duration: 0.6 },
-        "0"
-      );
+
+      gsap.set(PartTwoRef.current, { marginTop: "-20vh" });
+      const setupAnimation = () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // الحصول على عنصر الـ overlay
+        const bgoverlay = PartTwoRef.current.querySelector(
+          '[data-overlay="bg-overlay"]'
+        );
+        const overlay = FirstVideoRef.current.querySelector(
+          '[data-overlay="video-overlay"]'
+        );
+
+        // تايملاين السكشن لتحريك العمود لِلأعلى بدون التأثير على التثبيت
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: PartTwoRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+            ease: "none",
+            invalidateOnRefresh: true, // أعد حساب المواقع/القيم عند أي refresh
+            anticipatePin: 1,
+            // markers: true,
+          },
+        });
+
+        // حرك محتوى العمود فقط: الصورة + طبقة حركة الفيديو
+        tl.to(rightSideRef.current, { y: 150, ease: "none" }, 0);
+
+        const videoST = ScrollTrigger.create({
+          trigger: FirstVideoRef.current,
+          start: "center center",
+          end: "bottom top",
+          scrub: true,
+          pin: leftImageRef.current,
+          invalidateOnRefresh: true, // أعد حساب المواقع/القيم عند أي refresh
+          ease: "none",
+          // markers: true,
+          onUpdate: (self) => {
+            if (video.duration) {
+              const newTime = self.progress * video.duration;
+              if (Math.abs(newTime - video.currentTime) > 0.05) {
+                video.currentTime = newTime;
+              }
+            }
+          },
+        });
+
+        gsap.set(overlay, { opacity: 1 });
+        gsap.set([bgoverlay , textRef.current], { opacity: 0 });
+        gsap.set(".img-fade", { opacity: 1 });
+        const overlayTL = gsap.timeline({
+          scrollTrigger: {
+            trigger: FirstVideoRef.current,
+            start: "top-=800 bottom", // يبدأ قبل ظهور الفيديو بـ800px (أبكر بكثير)
+            end: "bottom top", // ينتهي عند خروج الفيديو من التثبيت مباشرة
+            scrub: true,
+            ease: "none",
+            // markers: true,
+          },
+        });
+
+        // ظهور الخلفية (من البداية حتى بداية التثبيت)
+        overlayTL.to(
+          overlay,
+          {
+            opacity: 0,
+            ease: "none",
+          },
+          0
+        );
+        overlayTL.to(
+          bgoverlay,
+          {
+            opacity: 1,
+            ease: "none",
+          },
+          0
+        );
+        overlayTL.to(
+          ".img-fade",
+          {
+            opacity: 0,
+            duration: 0.3,
+          }, 0.17
+        );
+
+        // اختفاء الخلفية (بعد نهاية التثبيت)
+        overlayTL.to(
+          overlay,
+          {
+            opacity: 1,
+            ease: "none",
+          },
+          0.8
+        ); // يبدأ الاختفاء في 80% من المسافة الكلية (أبكر)
+        overlayTL.to(
+          bgoverlay,
+          {
+            opacity: 0,
+            ease: "none",
+          },
+          0.8
+        );
+        overlayTL.to(
+          textRef.current,
+          {
+            opacity: 1,
+          }, 0.5
+        );
+        overlayTL.to(
+          ".img-fade",
+          {
+            opacity: 1,
+            duration: 0.3,
+          }, 0.8
+        );
+
+        const draw = () => {
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        };
+        gsap.ticker.add(draw);
+
+        return () => {
+          gsap.ticker.remove(draw);
+          videoST.kill();
+          overlayTL.scrollTrigger?.kill();
+          overlayTL.kill();
+          tl.scrollTrigger?.kill();
+          tl.kill();
+        };
+      };
+
+      const waitForVideo = () => {
+        if (video.readyState >= 1 && video.duration) {
+          setupAnimation();
+        } else {
+          video.addEventListener(
+            "loadedmetadata",
+            () => {
+              setupAnimation();
+            },
+            { once: true }
+          );
+        }
+      };
+
+      const timer = setTimeout(waitForVideo, 100);
+
+      return () => {
+        clearTimeout(timer);
+      };
     },
     {
       scope: PartTwoRef,
+      dependencies: [videoSrc],
     }
   );
   return (
     <section
       ref={PartTwoRef}
-      className="relative py-10 w-full ps-49 min-h-dvw z-10 flex flex-col md:flex-row gap-5 "
+      className="relative z-10 cal-gallary gap-x-5 items-start pb-[30vh]"
     >
-    <div className=" calContent absolute inset-0 z-[-3]" />
       <div
-        ref={rightSideRef}
-        className="flex flex-col gap-20 mt-30 "
-      >
-     
-        <ImageModel
-          src="/images/People/cal/Cal-4.webp"
-          alt="Jason Duval"
-          sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-          className="object-cover [object-position:50%_center]"
-          ButtonStyle="w-[35vw] h-[65vh] "
-        />
+        className="fixed inset-0 w-full h-full bg-black/70  pointer-events-none"
+        style={{ opacity: 0 }}
+        data-overlay="bg-overlay"
+      />
+
+      <div className="col-[main-start/mid] self-auto">
+        <div
+          ref={leftImageRef}
+          className="grid grid-cols-7 gap-5 md:pt-25 xl:pt-30 "
+        >
+          <div className="relative w-full h-auto aspect-[1/1] overflow-hidden col-[3/8] img-fade">
+            <ImageModel
+              src={ImageTwo}
+              viewerImg={ImageViewerTwo}
+              alt={CalImage.Image_1.alt}
+              sizes={CalImage.Image_1.size}
+              className="object-cover [object-position:50%_center]"
+              ButtonStyle="w-full h-full "
+            />
+          </div>
+          <div
+            data-background="cal-video"
+            ref={FirstVideoRef}
+            className="col-[1/8] video-overlay h-auto w-full aspect-square "
+          >
+            <video
+              ref={videoRef}
+              src={videoSrc}
+              preload="metadata"
+              playsInline
+              muted
+              crossOrigin="anonymous"
+              aria-label="Jason embracing Lucia while looking into the distance."
+              className="absolute inset-0 w-full h-full object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]  z-2 overflow-clip"
+            />
+
+            <canvas
+              ref={canvasRef}
+              className="absolute inset-0 w-full h-full object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]  z-1 overflow-clip"
+            />
+
+            <div
+              className="absolute inset-0 w-full h-full bg-gta-dark-blue/90 z-[3] pointer-events-none"
+              style={{ opacity: 0 }}
+              data-overlay="video-overlay"
+            />
+          </div>
+          <div className="relative w-full h-auto aspect-[9/16] overflow-hidden col-[4/8] img-fade">
+            <ImageModel
+              src={ImageThree}
+              viewerImg={ImageViewerThree}
+              alt={CalImage.Image_1.alt}
+              sizes={CalImage.Image_1.size}
+              className="object-cover [object-position:50%_center]"
+              ButtonStyle="w-full h-full "
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="flex flex-col w-full ">
-        <div className="relative w-full flex flex-col gap-5 justify-end items-start">
-          <ImageModel
-            src="/images/People/cal/Cal-1.webp"
-            alt="Jason Duval"
-            sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-            className="object-cover [object-position:100%_center] "
-            ButtonStyle="w-[50vw] h-[90vh] "
-            priority
-          />
-          <ImageModel
-            src="/images/People/cal/Cal-3.webp"
-            alt="Jason Duval"
-            sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 30vw"
-            className=" object-cover [object-position:20%_center]  "
-            ButtonStyle="h-[50vh] w-[30vw]"
-            fadeImageRef={fadeImageRef}
-          />
+      <div ref={rightSideRef} className="col-[mid/main-end] self-auto">
+        <div className="grid grid-cols-8 gap-5">
+          <div className="relative max-w-full h-auto aspect-square overflow-hidden col-[1/9] img-fade">
+            <ImageModel
+              src={ImageOne}
+              viewerImg={ImageViewerOne}
+              alt={CalImage.Image_2.alt}
+              sizes={CalImage.Image_2.size}
+              className="object-cover [object-position:100%_center] "
+              ButtonStyle="w-full h-full "
+              priority
+            />
+          </div>
+          <div
+            ref={textRef}
+            className="col-[2/7] cal-text text-gta-yellow  xl:pt-200 pb-50"
+          >
+            <q
+              cite="Cal Hampton"
+              className="font-long  font-black text-4xl md:text-5xl xl:text-[5.1rem] leading-tight md:leading-tight xl:leading-16 uppercase text-balance"
+            >
+              There are way too many birds flying around in perfect formation.
+            </q>
+          </div>
+          <div className="relative max-w-full h-auto aspect-[1/1] overflow-hidden col-[1/6] img-fade">
+            <ImageModel
+              src={ImageFour}
+              viewerImg={ImageViewerFour}
+              alt={CalImage.Image_2.alt}
+              sizes={CalImage.Image_2.size}
+              className="object-cover [object-position:0%_center] "
+              ButtonStyle="w-full h-full "
+              priority
+            />
+          </div>
+          <div className="col-[2/6] cal-text-2 pt-20  ">
+            <q className="text-[2.3rem] leading-10 font-black text-gta-blue ">
+              The psychopaths are in charge. Get used to it.
+            </q>
+            <p className="text-xl font-black leading-tight text-gta-yellow mt-5">
+              Cal is at the low tide of America and happy there. Casual paranoia
+              loves company, but his friend Jason has bigger plans.
+            </p>
+          </div>
         </div>
       </div>
     </section>

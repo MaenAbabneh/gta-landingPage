@@ -18,7 +18,6 @@ function JasonVideo() {
 
   const videoSrc = useResponsiveVideo("Jason_Duval_2_so4cun");
 
-
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
@@ -42,7 +41,7 @@ function JasonVideo() {
           gsap.set(
             [videoTwoRef.current, canvasRef.current, videoOverlayRef.current],
             {
-              willChange: "transform",
+              willChange: "transform, opacity, filter",
               force3D: true,
             }
           );
@@ -97,7 +96,7 @@ function JasonVideo() {
                       return;
                     }
 
-                    const videoScrubDuration = 1500;
+                    const videoScrubDuration = 1000;
                     const scrollPassed = self.scroll() - self.start;
                     let videoProgress = scrollPassed / videoScrubDuration;
 
@@ -166,7 +165,7 @@ function JasonVideo() {
 
               .to(
                 videoOverlayRef.current,
-             
+
                 {
                   opacity: 0,
                   duration: 0.5,
@@ -222,40 +221,37 @@ function JasonVideo() {
       ref={videoTwoRef}
       className="relative w-full h-lvh overflow-hidden "
     >
-      <div className="absolute z-0 inset-0 h-lvh overflow-hidden">
-        <div ref={videoOverlayRef} className="">
+      <div
+        ref={videoOverlayRef}
+        className="absolute inset-0 z-0 overflow-hidden h-lvh "
+      >
           <video
             ref={VideoRef}
             src={videoSrc}
             muted
             aria-label="Video showing Jason Duval in various scenes"
-            preload="auto"
-            crossOrigin="anonymous"
             playsInline
-            className="hidden"
+            preload="metadata"
+            crossOrigin="anonymous"
+            className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-2 overflow-clip"
           />
           <canvas
             ref={canvasRef}
-            className="absoulte inset-0 h-lvh w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-[4/3] md:aspect-[9/16]"
-            style={{
-              imageRendering: "optimizeSpeed",
-              willChange: "transform",
-              force3D: "true",
-            }}
+            className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-1 overflow-clip"
           />
         </div>
-        <div
-          ref={quoteRef}
-          className="absolute inset-0 z-10 flex items-end justify-start h-lvh w-full pl-10 pb-20 md:p-20 lg:p-25 "
-        >
-          <q className="text-gta-yellow text-3xl md:text-6xl lg:text-7xl xl:text-[4.8rem] text-nowrap font-long font-bold uppercase drop-shadow-lg">
-            If anything happens,
-            <br />
-            <span className="inline-block pl-[1.4ch] ">
-              I&apos;m right behind you.
-            </span>
-          </q>
-        </div>
+
+      <div
+        ref={quoteRef}
+        className="absolute inset-0 z-10 flex items-end justify-start h-lvh w-full pl-10 pb-20 md:p-20 lg:p-25 "
+      >
+        <q className="text-gta-yellow text-3xl md:text-6xl lg:text-7xl xl:text-[4.8rem] text-nowrap font-long font-bold uppercase drop-shadow-lg">
+          If anything happens,
+          <br />
+          <span className="inline-block pl-[1.4ch] ">
+            I&apos;m right behind you.
+          </span>
+        </q>
       </div>
     </section>
   );

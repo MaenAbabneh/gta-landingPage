@@ -45,7 +45,7 @@ export const metadata = {
   description:
     "Full animated landing page for Grand Theft Auto VI - not just a website, it's an experience.",
   keywords: ["GTA VI", "Grand Theft Auto", "gaming", "Rockstar Games"],
-  authors: [{ name: "Your Name" }],
+  authors: [{ name: "Maen Ababneh" }],
   robots: "index, follow",
   openGraph: {
     title: "Grand Theft Auto VI",

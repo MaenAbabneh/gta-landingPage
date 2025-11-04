@@ -132,17 +132,17 @@ export const CalImage = {
   Image_1: {
     src: "Cal_Hampton_01_oydy8k",
     alt: "Cal Hampton standing in an urban setting with graffiti art in the background",
-    size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
+    size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_2: {
     src: "Cal_Hampton_02_ovpofu",
     alt: "Cal Hampton sitting on stairs in a gritty urban environment",
-    size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
+    size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_3: {
     src: "Cal_Hampton_03_tgmisg",
     alt: "Cal Hampton walking down a city street at night with neon lights",
-    size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
+    size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_4: {
     src: "Cal_Hampton_04_nfkpl2",

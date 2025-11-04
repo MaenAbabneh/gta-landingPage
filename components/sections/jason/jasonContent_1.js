@@ -86,7 +86,7 @@ const JasonContent_1 = () => {
 
   return (
     <section ref={PartOneRef} className="relative z-10 grid-gallary gap-5">
-      <div className="col-[content-start/4] flex flex-col gap-5 ">
+      <div className="col-[content-start/5] flex flex-col gap-5 ">
         <h1 className="text-yellow font-long uppercase md:text-[3.3rem] lg:text-[7vw] xl:text-[6rem] 2xl:text-9xl text-nowrap">
           Jason Duval
         </h1>
@@ -116,7 +116,7 @@ const JasonContent_1 = () => {
 
       <div
         ref={rightColumRef}
-        className="col-[4/main-end] grid grid-cols-3 grid-rows-2 gap-5 md:pt-25 xl:pt-40"
+        className="col-[5/main-end] grid grid-cols-3 grid-rows-2 gap-5 md:pt-25 xl:pt-40"
       >
         <div className="relative max-w-full h-auto aspect-square overflow-hidden col-[1/4]">
           <ImageModal

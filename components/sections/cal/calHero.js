@@ -32,7 +32,7 @@ function CalHero() {
           start: "top 120%",
           end: "+=2000",
           scrub: 1,
-          markers: true,
+          // markers: true,
         },
       });
 

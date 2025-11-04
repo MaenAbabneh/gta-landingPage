@@ -19,7 +19,6 @@ function LuciaVideo_2() {
 
   const videoSrc = useResponsiveVideo("Lucai_Caminos_2_rqqw1q");
 
-
   useGSAP(
     () => {
       if (!videoSrc) return;
@@ -30,15 +29,11 @@ function LuciaVideo_2() {
 
       const context = canvas.getContext("2d");
 
-      // تحسينات الأداء - GPU Acceleration
-      gsap.set(
-        [videoTwoRef.current, canvasRef.current, videoOverlayRef.current],
-        {
-          willChange: "transform",
-          force3D: true,
-        }
-      );
-
+      gsap.set([videoOverlayRef.current, canvasRef.current, VideoRef.current], {
+        willChange: "transform, opacity, filter",
+        force3D: true,
+      });
+      
       gsap.set(videoTwoRef.current, { marginTop: "-60vh" });
       gsap.set(canvasRef.current, { scale: 1.1 });
       gsap.set(quoteRef.current, { opacity: 0, y: 200 });
@@ -211,40 +206,36 @@ function LuciaVideo_2() {
       ref={videoTwoRef}
       className="relative w-full h-lvh overflow-hidden "
     >
-    
-      <div className="absolute z-0 inset-0 h-lvh overflow-hidden">
-        <div ref={videoOverlayRef}>
-          <video
-            ref={VideoRef}
-            src={videoSrc}
-            muted
-            aria-label="Video showing Jason Duval in various scenes"
-            preload="auto"
-            crossOrigin="anonymous"
-            playsInline
-            className="hidden"
-          />
-          <canvas
-            ref={canvasRef}
-            className="absoulte inset-0 h-lvh w-full object-cover [object-position:70%_center] lg:[object-position:60%_center] xl:[object-position:60%_center] aspect-video"
-            style={{
-              imageRendering: "optimizeSpeed",
-              willChange: "transform",
-            }}
-          />
-        </div>
-        <div
-          ref={quoteRef}
-          className="absolute inset-0 z-10 flex items-end justify-start text-center px-60 py-25 "
-        >
-          <q className="text-gta-yellow text-4xl md:text-[4.8rem] font-long font-bold uppercase leading-18 text-left">
-            The only thing that matters is
-            <br />
-            <span className="inline-block ml-6 md:ml-8">
-              who you know and what you got.
-            </span>{" "}
-          </q>
-        </div>
+      <div
+        ref={videoOverlayRef}
+        className="absolute z-0 inset-0 h-lvh overflow-hidden"
+      >
+        <video
+          ref={VideoRef}
+          src={videoSrc}
+          muted
+          aria-label="Video showing Jason Duval in various scenes"
+          preload="metadata"
+          crossOrigin="anonymous"
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] lg:[object-position:60%_center] xl:[object-position:60%_center] aspect-video z-2 overflow-clip"
+        />
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] lg:[object-position:60%_center] xl:[object-position:60%_center] aspect-video z-1 overflow-clip"
+        />
+      </div>
+      <div
+        ref={quoteRef}
+        className="absolute inset-0 z-10 flex items-end justify-start text-center px-60 py-25 "
+      >
+        <q className="text-gta-yellow text-4xl md:text-[4.8rem] font-long font-bold uppercase leading-18 text-left">
+          The only thing that matters is
+          <br />
+          <span className="inline-block ml-6 md:ml-8">
+            who you know and what you got.
+          </span>{" "}
+        </q>
       </div>
     </section>
   );

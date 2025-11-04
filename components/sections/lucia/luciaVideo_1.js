@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 
 import { useResponsiveVideo } from "@/hooks/useResponsive";
-import { buildImageUrl } from "@/lib/cloudinary";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,16 +27,11 @@ function LuciaVideo() {
 
       const context = canvas.getContext("2d");
 
-      // تحسينات الأداء - GPU Acceleration
-      gsap.set(
-        [videoTwoRef.current, canvasRef.current, videoOverlayRef.current],
-        {
-          willChange: "transform",
-          force3D: true,
-        }
-      );
-
-      gsap.set(videoTwoRef.current, { marginTop: "-80vh" });
+      gsap.set(videoTwoRef.current, { marginTop: "-40vh" });
+      gsap.set([videoOverlayRef.current, canvasRef.current, VideoRef.current], {
+        willChange: "transform, opacity, filter",
+        force3D: true,
+      });
       gsap.set(videoOverlayRef.current, {
         maskImage:
           "radial-gradient(circle at 50vw -50vh, rgb(0, 0, 0) 50vw, rgb(0, 0, 0) 100vw)",
@@ -55,13 +49,15 @@ function LuciaVideo() {
         canvas.height = video.videoHeight;
 
         const tl = gsap.timeline({
+          defaults: { ease: "none" },
           scrollTrigger: {
             trigger: videoTwoRef.current,
             start: "top top",
-            end: "+=2000",
+            end: "+=1500",
             scrub: true,
             pin: true,
             pinSpacing: false,
+            ease: "none",
             onUpdate: (self) => {
               if (video.duration) {
                 const newTime = self.progress * video.duration;
@@ -77,8 +73,6 @@ function LuciaVideo() {
           videoOverlayRef.current,
           {
             opacity: 1,
-            duration: 0.3,
-            ease: "expo.Out",
           },
           0
         );
@@ -87,18 +81,16 @@ function LuciaVideo() {
           {
             maskImage:
               "radial-gradient(circle at 10vw 25vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
-            ease: "expo.inOut",
-            duration: 3,
+            duration: 0.7,
           },
-          "<+=80%"
-        ).to(
+          "<60%"
+        ).to({}, { duration: 0.5 }); // إضافة تأخير بسيط في المنتصف
+        tl.to(
           videoOverlayRef.current,
           {
             opacity: 0,
-            duration: 1.2,
-            ease: "expo.in",
           },
-          "<90%"
+          ">"
         );
 
         gsap.ticker.add(drawVideoToCanvas);
@@ -151,22 +143,14 @@ function LuciaVideo() {
           src={videoSrc}
           muted
           aria-label="Video showing Jason Duval in various scenes"
-          preload="auto"
+          preload="metadata"
           crossOrigin="anonymous"
           playsInline
-          className="hidden"
-          style={{
-            display: "none",
-            crossOrigin: "anonymous",
-          }}
+          className="absoulte inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:10%_center] aspect-video z-2 overflow-clip"
         />
         <canvas
           ref={canvasRef}
-          className="absoulte inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:40%_center] aspect-video"
-          style={{
-            imageRendering: "optimizeSpeed",
-            willChange: "transform",
-          }}
+          className="absoulte inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:40%_center] aspect-video z-1 overflow-clip"
         />
       </div>
     </section>

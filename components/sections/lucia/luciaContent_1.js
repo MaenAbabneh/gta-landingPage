@@ -35,7 +35,7 @@ const LuciaContent_1 = () => {
         (context) => {
           let { isDesktop, isTablet, isMobile } = context.conditions;
           if (isDesktop) {
-            gsap.set(PartOneRef.current, { marginTop: "200vh" });
+            gsap.set(PartOneRef.current, { marginTop: "120vh" });
           } else if (isTablet) {
             gsap.set(PartOneRef.current, { marginTop: "150vh" });
           } else if (isMobile) {
@@ -65,7 +65,7 @@ const LuciaContent_1 = () => {
       {/* Left Column */}
       <div
         ref={rightColumRef}
-        className=" col-[main-start/4] grid grid-cols-2 gap-y-5 mg:pt-25 lg:pt-40 "
+        className=" col-[main-start/5] grid grid-cols-2 gap-y-5 mg:pt-25 lg:pt-40 "
       >
         <div className=" aspect-[1/1] relative max-w-full h-auto overflow-hidden col-[1/4]   ">
           <ImageModal
@@ -92,7 +92,7 @@ const LuciaContent_1 = () => {
 
       {/* Right Column */}
 
-      <div className=" col-[4/content-end] flex flex-col gap-10 ">
+      <div className=" col-[5/content-end] flex flex-col gap-10 ">
         <h1 className="text-yellow font-long uppercase md:text-[3.3rem] lg:text-[3.75rem] xl:text-[5.5rem] 2xl:text-9xl text-nowrap text-left">
           Lucia Caminos
         </h1>

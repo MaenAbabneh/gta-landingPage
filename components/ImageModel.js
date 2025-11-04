@@ -88,15 +88,15 @@ const ImageModal = ({
 
         // الخطوة 4: قم بالتحريك من الحالة الأولى إلى الحالة النهائية
         Flip.from(state, {
-          duration: 0.7,
-          ease: "expo.inOut",
+          duration: 0.5,
+          ease: "expo.in",
           onStart: () => {
             // هنا نقوم بالأنيميشنات الداخلية التي لم تتغير
             const tl = gsap.timeline();
             tl.to(
               modalBg,
-              { opacity: 1, duration: 0.6, ease: "power2.out" },
-              0
+              { opacity: 1, duration: 1, ease: "power2.out" },
+              0.5
             );
             tl.to(vignette, { opacity: 0.5, duration: 1.2 }, 0);
 
@@ -182,8 +182,8 @@ const ImageModal = ({
 
     // الخطوة 3: قم بالتحريك من حالة ملء الشاشة إلى الحالة النهائية
     Flip.from(state, {
-      duration: 0.7,
-      ease: "expo.inOut",
+      duration: 0.75,
+      ease: "expo.out",
       onStart: () => {
         const tl = gsap.timeline();
         tl.to(vignette, { opacity: 0, duration: 0.3, ease: "power2.in" }, 0);

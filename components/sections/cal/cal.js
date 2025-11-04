@@ -16,7 +16,15 @@ function Cal() {
 
   useGSAP(
     () => {
-      gsap.set(BGColorRef.current, { opacity: 0 });
+      const bgEl = BGColorRef.current;
+      const videoTrigger = document.querySelector(
+        '[data-background="cal-video"]'
+      );
+
+      if (!videoTrigger && !bgEl) return;
+
+      gsap.set(bgEl, { opacity: 0 });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: calRef.current,
@@ -27,15 +35,16 @@ function Cal() {
         },
       });
       tl.to(
-        BGColorRef.current,
+        bgEl,
         { opacity: 1, ease: "none", duration: 0.5 },
         0
-      ).to(BGColorRef.current, { opacity: 0, ease: "none" }, ">90%");
+      ).to(bgEl, { opacity: 0, ease: "none" }, ">95%");
+
     },
     { scope: calRef }
   );
   return (
-    <section ref={calRef} id="cal">
+    <section ref={calRef} id="cal" className="overflow-hidden">
       <div ref={BGColorRef} className="calBGColor -z-[5] fixed inset-0 " />
       <CalHero />
       <CalContent />

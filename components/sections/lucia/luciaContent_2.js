@@ -74,7 +74,7 @@ function LuciaContent_2() {
     <section ref={PartTwoRef} className="relative z-10 grid-gallary gap-5">
       <div
         ref={rightSideRef}
-        className="flex flex-col col-[content-start/4] jason-content gap-20"
+        className="flex flex-col col-[content-start/5] jason-content gap-20"
       >
         <p className="text-white md:text-[0.8rem] lg:text-lg xl:text-[1.4rem] 2xl:text-[1.6rem] md:mx-5 lg:mx-8 xl:mx-25 2xl:mx-20  font-round font-black md:leading-4 lg:leading-5 xl:leading-6 text-pretty text-left md:mb-5 lg:mb-0">
           Fresh out of prison and ready to change the odds in her favor, Lucia’s
@@ -92,7 +92,7 @@ function LuciaContent_2() {
         </div>
       </div>
 
-      <div className=" col-[4/main-end] grid grid-cols-3 items-center justify-center gap-5 ">
+      <div className=" col-[5/main-end] grid grid-cols-3 items-center justify-center gap-5 ">
         <h2 className=" text-pink md:text-[2.7rem] font-round font-bold text-3xl leading-11 col-[1/3] ml-20  text-pretty text-left  ">
           A life with
           <br />

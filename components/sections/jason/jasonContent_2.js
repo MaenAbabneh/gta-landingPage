@@ -73,7 +73,7 @@ function JasonContent_2() {
   );
   return (
     <section ref={PartTwoRef} className="relative z-10 grid-gallary gap-5">
-      <div className="col-[main-start/4] flex flex-col gap-5 jason-content ">
+      <div className="col-[main-start/5] flex flex-col gap-5 jason-content ">
         <h2 className=" text-pink text-3xl lg:text-[2.5rem] xl:text-[2.4rem] font-round font-bold text-balance leading-8 lg:leading-10 xl:leading-10 mb-20 self-center">
           Another day in
           <br />
@@ -106,7 +106,7 @@ function JasonContent_2() {
 
       <div
         ref={rightSideRef}
-        className="flex flex-col jason-content col-[4/content-end]  gap-5"
+        className="flex flex-col jason-content col-[5/content-end]  gap-5"
       >
         <p className="text-white  lg:text-[1.2rem]  text-balance md:mx-5 xl:mx-25 mb-15 font-round font-black leading-tight slef-center">
           Meeting Lucia could be the best or worst thing to ever happen to him.
