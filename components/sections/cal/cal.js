@@ -29,7 +29,7 @@ function Cal() {
         scrollTrigger: {
           trigger: calRef.current,
           start: "top bottom",
-          end: "bottom top",
+          end: "bottom+=1100 top",
           scrub: true,
           // markers: true,
         },
@@ -38,7 +38,7 @@ function Cal() {
         bgEl,
         { opacity: 1, ease: "none", duration: 0.5 },
         0
-      ).to(bgEl, { opacity: 0, ease: "none" }, ">95%");
+      ).to(bgEl, { opacity: 0, ease: "none" }, ">");
 
     },
     { scope: calRef }

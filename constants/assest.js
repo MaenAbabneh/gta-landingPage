@@ -1,3 +1,5 @@
+import { buildImageUrl, buildResponsiveVideoUrls } from "@/lib/cloudinary";
+
 export const SITE_ASSIST = [
   { id: "intro_ff13rf", type: "video" },
   { id: "Jason_Duval_2_so4cun", type: "video" },
@@ -22,9 +24,43 @@ export const SITE_ASSIST = [
   { id: "Cal_Hampton_02_ovpofu", type: "image" },
   { id: "Cal_Hampton_03_tgmisg", type: "image" },
   { id: "Cal_Hampton_04_nfkpl2", type: "image" },
+  { id: "Vice_City_01_dyxolq", type: "image" },
+  { id: "Vice_City_02_p4kb75", type: "image" },
+  { id: "Vice_City_03_vbluvl", type: "image" },
+  { id: "Vice_City_04_lbxujb", type: "image" },
+  { id: "Vice_City_05_wyibjy", type: "image" },
+  { id: "Vice_City_06_fmx7mb", type: "image" },
+  { id: "Vice_City_07_a8vfhb", type: "image" },
+  { id: "Vice_City_08_idq42h", type: "image" },
+  { id: "Vice_City_09_uqekdh", type: "image" },
 ];
 
-export const JasonImage = {
+export const prebuiltassets = SITE_ASSIST.map((asset) => {
+  if (asset.type === "image") {
+    return {
+      ...asset,
+      url: buildImageUrl(asset.id),
+    };
+  } else {
+    return {
+      ...asset,
+      urls: buildResponsiveVideoUrls(asset.id),
+    };
+  }
+});
+
+const buildImageObject = (imageData) => {
+  const result = {};
+  for (const [key, value] of Object.entries(imageData)) {
+    result[key] = {
+      ...value,
+      url: buildImageUrl(value.src), 
+    };
+  }
+  return result;
+};
+
+export const JasonImage = buildImageObject({
   Image_1: {
     src: "Jason_Duval_01_kacoeq",
     alt: "Jason sitting on a motorcycle holding a handgun.",
@@ -55,7 +91,6 @@ export const JasonImage = {
     alt: "Jason and Cal on a boat. Jason is holding a fishing rod and Cal is holding binoculars up to his eyes.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 40vw",
   },
-
   Viwer_1: {
     src: "Jason_Viewer_01_mmasgr",
   },
@@ -74,9 +109,9 @@ export const JasonImage = {
   Viwer_6: {
     src: "Jason_Viewer_03_cug5oq",
   },
-};
+});
 
-export const LuciaImage = {
+export const LuciaImage = buildImageObject({
   Image_1: {
     src: "Lucia_Caminos_01_xop0wy",
     alt: "Lucia punching a heavy bag in a gym.",
@@ -107,7 +142,6 @@ export const LuciaImage = {
     alt: "Lucia leaning on a motorcyle. She is wearing a leather jacket and looking into the distance.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
   },
-
   Viwer_1: {
     src: "Lucia_Viewer_01_oaqmzv",
   },
@@ -126,9 +160,9 @@ export const LuciaImage = {
   Viwer_6: {
     src: "Lucia_Viewer_03_j5qclp",
   },
-};
+});
 
-export const CalImage = {
+export const CalImage = buildImageObject({
   Image_1: {
     src: "Cal_Hampton_01_oydy8k",
     alt: "Cal Hampton standing in an urban setting with graffiti art in the background",
@@ -149,7 +183,6 @@ export const CalImage = {
     alt: "Cal Hampton leaning against a brick wall with urban street art",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
   },
-
   Viwer_1: {
     src: "Cal_Viewer_01_lg8imp",
   },
@@ -162,4 +195,79 @@ export const CalImage = {
   Viwer_4: {
     src: "Cal_Viewer_04_om5qtm",
   },
-};
+});
+
+export const ViceCityImage = buildImageObject({
+  Image_1: {
+    src: "Vice_City_01_dyxolq",
+    alt: "A vibrant cityscape of Vice City at sunset, showcasing its iconic skyline and waterfront.",
+    size: "100vw",
+  },
+  Image_2: {
+    src: "Vice_City_02_p4kb75",
+    alt: "Aerial view of Vice City's bustling downtown area with neon lights and busy streets at night.",
+    size: "100vw",
+  },
+  Image_3: {
+    src: "Vice_City_03_vbluvl",
+    alt: "A serene beach scene in Vice City with palm trees, sandy shores, and a colorful sunset.",
+    size: "100vw",
+  },
+  Image_4: {
+    src: "Vice_City_04_lbxujb",
+    alt: "A lively street in Vice City filled with vintage cars, pedestrians, and vibrant storefronts.",
+    size: "100vw",
+  },
+  Image_5: {
+    src: "Vice_City_05_wyibjy",
+    alt: "A nighttime view of Vice City's skyline reflected in the calm waters of the bay.",
+    size: "100vw",
+  },
+  Image_6: {
+    src: "Vice_City_06_fmx7mb",
+    alt: "A panoramic shot of Vice City's iconic landmarks against a backdrop of a setting sun.",
+    size: "100vw",
+  },
+  Image_7: {
+    src: "Vice_City_07_a8vfhb",
+    alt: "A bustling market scene in Vice City with colorful stalls, vendors, and shoppers.",
+    size: "100vw",
+  },
+  Image_8: {
+    src: "Vice_City_08_idq42h",
+    alt: "A scenic view of Vice City's coastline with boats, piers, and a vibrant sunset sky.",
+    size: "100vw",
+  },
+  Image_9: {
+    src: "Vice_City_09_uqekdh",
+    alt: "A dynamic street scene in Vice City featuring classic cars, neon signs, and lively nightlife.",
+    size: "100vw",
+  },
+  Viewer_1: {
+    src: "Vice_City_viewer_01_wtpvem",
+  },
+  Viewer_2: {
+    src: "Vice_City_viewer_02_ndpkfc",
+  },
+  Viewer_3: {
+    src: "Vice_City_viewer_03_fksrhu",
+  },
+  Viewer_4: {
+    src: "Vice_City_viewer_04_rjsol4",
+  },
+  Viewer_5: {
+    src: "Vice_City_viewer_05_xurgeb",
+  },
+  Viewer_6: {
+    src: "Vice_City_viewer_06_atdrd2",
+  },
+  Viewer_7: {
+    src: "Vice_City_viewer_07_rdd1pp",
+  },
+  Viewer_8: {
+    src: "Vice_City_viewer_08_twvp9l",
+  },
+  Viewer_9: {
+    src: "Vice_City_viewer_09_adyvi3",
+  },
+});

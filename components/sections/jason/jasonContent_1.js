@@ -4,7 +4,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import { buildImageUrl } from "@/lib/cloudinary";
 import ImageModal from "@/components/ImageModel";
 import { JasonImage } from "@/constants/assest";
 
@@ -15,14 +14,14 @@ const JasonContent_1 = () => {
   const rightColumRef = useRef(null);
   const fadeImageRef = useRef(null);
 
-  const ImageOne =  buildImageUrl(JasonImage.Image_1.src);
-  const ImageTwo =  buildImageUrl(JasonImage.Image_2.src);
-  const ImageThree =  buildImageUrl(JasonImage.Image_3.src);
+  // ✅ استخدام URLs المبنية مسبقاً
+  const ImageOne = JasonImage.Image_1.url;
+  const ImageTwo = JasonImage.Image_2.url;
+  const ImageThree = JasonImage.Image_3.url;
 
-  const ImageViewerOne =  buildImageUrl(JasonImage.Viwer_1.src );
-  const ImageViewerTwo =  buildImageUrl(JasonImage.Viwer_2.src);
-  const ImageViewerThree =  buildImageUrl(JasonImage.Viwer_3.src );
-
+  const ImageViewerOne = JasonImage.Viwer_1.url;
+  const ImageViewerTwo = JasonImage.Viwer_2.url;
+  const ImageViewerThree = JasonImage.Viwer_3.url;
 
   useGSAP(
     () => {

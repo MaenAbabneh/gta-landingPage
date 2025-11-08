@@ -1,15 +1,19 @@
 "use client";
-import gsap from "gsap";
+
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { useResponsiveVideo } from "@/hooks/useResponsive";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Overlay_ViceCity  from "./overlay-viceCity";
+import Overlay_ViceCity from "./overlay-viceCity";
+import { VisitLeonied } from "@/components/svg";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function ViceCity() {
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+
   const containerRef = useRef(null);
   const FirstVideoRef = useRef(null);
   const videoRef = useRef(null);
@@ -17,8 +21,6 @@ function ViceCity() {
   const bgRef = useRef(null);
 
   const videoSrc = useResponsiveVideo("Vice_City_tazkqo");
-
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
   useGSAP(
     () => {
@@ -37,7 +39,7 @@ function ViceCity() {
         force3D: true,
       });
 
-      gsap.set(containerRef.current, { marginTop: "30vh" });
+      // gsap.set(containerRef.current, { marginTop: "30vh" });
 
       const setupAnimation = () => {
         canvas.width = video.videoWidth;
@@ -67,10 +69,10 @@ function ViceCity() {
         const bgTL = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top bottom", // يبدأ قبل دخول السكشن
+            start: "top center", // يبدأ قبل دخول السكشن
             end: "bottom top", // ينتهي عند خروج السكشن
             scrub: true,
-            // markers: true,
+            markers: true,
           },
         });
 
@@ -132,28 +134,33 @@ function ViceCity() {
       dependencies: [videoSrc],
     }
   );
+
   return (
     <section
       id="vice-city"
       ref={containerRef}
-      className="h-dvh w-full overflow-hidden"
+      className="min-h-dvh w-full pb-20 overflow-hidden"
     >
       <div
         ref={bgRef}
         className="fixed inset-0 w-full h-full vicecity-bg pointer-events-none -z-10"
         style={{ opacity: 0 }}
       />
-      <div className="cal-gallary">
+      <div className="cal-gallary gap-10 h-full">
+        <div className="col-[content-start/content-end] flex flex-row items-center justify-center gap-10">
+          <VisitLeonied className="w-[20vw]" />
+          <p className="text-balance max-w-70 text-2xl font-black font-round text-gta-white">
+            Tour a few of the must-see destinations across the sunshine state.
+          </p>
+        </div>
         <button
-          onClick={() => {
-            setIsOverlayOpen(true);
-          }}
+          onClick={() => setIsOverlayOpen(true)}
           ref={FirstVideoRef}
-          className=" col-[content-start/content-end] aspect-[3/2] relative group opacity-80 hover:opacity-100 transition-opacity duration-500 cursor-pointer  "
+          className=" col-[content-start/content-end] aspect-[3/2] relative group shadow-[0_0_0_0_rgba(0,0,0,0)] hover:shadow-[0_8px_100px_10px_rgba(0,0,0,0.2)] transition-all duration-500 ease-in-out cursor-pointer  "
         >
-          <div className="relative w-full h-full overflow-hidden scale-100 rotate-0 group-hover:scale-[1.015] group-hover:rotate-[0.5deg] transition-transform duration-500">
+          <div className="relative w-full h-full overflow-hidden scale-100 rotate-0 group-hover:scale-[1.015] group-hover:rotate-[0.5deg] transition-transform duration-500 ease-in-out">
             {/* الفيديو والكانفاس في div منفصل */}
-            <div className="absolute inset-0 w-full h-full z-0">
+            <div className="absolute inset-0 w-full h-full opacity-80 group-hover:opacity-100 transition-opacity duration-500 z-0 ease-in-out">
               {/* الفيديو */}
               <video
                 ref={videoRef}
@@ -184,14 +191,14 @@ function ViceCity() {
               />
             </div>
           </div>
-          <div className="absolute bottom-[7%] left-1/2 -translate-x-1/2 rounded-full button-vicecity  group-hover:scale-[1.015] transition-transform duration-500 flex items-center justify-center bg-gta-white font-semibold font-round z-10">
+          <div className="absolute bottom-[7%] left-1/2 -translate-x-1/2 rounded-full button-vicecity  group-hover:scale-[1.0195] group-hover:bg-gta-yellow transition-transform duration-500 flex items-center justify-center bg-gta-white font-semibold font-round z-10 ease-in-out">
             Explore Vice City
           </div>
         </button>
       </div>
       <Overlay_ViceCity
-        onClose={() => setIsOverlayOpen(false)}
         isOpen={isOverlayOpen}
+        onClose={() => setIsOverlayOpen(false)}
       />
     </section>
   );

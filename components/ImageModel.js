@@ -23,6 +23,7 @@ const ImageModal = ({
   ButtonStyle,
   fadeImageRef,
   priority = false,
+  disableScrollLock = false, // خاصية جديدة لتعطيل قفل التمرير
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -33,7 +34,8 @@ const ImageModal = ({
     setIsMounted(true);
   }, []);
 
-  useScrollLock(isOpen);
+  // استخدام useScrollLock فقط إذا لم يتم تعطيله
+  useScrollLock(disableScrollLock ? false : isOpen);
 
   useGSAP(
     () => {

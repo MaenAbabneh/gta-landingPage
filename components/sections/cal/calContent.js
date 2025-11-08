@@ -4,7 +4,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import { buildImageUrl } from "@/lib/cloudinary";
 import { CalImage } from "@/constants/assest";
 import ImageModel from "@/components/ImageModel";
 import { useResponsiveVideo } from "@/hooks/useResponsive";
@@ -22,15 +21,16 @@ function CalContent() {
 
   const videoSrc = useResponsiveVideo("Cal_Hampton_mnncgn");
 
-  const ImageOne = buildImageUrl(CalImage.Image_1.src);
-  const ImageTwo = buildImageUrl(CalImage.Image_4.src);
-  const ImageThree = buildImageUrl(CalImage.Image_2.src);
-  const ImageFour = buildImageUrl(CalImage.Image_3.src);
+  // ✅ استخدام URLs المبنية مسبقاً
+  const ImageOne = CalImage.Image_1.url;
+  const ImageTwo = CalImage.Image_4.url;
+  const ImageThree = CalImage.Image_2.url;
+  const ImageFour = CalImage.Image_3.url;
 
-  const ImageViewerOne = buildImageUrl(CalImage.Viwer_1.src);
-  const ImageViewerTwo = buildImageUrl(CalImage.Viwer_4.src);
-  const ImageViewerThree = buildImageUrl(CalImage.Viwer_2.src);
-  const ImageViewerFour = buildImageUrl(CalImage.Viwer_3.src);
+  const ImageViewerOne = CalImage.Viwer_1.url;
+  const ImageViewerTwo = CalImage.Viwer_4.url;
+  const ImageViewerThree = CalImage.Viwer_2.url;
+  const ImageViewerFour = CalImage.Viwer_3.url;
 
   useGSAP(
     () => {
@@ -99,7 +99,7 @@ function CalContent() {
         });
 
         gsap.set(overlay, { opacity: 1 });
-        gsap.set([bgoverlay , textRef.current], { opacity: 0 });
+        gsap.set([bgoverlay, textRef.current], { opacity: 0 });
         gsap.set(".img-fade", { opacity: 1 });
         const overlayTL = gsap.timeline({
           scrollTrigger: {
@@ -134,7 +134,8 @@ function CalContent() {
           {
             opacity: 0,
             duration: 0.3,
-          }, 0.17
+          },
+          0.17
         );
 
         // اختفاء الخلفية (بعد نهاية التثبيت)
@@ -158,14 +159,16 @@ function CalContent() {
           textRef.current,
           {
             opacity: 1,
-          }, 0.5
+          },
+          0.5
         );
         overlayTL.to(
           ".img-fade",
           {
             opacity: 1,
             duration: 0.3,
-          }, 0.8
+          },
+          0.8
         );
 
         const draw = () => {

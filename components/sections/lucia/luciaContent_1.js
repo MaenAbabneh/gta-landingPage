@@ -4,7 +4,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import { buildImageUrl } from "@/lib/cloudinary";
 import { LuciaImage } from "@/constants/assest";
 import ImageModal from "@/components/ImageModel";
 
@@ -14,13 +13,14 @@ const LuciaContent_1 = () => {
   const PartOneRef = useRef(null);
   const rightColumRef = useRef(null);
 
-  const ImageOne = buildImageUrl(LuciaImage.Image_1.src);
-  const ImageTwo = buildImageUrl(LuciaImage.Image_2.src);
-  const ImageThree = buildImageUrl(LuciaImage.Image_3.src);
+  // ✅ استخدام URLs المبنية مسبقاً
+  const ImageOne = LuciaImage.Image_1.url;
+  const ImageTwo = LuciaImage.Image_2.url;
+  const ImageThree = LuciaImage.Image_3.url;
 
-  const ImageViewerOne = buildImageUrl(LuciaImage.Viwer_1.src);
-  const ImageViewerTwo = buildImageUrl(LuciaImage.Viwer_2.src);
-  const ImageViewerThree = buildImageUrl(LuciaImage.Viwer_3.src);
+  const ImageViewerOne = LuciaImage.Viwer_1.url;
+  const ImageViewerTwo = LuciaImage.Viwer_2.url;
+  const ImageViewerThree = LuciaImage.Viwer_3.url;
 
   useGSAP(
     () => {

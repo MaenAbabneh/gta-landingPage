@@ -2,8 +2,6 @@
 
 import { useEffect } from "react";
 
-import { cld } from "@/lib/cloudinary"; // استورد النسخة الموحدة
-
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export function useAssetPrecacher(
@@ -20,11 +18,13 @@ export function useAssetPrecacher(
 
     let aborted = false;
 
-    const buildUrl = (a) => {
-      if (a.url) return a.url;
-      if (a.type === "image")
-        return cld().image(a.id).format("auto").quality("auto").toURL();
-      return cld().video(a.id).format("auto").quality("auto").toURL();
+    // اختيار حجم الفيديو المناسب بناءً على حجم الشاشة
+    const getVideoUrl = (urls) => {
+      if (!urls) return null;
+      const width = window.innerWidth;
+      if (width < 768) return urls.mobile;
+      if (width < 1280) return urls.tablet;
+      return urls.desktop;
     };
 
     const prefetchImage = (url) => {
@@ -52,12 +52,20 @@ export function useAssetPrecacher(
     };
 
     const run = async () => {
-      const queue = assets.map((a) => ({ ...a, url: buildUrl(a) })); // مرتبة من الأعلى للأسفل
+      // تحضير قائمة العناصر مع URLs الصحيحة
+      const queue = assets.map((a) => {
+        if (a.type === "image") {
+          return { ...a };
+        } else {
+          // للفيديوهات، اختر URL المناسب من urls object
+          return { ...a, url: getVideoUrl(a.urls) };
+        }
+      });
 
       const worker = async () => {
         while (!aborted && queue.length) {
           const item = queue.shift();
-          if (!item) break;
+          if (!item?.url) continue;
           if (item.type === "image") prefetchImage(item.url);
           else await prefetchVideo(item.url);
           if (delayMs) await sleep(delayMs);

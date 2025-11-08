@@ -38,6 +38,7 @@ function TrailerOverlay({ isOpen, onClose, isOpenfalse }) {
   }, [isOpen]);
 
   useScrollLock(isMounted);
+  
 
   const cleanVideoID = videoID ? videoID.split("?")[0] : "";
 
@@ -93,7 +94,7 @@ function TrailerOverlay({ isOpen, onClose, isOpenfalse }) {
   if (!isMounted) return null;
 
   return createPortal(
-    <div id="trailers" className="fixed inset-0 z-[9998] p-2 sm:p-4 md:p-0">
+    <div id="trailers" className="fixed inset-0 z-[9998] p-2 sm:p-4 md:p-0 overflow-hidden">
       {/* خلفية لإغلاق عند النقر */}
       <div
         ref={overlaybgRef}

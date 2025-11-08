@@ -90,6 +90,7 @@ function LuciaFooter() {
           className="object-cover "
           fill
           unoptimized
+          loading="eager"
         />
       </div>
 

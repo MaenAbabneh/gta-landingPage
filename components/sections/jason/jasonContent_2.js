@@ -2,7 +2,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import { buildImageUrl } from "@/lib/cloudinary";
 import { JasonImage } from "@/constants/assest";
 import ImageModel from "@/components/ImageModel";
 
@@ -13,13 +12,14 @@ function JasonContent_2() {
   const rightSideRef = useRef(null);
   const fadeImageRef = useRef(null);
 
-  const ImageFour = buildImageUrl(JasonImage.Image_4.src);
-  const ImageFive = buildImageUrl(JasonImage.Image_5.src);
-  const ImageSix = buildImageUrl(JasonImage.Image_6.src);
+  // ✅ استخدام URLs المبنية مسبقاً
+  const ImageFour = JasonImage.Image_4.url;
+  const ImageFive = JasonImage.Image_5.url;
+  const ImageSix = JasonImage.Image_6.url;
 
-  const ImageViewerFour = buildImageUrl(JasonImage.Viwer_4.src);
-  const ImageViewerFive = buildImageUrl(JasonImage.Viwer_5.src);
-  const ImageViewerSix = buildImageUrl(JasonImage.Viwer_6.src);
+  const ImageViewerFour = JasonImage.Viwer_4.url;
+  const ImageViewerFive = JasonImage.Viwer_5.url;
+  const ImageViewerSix = JasonImage.Viwer_6.url;
 
   useGSAP(
     () => {
@@ -34,13 +34,10 @@ function JasonContent_2() {
         (context) => {
           let { isDesktop, isTablet, isMobile } = context.conditions;
 
-          if(isDesktop) {
+          if (isDesktop) {
             gsap.set(PartTwoRef.current, { marginTop: "190vh" });
-
-          } else if(isTablet) {
-
+          } else if (isTablet) {
           } else if (isMobile) {
-
           }
           gsap.set(fadeImageRef.current, { opacity: 0 });
 

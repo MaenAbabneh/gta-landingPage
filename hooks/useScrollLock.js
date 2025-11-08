@@ -12,6 +12,7 @@ export function useScrollLock(isLocked) {
   const prevOverflowRef = useRef("");
   const prevPaddingRightRef = useRef("");
   const prevOverscrollRef = useRef("");
+  const scrollbarWidthRef = useRef(0);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -20,6 +21,10 @@ export function useScrollLock(isLocked) {
     const html = document.documentElement;
 
     if (isLocked) {
+      // حساب عرض شريط التمرير قبل إخفائه
+      scrollbarWidthRef.current =
+        window.innerWidth - document.documentElement.clientWidth;
+
       // إيقاف Lenis (smooth scroll)
       lenis?.stop();
 
@@ -28,15 +33,12 @@ export function useScrollLock(isLocked) {
       prevPaddingRightRef.current = body.style.paddingRight;
       prevOverscrollRef.current = html.style.overscrollBehavior;
 
-      // حساب عرض شريط التمرير لتفادي اهتزاز المحتوى
-      const scrollbarWidth = window.innerWidth - html.clientWidth;
-
       // إخفاء التمرير
       body.style.overflow = "hidden";
 
       // تعويض اختفاء الشريط لمنع القفزة الأفقية
-      if (scrollbarWidth > 0) {
-        body.style.paddingRight = `${scrollbarWidth}px`;
+      if (scrollbarWidthRef.current > 0) {
+        body.style.paddingRight = `${scrollbarWidthRef.current}px`;
       }
 
       // منع سلوك overscroll (خصوصاً على iOS)
@@ -49,17 +51,23 @@ export function useScrollLock(isLocked) {
       body.style.overflow = prevOverflowRef.current || "";
       body.style.paddingRight = prevPaddingRightRef.current || "";
       html.style.overscrollBehavior = prevOverscrollRef.current || "";
+
+      // إعادة تعيين عرض scrollbar
+      scrollbarWidthRef.current = 0;
     }
 
     // Cleanup: تأكد من الاسترجاع عند التفكيك
     return () => {
-      lenis?.start();
-      if (typeof window === "undefined") return;
-      const body = document.body;
-      const html = document.documentElement;
-      body.style.overflow = prevOverflowRef.current || "";
-      body.style.paddingRight = prevPaddingRightRef.current || "";
-      html.style.overscrollBehavior = prevOverscrollRef.current || "";
+      if (isLocked) {
+        lenis?.start();
+        if (typeof window !== "undefined") {
+          const body = document.body;
+          const html = document.documentElement;
+          body.style.overflow = "";
+          body.style.paddingRight = "";
+          html.style.overscrollBehavior = "";
+        }
+      }
     };
   }, [isLocked, lenis]);
 }

@@ -161,7 +161,7 @@ function OverlayMenu({
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 grid grid-cols-6 z-40 h-dvh w-screen"
+      className="fixed inset-0 grid grid-cols-6 z-40 h-dvh w-screen overflow-hidden"
     >
       <div
         ref={overlayRef}
