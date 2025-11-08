@@ -59,6 +59,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${fontLong.variable} ${fontRound.variable}`}>
+      <head>
+        {/* Preconnect to Cloudinary for faster asset loading */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body className="font-round antialiased ">
         <LenisProvider>
           {children}

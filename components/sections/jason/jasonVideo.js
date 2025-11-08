@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 
-import { useResponsiveVideo } from "@/hooks/useResponsive";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,7 +16,13 @@ function JasonVideo() {
   const canvasRef = useRef(null);
   const quoteRef = useRef(null);
 
-  const videoSrc = useResponsiveVideo("Jason_Duval_2_so4cun");
+  const {
+    videoUrl: videoSrc,
+    posterUrl,
+    containerRef,
+  } = useLazyVideo("Jason_Duval_2_so4cun", {
+    rootMargin: "300px",
+  });
 
   useGSAP(
     () => {
@@ -218,28 +224,32 @@ function JasonVideo() {
 
   return (
     <section
-      ref={videoTwoRef}
+      ref={(el) => {
+        videoTwoRef.current = el;
+        containerRef.current = el;
+      }}
       className="relative w-full h-lvh overflow-hidden "
     >
       <div
         ref={videoOverlayRef}
         className="absolute inset-0 z-0 overflow-hidden h-lvh "
       >
-          <video
-            ref={VideoRef}
-            src={videoSrc}
-            muted
-            aria-label="Video showing Jason Duval in various scenes"
-            playsInline
-            preload="metadata"
-            crossOrigin="anonymous"
-            className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-2 overflow-clip"
-          />
-          <canvas
-            ref={canvasRef}
-            className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-1 overflow-clip"
-          />
-        </div>
+        <video
+          ref={VideoRef}
+          src={videoSrc}
+          poster={posterUrl}
+          muted
+          aria-label="Video showing Jason Duval in various scenes"
+          playsInline
+          preload="metadata"
+          crossOrigin="anonymous"
+          className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-2 overflow-clip"
+        />
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-1 overflow-clip"
+        />
+      </div>
 
       <div
         ref={quoteRef}

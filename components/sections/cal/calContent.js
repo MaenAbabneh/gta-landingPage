@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { CalImage } from "@/constants/assest";
 import ImageModel from "@/components/ImageModel";
-import { useResponsiveVideo } from "@/hooks/useResponsive";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,7 +19,13 @@ function CalContent() {
   const FirstVideoRef = useRef(null);
   const textRef = useRef(null);
 
-  const videoSrc = useResponsiveVideo("Cal_Hampton_mnncgn");
+  const {
+    videoUrl: videoSrc,
+    posterUrl,
+    containerRef,
+  } = useLazyVideo("Cal_Hampton_mnncgn", {
+    rootMargin: "300px",
+  });
 
   // ✅ استخدام URLs المبنية مسبقاً
   const ImageOne = CalImage.Image_1.url;
@@ -213,7 +219,10 @@ function CalContent() {
   );
   return (
     <section
-      ref={PartTwoRef}
+      ref={(el) => {
+        PartTwoRef.current = el;
+        containerRef.current = el;
+      }}
       className="relative z-10 cal-gallary gap-x-5 items-start pb-[30vh]"
     >
       <div
@@ -245,6 +254,7 @@ function CalContent() {
             <video
               ref={videoRef}
               src={videoSrc}
+              poster={posterUrl}
               preload="metadata"
               playsInline
               muted

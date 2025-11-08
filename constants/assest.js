@@ -271,3 +271,12 @@ export const ViceCityImage = buildImageObject({
     src: "Vice_City_viewer_09_adyvi3",
   },
 });
+
+export const HeroImage = buildImageObject({
+  HeroBG :{
+    src: "hero-bg_dtrjtf",
+  },
+  HeroKeyArt :{
+    src: "heroKeyArt_a7kave",
+  },
+});

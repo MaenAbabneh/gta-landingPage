@@ -5,8 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 
-import { useResponsiveVideo } from "@/hooks/useResponsive";
-import { buildImageUrl } from "@/lib/cloudinary";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,7 +16,9 @@ function LuciaVideo_2() {
   const canvasRef = useRef(null);
   const quoteRef = useRef(null);
 
-  const videoSrc = useResponsiveVideo("Lucai_Caminos_2_rqqw1q");
+  const { videoUrl: videoSrc, posterUrl, containerRef } = useLazyVideo("Lucai_Caminos_2_rqqw1q", {
+    rootMargin: "300px",
+  });
 
   useGSAP(
     () => {
@@ -203,7 +204,10 @@ function LuciaVideo_2() {
 
   return (
     <section
-      ref={videoTwoRef}
+      ref={(el) => {
+        videoTwoRef.current = el;
+        containerRef.current = el;
+      }}
       className="relative w-full h-lvh overflow-hidden "
     >
       <div
@@ -213,6 +217,7 @@ function LuciaVideo_2() {
         <video
           ref={VideoRef}
           src={videoSrc}
+          poster={posterUrl}
           muted
           aria-label="Video showing Jason Duval in various scenes"
           preload="metadata"

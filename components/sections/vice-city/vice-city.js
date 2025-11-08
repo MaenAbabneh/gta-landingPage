@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { useResponsiveVideo } from "@/hooks/useResponsive";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Overlay_ViceCity from "./overlay-viceCity";
 import { VisitLeonied } from "@/components/svg";
@@ -20,7 +20,13 @@ function ViceCity() {
   const canvasRef = useRef(null);
   const bgRef = useRef(null);
 
-  const videoSrc = useResponsiveVideo("Vice_City_tazkqo");
+  const {
+    videoUrl: videoSrc,
+    posterUrl,
+    containerRef: lazyRef,
+  } = useLazyVideo("Vice_City_tazkqo", {
+    rootMargin: "300px",
+  });
 
   useGSAP(
     () => {
@@ -138,7 +144,10 @@ function ViceCity() {
   return (
     <section
       id="vice-city"
-      ref={containerRef}
+      ref={(el) => {
+        containerRef.current = el;
+        lazyRef.current = el;
+      }}
       className="min-h-dvh w-full pb-20 overflow-hidden"
     >
       <div
@@ -165,6 +174,7 @@ function ViceCity() {
               <video
                 ref={videoRef}
                 src={videoSrc}
+                poster={posterUrl}
                 preload="metadata"
                 playsInline
                 muted

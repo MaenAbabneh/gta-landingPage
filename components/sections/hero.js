@@ -8,6 +8,7 @@ import { useRef, useState } from "react";
 
 import { PlayIcon, PsIcon, WatchTrailer, XboxIcon } from "../svg";
 import TrailerOverlay from "../trailervideo";
+import { HeroImage } from "@/constants/assest";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -236,25 +237,23 @@ function Hero() {
         >
           <Image
             ref={backgroundImageRef}
-            src="/images/hero-bg.webp"
+            src={HeroImage.HeroBG.url}
             alt="Hero Background"
             className="object-cover scale-125 "
             fill
-            sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 44vw"
-            unoptimized
+            sizes="100vw"
             priority
           />
           <Image
             ref={bgKeyArtRef}
-            src="/images/heroKeyArt.webp"
+            src={HeroImage.HeroKeyArt.url}
             alt="Hero Key Art"
             className="object-cover scale-125 "
-            sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 44vw"
+            sizes="100vw"
             style={{
               willChange: "transform, opacity , scale",
             }}
             fill
-            unoptimized
             priority
           />
         </div>
