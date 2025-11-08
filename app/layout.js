@@ -88,7 +88,7 @@ export const metadata = {
     siteName: "GTA VI Landing Page",
     images: [
       {
-        url: "https://res.cloudinary.com/dlgi2ockk/image/upload/f_auto/q_auto/hero-bg_dtrjtf",
+        url: "https://res.cloudinary.com/dlgi2ockk/image/upload/f_auto/q_auto:best/hero-bg_dtrjtf",
         width: 1920,
         height: 1080,
         alt: "Grand Theft Auto VI - Vice City",
@@ -101,7 +101,7 @@ export const metadata = {
     description:
       "Experience the next chapter in the Grand Theft Auto series. Explore Vice City with Jason and Lucia.",
     images: [
-      "https://res.cloudinary.com/dlgi2ockk/image/upload/f_auto/q_auto/hero-bg_dtrjtf",
+      "https://res.cloudinary.com/dlgi2ockk/image/upload/f_auto/q_auto:best/hero-bg_dtrjtf",
     ],
   },
   alternates: {
@@ -115,7 +115,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#000000",
+  themeColor: "#ffb0c4",
 };
 
 export default function RootLayout({ children }) {
