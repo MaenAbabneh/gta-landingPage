@@ -1,4 +1,8 @@
-import { buildImageUrl, buildResponsiveVideoUrls } from "@/lib/cloudinary";
+import {
+  buildImageUrl,
+  buildResponsiveVideoUrls,
+  buildVideoThumbnail,
+} from "@/lib/cloudinary";
 
 export const SITE_ASSIST = [
   { id: "intro_ff13rf", type: "video" },
@@ -45,6 +49,11 @@ export const prebuiltassets = SITE_ASSIST.map((asset) => {
     return {
       ...asset,
       urls: buildResponsiveVideoUrls(asset.id),
+      poster: buildVideoThumbnail(asset.id, {
+        time: "end",
+        width: 1920,
+        quality: "auto:best",
+      }),
     };
   }
 });
@@ -54,7 +63,7 @@ const buildImageObject = (imageData) => {
   for (const [key, value] of Object.entries(imageData)) {
     result[key] = {
       ...value,
-      url: buildImageUrl(value.src), 
+      url: buildImageUrl(value.src),
     };
   }
   return result;
@@ -273,10 +282,10 @@ export const ViceCityImage = buildImageObject({
 });
 
 export const HeroImage = buildImageObject({
-  HeroBG :{
+  HeroBG: {
     src: "hero-bg_dtrjtf",
   },
-  HeroKeyArt :{
+  HeroKeyArt: {
     src: "heroKeyArt_a7kave",
   },
 });

@@ -18,13 +18,21 @@ export function useLazyVideo(publicId, options = {}) {
   const { eager = false, rootMargin = "200px" } = options;
 
   const [videoUrl, setVideoUrl] = useState(null);
-  const [posterUrl] = useState(() =>
-    buildVideoThumbnail(publicId, { time: "0", quality: "auto:low" })
-  );
+  const [posterUrl, setPosterUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
+    // حدد دقة الposter تبعاً لحجم الشاشة وآخر إطار
+    const w = typeof window !== "undefined" ? window.innerWidth : 1920;
+    const posterWidth = w < 768 ? 720 : w < 1280 ? 1280 : 1920;
+    const url = buildVideoThumbnail(publicId, {
+      time: "end",
+      width: posterWidth,
+      quality: "auto:best",
+    });
+    setPosterUrl(url);
+
     // إذا eager، حمّل فوراً
     if (eager) {
       loadVideo();

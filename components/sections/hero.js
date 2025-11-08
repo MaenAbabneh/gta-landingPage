@@ -243,6 +243,8 @@ function Hero() {
             fill
             sizes="100vw"
             priority
+            suppressHydrationWarning={true}
+            unoptimized
           />
           <Image
             ref={bgKeyArtRef}
@@ -255,6 +257,8 @@ function Hero() {
             }}
             fill
             priority
+            suppressHydrationWarning={true}
+            unoptimized
           />
         </div>
 
