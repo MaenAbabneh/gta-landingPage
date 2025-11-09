@@ -224,11 +224,10 @@ function Hero() {
   );
 
   return (
-    <>
       <section
         id="hero"
         ref={containerRef}
-        className="relative w-full min-h-lvh  overflow-hidden "
+        className="relative w-full min-h-dvh  overflow-hidden "
       >
         <div
           ref={viLogoOverlayRef}
@@ -331,13 +330,12 @@ function Hero() {
             </div>
           </div>
         </div>
-      </section>
       <TrailerOverlay
         isOpen={isOpenOverlay}
         isOpenfalse={!isOpenOverlay}
         onClose={() => setIsOpenOverlay(false)}
       />
-    </>
+      </section>
   );
 }
 

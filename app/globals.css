@@ -12,7 +12,7 @@
   --gta-white: #fff;
   --gta-accent-yellow: #fff9cb;
   --gta-accent-pink: #ffb0c4;
-  --gta-accent-pink-light: #FFC2D0;
+  --gta-accent-pink-light: #ffc2d0;
   --gta-gray: #36364e;
   --gta-gray-dark: #2c2c44;
   --gta-dark-blue: #28375c;
@@ -773,7 +773,7 @@ body {
   }
 
   .cal-gallary {
-    --cols-count: 6;
+    --cols-count: 3;
     display: grid;
     grid-template-columns:
       [main-start] 1fr
@@ -839,9 +839,9 @@ body {
   }
 
   .button-vicecity {
-    width: clamp(80px, 20vw, 180px);
-    height: clamp(30px, 6vw, 50px);
-    font-size: clamp(0.5rem, 2vw, 1rem);
+    width: clamp(60px, 20vw, 180px);
+    height: clamp(20px, 6vw, 50px);
+    font-size: clamp(0.3rem, 2vw, 1rem);
   }
 
   .overlay-bg {
@@ -884,22 +884,46 @@ body {
 }
 
 /* Overlay horizontal scrollbar styling for Vice City overlay */
+.custom-scrollbar {
+  --scrollbar-opacity: 0;
+  /* scrollbar-gutter يحجز مساحة ثابتة للشريط حتى عند إخفائه */
+  scrollbar-gutter: stable both-edges;
+  /* overflow: overlay يجعل الشريط فوق المحتوى بدون أخذ مساحة (legacy support) */
+  overflow-x: overlay;
+  overflow-y: hidden;
+}
+
+/* دعم المتصفحات الحديثة */
+@supports not (overflow: overlay) {
+  .custom-scrollbar {
+    overflow-x: auto;
+  }
+}
+
+/* استخدام overlay scrollbars التي لا تأخذ مساحة من التخطيط */
 .custom-scrollbar::-webkit-scrollbar {
   height: 16px; /* thickness for horizontal scrollbar */
-  background-color: #111117; /* track background */
+  background-color: transparent; /* track background */
+  opacity: var(--scrollbar-opacity);
+  transition: opacity 0.6s ease;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background-color: #111117; /* ensure the track is solid black-ish */
+  background-color: rgba(17, 17, 23, 0.8); /* شبه شفاف */
+  opacity: var(--scrollbar-opacity);
+  transition: opacity 0.6s ease;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #9d9d9d; /* dark gray thumb */
   border-radius: 8px;
+  opacity: var(--scrollbar-opacity);
+  transition: opacity 0.6s ease;
 }
 
-/* Firefox */
+/* Firefox - استخدام overlay scrollbars */
 .custom-scrollbar {
-  scrollbar-color: #9d9d9d #111117; /* thumb then track */
-  scrollbar-width: auto; /* keep native-like thickness */
+  scrollbar-color: rgba(157, 157, 157, var(--scrollbar-opacity))
+    rgba(17, 17, 23, calc(var(--scrollbar-opacity) * 0.8)); /* thumb then track */
+  scrollbar-width: thin; /* thin لا يأخذ مساحة كبيرة */
 }

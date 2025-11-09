@@ -16,12 +16,18 @@ export function getScreenSize() {
 
 export function useResponsiveVideo(publicId) {
   const [videoSource, setVideoSource] = useState(null);
+  const [posterSource, setPosterSource] = useState(null);
 
   useGSAP(() => {
     if (!publicId) return;
 
     const asset = prebuiltassets.find((a) => a.id === publicId);
     if (!asset || !asset.urls) return;
+
+    // تعيين poster مرة واحدة فقط
+    if (asset.poster) {
+      setPosterSource(asset.poster);
+    }
 
     const mm = gsap.matchMedia();
     mm.add("(min-width: 1280px)", () => {
@@ -40,5 +46,5 @@ export function useResponsiveVideo(publicId) {
     };
   }, [publicId]);
 
-  return videoSource;
+  return { videoSrc: videoSource, posterUrl: posterSource };
 }

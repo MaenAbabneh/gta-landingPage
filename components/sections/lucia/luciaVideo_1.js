@@ -153,7 +153,7 @@ function LuciaVideo() {
           poster={posterUrl}
           muted
           aria-label="Video showing Jason Duval in various scenes"
-          preload="metadata"
+          preload="auto"
           crossOrigin="anonymous"
           playsInline
           className="absoulte inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:10%_center] aspect-video z-2 overflow-clip"

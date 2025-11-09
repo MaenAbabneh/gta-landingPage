@@ -17,7 +17,7 @@ function JasonIntro() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const videoSrc = useResponsiveVideo("intro_ff13rf");
+  const { videoSrc, posterUrl } = useResponsiveVideo("intro_ff13rf");
 
   useGSAP(
     () => {
@@ -224,7 +224,8 @@ function JasonIntro() {
           <video
             ref={videoRef}
             src={videoSrc}
-            preload="metadata"
+            poster={posterUrl}
+            preload="auto"
             playsInline
             muted
             crossOrigin="anonymous"

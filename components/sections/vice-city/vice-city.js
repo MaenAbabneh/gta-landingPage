@@ -155,16 +155,18 @@ function ViceCity() {
         className="fixed inset-0 w-full h-full vicecity-bg pointer-events-none -z-10"
         style={{ opacity: 0 }}
       />
-      <div className="cal-gallary gap-10 h-full">
-        <div className="col-[content-start/content-end] flex flex-row items-center justify-center gap-10">
-          <VisitLeonied className="w-[20vw]" />
-          <p className="text-balance max-w-70 text-2xl font-black font-round text-gta-white">
+      <div className="cal-gallary gap-5 md:gap-10 h-full">
+        <div className="col-[content-start/content-end] flex flex-col md:flex-row items-center justify-center gap-5 md:gap-10">
+          <VisitLeonied className="w-[40vw] md:w-[20vw]" />
+          <p className="text-balance text-center md:text-start md:max-w-70 text-sm md:text-2xl font-black font-round text-gta-white">
             Tour a few of the must-see destinations across the sunshine state.
           </p>
         </div>
         <button
+        id="viceCity-button"
           onClick={() => setIsOverlayOpen(true)}
           ref={FirstVideoRef}
+          aria-label="open vice-city map overlay"
           className=" col-[content-start/content-end] aspect-[3/2] relative group shadow-[0_0_0_0_rgba(0,0,0,0)] hover:shadow-[0_8px_100px_10px_rgba(0,0,0,0.2)] transition-all duration-500 ease-in-out cursor-pointer  "
         >
           <div className="relative w-full h-full overflow-hidden scale-100 rotate-0 group-hover:scale-[1.015] group-hover:rotate-[0.5deg] transition-transform duration-500 ease-in-out">

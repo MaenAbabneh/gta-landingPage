@@ -2,6 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -13,11 +14,16 @@ import { FullArrowSvg } from "@/components/svg";
 import ImageModel from "@/components/ImageModel";
 import { ViceCityImage } from "@/constants/assest";
 
+gsap.registerPlugin(ScrollTrigger);
+
 function Overlay_ViceCity({ isOpen, onClose }) {
   const overlaybgRef = useRef(null);
   const buttonRef = useRef(null);
+  const bgRef = useRef(null);
+  const gallaryRef = useRef(null);
   const scrollContainerRef = useRef(null);
   const vicecityStoryRef = useRef(null);
+
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -76,30 +82,107 @@ function Overlay_ViceCity({ isOpen, onClose }) {
       )
         return;
 
+      const externalBtn = document.getElementById("viceCity-button");
+
+      if (externalBtn) {
+        gsap.set(externalBtn, {
+          willChange: "transform",
+          force3D: true,
+          transition: "none !important",
+        });
+      }
+
+      gsap.set(
+        [
+          overlaybgRef.current,
+          buttonRef.current,
+          scrollContainerRef.current,
+        ].filter(Boolean),
+        { willChange: "transform, opacity", force3D: true }
+      );
+
+      // إخفاء شريط التمرير في البداية
+      if (scrollContainerRef.current) {
+        gsap.set(scrollContainerRef.current, {
+          "--scrollbar-opacity": 0,
+        });
+      }
+
       if (isOpen && isMounted) {
         // أنيميشن الفتح
         const tl = gsap.timeline({
           defaults: { ease: "power2.out" },
         });
 
-        tl.fromTo(
-          overlaybgRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.5 },
-          0
-        )
-          .fromTo(
-            buttonRef.current,
-            { opacity: 0, scale: 0.9 },
-            { opacity: 1, scale: 1, duration: 0.4 },
-            0.1
-          )
-          .fromTo(
-            scrollContainerRef.current,
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 0.5 },
-            0.15
-          );
+        if (externalBtn) {
+          tl
+            // تحريك زر الكارد للخارج بالتزامن مع ظهور الخلفية
+            .to(
+              externalBtn,
+              {
+                xPercent: -150,
+                rotate: -45,
+                duration: 1,
+                ease: "power2.out",
+              },
+              0
+            )
+            // ظهور الخلفية بنفس الوقت
+            .fromTo(
+              overlaybgRef.current,
+              { opacity: 0 },
+              { opacity: 1, duration: 0.5 },
+              0.3
+            )
+            .fromTo(
+              bgRef.current,
+              { opacity: 0 },
+              { opacity: 1, duration: 0.5 },
+              0.3
+            )
+            // ظهور الحاوية المنزلقة بالتزامن مع الخلفيات
+            .fromTo(
+              vicecityStoryRef.current,
+              { opacity: 0, x: -500 },
+              { opacity: 1, x: 0, duration: 0.5 },
+              0.3
+            )
+            .fromTo(
+              gallaryRef.current,
+              { opacity: 0 },
+              { opacity: 1, duration: 0.5 },
+              0.4
+            )
+
+            // ظهور زر الرجوع بالتزامن
+            .fromTo(
+              buttonRef.current,
+              { opacity: 0, scale: 0.9 },
+              { opacity: 1, scale: 1, duration: 0.4 },
+              0.3
+            )
+            // ظهور شريط التمرير بعد انتهاء كل الأنيميشنات
+            .to(
+              scrollContainerRef.current,
+              {
+                "--scrollbar-opacity": 1,
+                duration: 0.8,
+                ease: "power2.out",
+              },
+              ">"
+            )
+
+            // تنظيف تلميح GPU بعد الانتهاء
+            .set(
+              [
+                externalBtn,
+                overlaybgRef.current,
+                buttonRef.current,
+                scrollContainerRef.current,
+              ].filter(Boolean),
+              { clearProps: "willChange" }
+            );
+        }
       } else if (!isOpen && isMounted) {
         // أنيميشن الإغلاق
         const tl = gsap.timeline({
@@ -110,12 +193,53 @@ function Overlay_ViceCity({ isOpen, onClose }) {
         });
 
         tl.to(
-          scrollContainerRef.current,
-          { opacity: 0, y: 30, duration: 0.35 },
+          externalBtn || {},
+          {
+            xPercent: 0,
+            rotate: 0,
+            duration: 0.8,
+            ease: "power2.in",
+            clearProps: "transform !important",
+          },
           0
         )
+          .to(
+            vicecityStoryRef.current,
+            { opacity: 0, x: 500, duration: 0.3 },
+            0
+          )
+          .to(gallaryRef.current, { opacity: 0, duration: 0.3 }, 0)
           .to(buttonRef.current, { opacity: 0, scale: 0.9, duration: 0.3 }, 0)
-          .to(overlaybgRef.current, { opacity: 0, duration: 0.4 }, 0.05);
+          .to(overlaybgRef.current, { opacity: 0, duration: 0.5 }, 0.2)
+          .to(bgRef.current, { opacity: 0, duration: 0.5 }, 0.2)
+          .to(
+            scrollContainerRef.current,
+            {
+              "--scrollbar-opacity": 0,
+              duration: 0.3,
+              ease: "power2.out",
+            },
+            "<"
+          )
+          // إعادة تفعيل transitions بعد تنظيف transforms تماماً
+          .set(
+            externalBtn || {},
+            { clearProps: "transition,willChange" },
+            "+=0.1"
+          );
+
+        return () => {
+          gsap.set(
+            [
+              externalBtn,
+              overlaybgRef.current,
+              buttonRef.current,
+              scrollContainerRef.current,
+              tl.kill(),
+            ].filter(Boolean),
+            { clearProps: "willChange" }
+          );
+        };
       }
     },
     { dependencies: [isOpen, isMounted] }
@@ -138,7 +262,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
 
       <div
         ref={scrollContainerRef}
-        className="flex flex-row items-end overflow-x-auto overflow-y-hidden custom-scrollbar"
+        className="flex flex-row items-end custom-scrollbar"
       >
         <div
           ref={vicecityStoryRef}
@@ -183,7 +307,10 @@ function Overlay_ViceCity({ isOpen, onClose }) {
           </div>
         </div>
 
-        <div className="flex flex-nowrap gap-30 items-center self-center">
+        <div
+          ref={gallaryRef}
+          className="flex flex-nowrap gap-30 items-center self-center"
+        >
           <div className="vicecity-grid gap-5 ">
             <div className="relative aspect-square w-auto h-[31vh] justify-self-end col-start-1 row-start-1">
               <ImageModel
@@ -309,7 +436,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
         </div>
       </div>
 
-      <div className="overlay-bg -z-2 opacity-90">
+      <div ref={bgRef} className="overlay-bg -z-2 opacity-90">
         <Image
           src="/images/Place/vice-city/background.webp"
           alt="Vice City Overlay"
