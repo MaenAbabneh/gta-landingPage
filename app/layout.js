@@ -163,9 +163,14 @@ export default function RootLayout({ children }) {
         trailer: {
           "@type": "VideoObject",
           name: "Grand Theft Auto VI Trailer",
-          description: "Official trailer for Grand Theft Auto VI",
+          description:
+            "Official trailer for Grand Theft Auto VI showcasing Vice City, Jason, and Lucia",
           thumbnailUrl:
             "https://res.cloudinary.com/dlgi2ockk/video/upload/so_end/w_1920/q_auto:best/f_auto/Lucia_Caminos_1_rlbk0h.jpg",
+          uploadDate: "2023-12-05T00:00:00Z",
+          duration: "PT1M30S",
+          contentUrl: "https://www.youtube.com/watch?v=QdBZY2fkU-0",
+          embedUrl: "https://www.youtube.com/embed/QdBZY2fkU-0",
         },
         character: [
           {
