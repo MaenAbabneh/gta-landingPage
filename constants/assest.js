@@ -2,6 +2,7 @@ import {
   buildImageUrl,
   buildResponsiveVideoUrls,
   buildVideoThumbnail,
+  buildImagePlaceholder,
 } from "@/lib/cloudinary";
 
 export const SITE_ASSIST = [
@@ -44,6 +45,7 @@ export const prebuiltassets = SITE_ASSIST.map((asset) => {
     return {
       ...asset,
       url: buildImageUrl(asset.id),
+      placeholder: buildImagePlaceholder(asset.id),
     };
   } else {
     return {
@@ -64,6 +66,7 @@ const buildImageObject = (imageData) => {
     result[key] = {
       ...value,
       url: buildImageUrl(value.src),
+      placeholder: buildImagePlaceholder(value.src),
     };
   }
   return result;

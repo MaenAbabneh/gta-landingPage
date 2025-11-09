@@ -78,7 +78,7 @@ function ViceCity() {
             start: "top center", // يبدأ قبل دخول السكشن
             end: "bottom top", // ينتهي عند خروج السكشن
             scrub: true,
-            markers: true,
+            // markers: true,
           },
         });
 

@@ -23,6 +23,11 @@ const JasonContent_1 = () => {
   const ImageViewerTwo = JasonImage.Viwer_2.url;
   const ImageViewerThree = JasonImage.Viwer_3.url;
 
+  // ✅ Placeholders للصور
+  const placeholderOne = JasonImage.Image_1.placeholder;
+  const placeholderTwo = JasonImage.Image_2.placeholder;
+  const placeholderThree = JasonImage.Image_3.placeholder;
+
   useGSAP(
     () => {
       gsap.set(fadeImageRef.current, { opacity: 0 });
@@ -107,6 +112,7 @@ const JasonContent_1 = () => {
             viewerImg={ImageViewerOne}
             alt={JasonImage.Image_1.alt}
             sizes={JasonImage.Image_1.size}
+            placeholder={placeholderOne}
             className="object-cover [object-position:80%_center]"
             ButtonStyle="w-full h-full "
           />
@@ -123,6 +129,7 @@ const JasonContent_1 = () => {
             viewerImg={ImageViewerTwo}
             alt={JasonImage.Image_2.alt}
             sizes={JasonImage.Image_2.size}
+            placeholder={placeholderTwo}
             className="object-cover [object-position:5%_center]"
             ButtonStyle="h-full w-full "
           />
@@ -133,6 +140,7 @@ const JasonContent_1 = () => {
             viewerImg={ImageViewerThree}
             alt={JasonImage.Image_3.alt}
             sizes={JasonImage.Image_3.size}
+            placeholder={placeholderThree}
             className="object-cover"
             ButtonStyle="h-full w-full"
             fadeImageRef={fadeImageRef}

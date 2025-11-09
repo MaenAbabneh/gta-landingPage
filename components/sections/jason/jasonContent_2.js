@@ -21,6 +21,11 @@ function JasonContent_2() {
   const ImageViewerFive = JasonImage.Viwer_5.url;
   const ImageViewerSix = JasonImage.Viwer_6.url;
 
+  // ✅ Placeholders للصور
+  const placeholderFour = JasonImage.Image_4.placeholder;
+  const placeholderFive = JasonImage.Image_5.placeholder;
+  const placeholderSix = JasonImage.Image_6.placeholder;
+
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
@@ -83,6 +88,7 @@ function JasonContent_2() {
               viewerImg={ImageViewerFive}
               alt={JasonImage.Image_5.alt}
               sizes={JasonImage.Image_5.size}
+              placeholder={placeholderFive}
               className="object-cover [object-position:0%_center] "
               ButtonStyle="w-full h-full "
             />
@@ -93,6 +99,7 @@ function JasonContent_2() {
               viewerImg={ImageViewerSix}
               alt={JasonImage.Image_6.alt}
               sizes={JasonImage.Image_6.size}
+              placeholder={placeholderSix}
               className=" object-cover [object-position:20%_center]  "
               ButtonStyle="h-full w-full"
               fadeImageRef={fadeImageRef}
@@ -116,6 +123,7 @@ function JasonContent_2() {
             viewerImg={ImageViewerFour}
             alt={JasonImage.Image_4.alt}
             sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
+            placeholder={placeholderFour}
             className="object-cover [object-position:25%_center]"
             ButtonStyle="w-full h-full "
           />

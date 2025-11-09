@@ -38,6 +38,12 @@ function CalContent() {
   const ImageViewerThree = CalImage.Viwer_2.url;
   const ImageViewerFour = CalImage.Viwer_3.url;
 
+  // ✅ Placeholders للصور
+  const placeholderOne = CalImage.Image_1.placeholder;
+  const placeholderTwo = CalImage.Image_4.placeholder;
+  const placeholderThree = CalImage.Image_2.placeholder;
+  const placeholderFour = CalImage.Image_3.placeholder;
+
   useGSAP(
     () => {
       if (!videoSrc) return;
@@ -242,6 +248,7 @@ function CalContent() {
               viewerImg={ImageViewerTwo}
               alt={CalImage.Image_1.alt}
               sizes={CalImage.Image_1.size}
+              placeholder={placeholderTwo}
               className="object-cover [object-position:50%_center]"
               ButtonStyle="w-full h-full "
             />
@@ -280,6 +287,7 @@ function CalContent() {
               viewerImg={ImageViewerThree}
               alt={CalImage.Image_1.alt}
               sizes={CalImage.Image_1.size}
+              placeholder={placeholderThree}
               className="object-cover [object-position:50%_center]"
               ButtonStyle="w-full h-full "
             />
@@ -295,6 +303,7 @@ function CalContent() {
               viewerImg={ImageViewerOne}
               alt={CalImage.Image_2.alt}
               sizes={CalImage.Image_2.size}
+              placeholder={placeholderOne}
               className="object-cover [object-position:100%_center] "
               ButtonStyle="w-full h-full "
               priority
@@ -317,6 +326,7 @@ function CalContent() {
               viewerImg={ImageViewerFour}
               alt={CalImage.Image_2.alt}
               sizes={CalImage.Image_2.size}
+              placeholder={placeholderFour}
               className="object-cover [object-position:0%_center] "
               ButtonStyle="w-full h-full "
               priority

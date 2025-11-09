@@ -22,6 +22,11 @@ const LuciaContent_1 = () => {
   const ImageViewerTwo = LuciaImage.Viwer_2.url;
   const ImageViewerThree = LuciaImage.Viwer_3.url;
 
+  // ✅ Placeholders للصور
+  const placeholderOne = LuciaImage.Image_1.placeholder;
+  const placeholderTwo = LuciaImage.Image_2.placeholder;
+  const placeholderThree = LuciaImage.Image_3.placeholder;
+
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
@@ -73,6 +78,7 @@ const LuciaContent_1 = () => {
             viewerImg={ImageViewerOne}
             alt={LuciaImage.Image_1.alt}
             sizes={LuciaImage.Image_1.size}
+            placeholder={placeholderOne}
             className="object-cover [object-position:80%_center]"
             ButtonStyle="w-full h-full"
             priority
@@ -84,6 +90,7 @@ const LuciaContent_1 = () => {
             viewerImg={ImageViewerThree}
             alt={LuciaImage.Image_3.alt}
             sizes={LuciaImage.Image_3.size}
+            placeholder={placeholderThree}
             className="object-cover [object-position:65%_center]"
             ButtonStyle="h-full w-full"
           />
@@ -112,6 +119,7 @@ const LuciaContent_1 = () => {
             viewerImg={ImageViewerTwo}
             alt={LuciaImage.Image_2.alt}
             sizes={LuciaImage.Image_2.size}
+            placeholder={placeholderTwo}
             className="object-cover [object-position:65%_center]"
             ButtonStyle="h-full w-full"
           />

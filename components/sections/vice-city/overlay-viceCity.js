@@ -56,6 +56,17 @@ function Overlay_ViceCity({ isOpen, onClose }) {
   const ImageViewerEight = ViceCityImage.Viewer_8.url;
   const ImageViewerNine = ViceCityImage.Viewer_9.url;
 
+  // ✅ Placeholders للصور
+  const placeholderOne = ViceCityImage.Image_1.placeholder;
+  const placeholderTwo = ViceCityImage.Image_4.placeholder;
+  const placeholderThree = ViceCityImage.Image_2.placeholder;
+  const placeholderFour = ViceCityImage.Image_3.placeholder;
+  const placeholderFive = ViceCityImage.Image_5.placeholder;
+  const placeholderSix = ViceCityImage.Image_6.placeholder;
+  const placeholderSeven = ViceCityImage.Image_7.placeholder;
+  const placeholderEight = ViceCityImage.Image_8.placeholder;
+  const placeholderNine = ViceCityImage.Image_9.placeholder;
+
   useGSAP(
     () => {
       if (
@@ -180,6 +191,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
                 viewerImg={ImageViewerTwo}
                 alt={ViceCityImage.Image_3.alt}
                 sizes={ViceCityImage.Image_3.size}
+                placeholder={placeholderThree}
                 className="object-cover [object-position:100%_center]"
                 ButtonStyle="w-full h-full "
                 disableScrollLock={true}
@@ -191,6 +203,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
                 viewerImg={ImageViewerThree}
                 alt={ViceCityImage.Image_4.alt}
                 sizes={ViceCityImage.Image_4.size}
+                placeholder={placeholderFour}
                 className="object-cover [object-position:0%_center]"
                 ButtonStyle="w-full h-full"
                 disableScrollLock={true}
@@ -202,6 +215,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
                 viewerImg={ImageViewerOne}
                 alt={ViceCityImage.Image_1.alt}
                 sizes={ViceCityImage.Image_1.size}
+                placeholder={placeholderOne}
                 className="object-cover [object-position:40%_center]"
                 ButtonStyle="w-full h-full "
                 disableScrollLock={true}
@@ -216,6 +230,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
                 viewerImg={ImageViewerFour}
                 alt={ViceCityImage.Image_2.alt}
                 sizes={ViceCityImage.Image_2.size}
+                placeholder={placeholderTwo}
                 className="object-cover [object-position:20%_center]"
                 ButtonStyle="w-full h-full "
                 disableScrollLock={true}
@@ -227,6 +242,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
                 viewerImg={ImageViewerFive}
                 alt={ViceCityImage.Image_5.alt}
                 sizes={ViceCityImage.Image_5.size}
+                placeholder={placeholderFive}
                 className="object-cover [object-position:100%_center]"
                 ButtonStyle="w-full h-full"
                 disableScrollLock={true}
@@ -241,6 +257,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
                 viewerImg={ImageViewerSix}
                 alt={ViceCityImage.Image_6.alt}
                 sizes={ViceCityImage.Image_6.size}
+                placeholder={placeholderSix}
                 className="object-cover [object-position:50%_center]"
                 ButtonStyle="w-full h-full "
                 disableScrollLock={true}
@@ -255,6 +272,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
                 viewerImg={ImageViewerSeven}
                 alt={ViceCityImage.Image_7.alt}
                 sizes={ViceCityImage.Image_7.size}
+                placeholder={placeholderSeven}
                 className="object-cover [object-position:50%_center]"
                 ButtonStyle="w-full h-full"
                 disableScrollLock={true}
@@ -266,6 +284,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
                 viewerImg={ImageViewerEight}
                 alt={ViceCityImage.Image_8.alt}
                 sizes={ViceCityImage.Image_8.size}
+                placeholder={placeholderEight}
                 className="object-cover [object-position:100%_center]"
                 ButtonStyle="w-full h-full"
                 disableScrollLock={true}
@@ -280,6 +299,7 @@ function Overlay_ViceCity({ isOpen, onClose }) {
                 viewerImg={ImageViewerNine}
                 alt={ViceCityImage.Image_9.alt}
                 sizes={ViceCityImage.Image_9.size}
+                placeholder={placeholderNine}
                 className="object-cover [object-position:100%_center]"
                 ButtonStyle="w-full h-full"
                 disableScrollLock={true}

@@ -41,10 +41,19 @@ function Hero() {
           let maskSize;
           if (isminiMobile) {
             maskSize = "clamp(14vmin, 14vmax, 20vh)";
+            gsap.set([backgroundImageRef.current, bgKeyArtRef.current], {
+              scale: 1.1,
+            });
           } else if (isMobile) {
             maskSize = "clamp(12vmin, 12vmax, 20vh)";
+            gsap.set([backgroundImageRef.current, bgKeyArtRef.current], {
+              scale: 1.1,
+            });
           } else if (isTablet) {
             maskSize = "clamp(15vh, 20%, 25vh)";
+            gsap.set([backgroundImageRef.current, bgKeyArtRef.current], {
+              scale: 1.25,
+            });
           }
 
           gsap.set(

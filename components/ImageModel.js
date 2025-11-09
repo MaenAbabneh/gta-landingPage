@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { useScrollLock } from "@/hooks/useScrollLock";
+import { useLazyImage } from "@/hooks/useLazyImage";
 
 import Burger from "./burger";
 import { ExpandedArrow } from "./svg";
@@ -24,11 +25,23 @@ const ImageModal = ({
   fadeImageRef,
   priority = false,
   disableScrollLock = false, // خاصية جديدة لتعطيل قفل التمرير
+  placeholder, // إضافة placeholder
+  enableLazyLoad = true, // تفعيل lazy loading افتراضياً
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const buttonRef = useRef(null);
   const portalRef = useRef(null);
+
+  // استخدام lazy loading
+  const {
+    src: lazySrc,
+    containerRef,
+    isLoaded,
+  } = useLazyImage(src, placeholder, { rootMargin: "1500px" });
+
+  // استخدام src الفعلي أو lazy src حسب الإعدادات
+  const finalSrc = enableLazyLoad ? lazySrc || placeholder : src;
 
   useEffect(() => {
     setIsMounted(true);
@@ -213,7 +226,10 @@ const ImageModal = ({
   return (
     <>
       <button
-        ref={buttonRef}
+        ref={(el) => {
+          buttonRef.current = el;
+          if (enableLazyLoad) containerRef.current = el;
+        }}
         onClick={openModal}
         className={`relative ${ButtonStyle}`}
         aria-label={`Open ${alt || "image"} in modal`}
@@ -224,13 +240,18 @@ const ImageModal = ({
         >
           <Image
             suppressHydrationWarning={true}
-            src={src}
+            src={finalSrc}
             alt={alt}
             fill
             sizes={sizes}
             priority={priority}
             unoptimized
-            className={`${className} border-gta-yellow border-0 group-hover:border-6 transition-all duration-300 ease-in-out`}
+            className={`${className} border-gta-yellow border-0 group-hover:border-6 transition-all duration-300 ease-in-out ${
+              !isLoaded && enableLazyLoad ? "blur-md" : ""
+            }`}
+            style={{
+              transition: isLoaded ? "filter 0.3s ease-in-out" : "none",
+            }}
           />
           <span className="flex items-center justify-center w-12 h-12 absolute bottom-0 right-0 m-5 bg-gta-gray rounded-full group-hover:bg-gta-yellow transition-colors duration-300 ease-in-out">
             <ExpandedArrow className="w-5 h-5 text-gta-yellow group-hover:text-gta-gray" />
