@@ -137,10 +137,7 @@ function LuciaVideo() {
 
   return (
     <section
-      ref={(el) => {
-        videoTwoRef.current = el;
-        containerRef.current = el;
-      }}
+      ref={videoTwoRef }
       className="relative w-full h-lvh overflow-hidden "
     >
       <div

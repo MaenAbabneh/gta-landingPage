@@ -25,7 +25,7 @@ function ViceCity() {
     posterUrl,
     containerRef: lazyRef,
   } = useLazyVideo("Vice_City_tazkqo", {
-    rootMargin: "300px",
+    eager: true,
   });
 
   useGSAP(

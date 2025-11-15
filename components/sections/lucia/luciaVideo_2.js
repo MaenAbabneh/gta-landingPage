@@ -17,7 +17,7 @@ function LuciaVideo_2() {
   const quoteRef = useRef(null);
 
   const { videoUrl: videoSrc, posterUrl, containerRef } = useLazyVideo("Lucai_Caminos_2_rqqw1q", {
-    rootMargin: "300px",
+    eager: true,
   });
 
   useGSAP(
@@ -204,10 +204,7 @@ function LuciaVideo_2() {
 
   return (
     <section
-      ref={(el) => {
-        videoTwoRef.current = el;
-        containerRef.current = el;
-      }}
+      ref={videoTwoRef}
       className="relative w-full h-lvh overflow-hidden "
     >
       <div

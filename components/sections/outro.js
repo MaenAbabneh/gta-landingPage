@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 
-import { useResponsiveVideo } from "@/hooks/useResponsive";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,7 +17,9 @@ function Outro() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const { videoSrc, posterUrl } = useResponsiveVideo("outro_dy82ms");
+  const { videoUrl: videoSrc, posterUrl } = useLazyVideo("outro_dy82ms", {
+    eager: true,
+  });
 
   useGSAP(
     () => {

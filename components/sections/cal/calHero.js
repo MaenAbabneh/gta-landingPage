@@ -53,16 +53,20 @@ function CalHero() {
       );
       tl.fromTo(
         [backgroundImageRef.current],
-        { y: -50, ease: "none" , duration: 1.2 },
-        { y: 0, ease: "none" , duration: 1.2 },
+        { y: -50, ease: "none", duration: 1.2 },
+        { y: 0, ease: "none", duration: 1.2 },
         0
       ).fromTo(
         textRef.current,
-        { y: 20, ease: "none" , duration: 1 },
-        { y: 0, ease: "none" , duration: 1},
+        { y: 20, ease: "none", duration: 1 },
+        { y: 0, ease: "none", duration: 1 },
         "<"
-      )
-      tl.to(containerRef.current, { opacity: 0, ease: "none" , duration: 1 }, ">+=80%" );
+      );
+      tl.to(
+        containerRef.current,
+        { opacity: 0, ease: "none", duration: 1 },
+        ">+=80%"
+      );
     },
     { scope: containerRef }
   );

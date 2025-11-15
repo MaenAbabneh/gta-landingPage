@@ -24,7 +24,7 @@ function CalContent() {
     posterUrl,
     containerRef,
   } = useLazyVideo("Cal_Hampton_mnncgn", {
-    rootMargin: "300px",
+    eager: true,
   });
 
   // ✅ استخدام URLs المبنية مسبقاً
@@ -225,10 +225,7 @@ function CalContent() {
   );
   return (
     <section
-      ref={(el) => {
-        PartTwoRef.current = el;
-        containerRef.current = el;
-      }}
+      ref={PartTwoRef}
       className="relative z-10 cal-gallary gap-x-5 items-start pb-[30vh]"
     >
       <div

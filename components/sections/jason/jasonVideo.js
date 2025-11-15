@@ -19,9 +19,8 @@ function JasonVideo() {
   const {
     videoUrl: videoSrc,
     posterUrl,
-    containerRef,
   } = useLazyVideo("Jason_Duval_2_so4cun", {
-    rootMargin: "300px",
+    eager: true,
   });
 
   useGSAP(
@@ -224,10 +223,7 @@ function JasonVideo() {
 
   return (
     <section
-      ref={(el) => {
-        videoTwoRef.current = el;
-        containerRef.current = el;
-      }}
+      ref={videoTwoRef}
       className="relative w-full h-lvh overflow-hidden "
     >
       <div
