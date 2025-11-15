@@ -4,7 +4,7 @@ import gsap from "gsap";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
-import { NavLogo } from "../../../svg";
+import { NavLogo } from "../../../ui/svg";
 
 const transparentPixel =
   "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";

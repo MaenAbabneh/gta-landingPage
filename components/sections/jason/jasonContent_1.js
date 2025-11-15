@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import ImageModal from "@/components/ImageModel";
+import ImageModal from "@/components/ui/ImageModel";
 import { JasonImage } from "@/constants/assest";
 
 gsap.registerPlugin(ScrollTrigger);

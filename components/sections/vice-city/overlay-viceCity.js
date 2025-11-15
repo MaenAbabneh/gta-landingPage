@@ -10,8 +10,8 @@ import { createPortal } from "react-dom";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 
-import { FullArrowSvg } from "@/components/svg";
-import ImageModel from "@/components/ImageModel";
+import { FullArrowSvg } from "@/components/ui/svg";
+import ImageModel from "@/components/ui/ImageModel";
 import { ViceCityImage } from "@/constants/assest";
 
 gsap.registerPlugin(ScrollTrigger);

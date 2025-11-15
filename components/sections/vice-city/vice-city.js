@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import { useLazyVideo } from "@/hooks/useLazyVideo";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Overlay_ViceCity from "./overlay-viceCity";
-import { VisitLeonied } from "@/components/svg";
+import { VisitLeonied } from "@/components/ui/svg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -163,7 +163,7 @@ function ViceCity() {
           </p>
         </div>
         <button
-        id="viceCity-button"
+          id="viceCity-button"
           onClick={() => setIsOverlayOpen(true)}
           ref={FirstVideoRef}
           aria-label="open vice-city map overlay"

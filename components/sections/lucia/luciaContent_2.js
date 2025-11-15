@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { LuciaImage } from "@/constants/assest";
-import ImageModel from "@/components/ImageModel";
+import ImageModel from "@/components/ui/ImageModel";
 
 gsap.registerPlugin(ScrollTrigger);
 

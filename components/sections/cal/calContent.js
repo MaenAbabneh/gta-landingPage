@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { CalImage } from "@/constants/assest";
-import ImageModel from "@/components/ImageModel";
+import ImageModel from "@/components/ui/ImageModel";
 import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 gsap.registerPlugin(ScrollTrigger);

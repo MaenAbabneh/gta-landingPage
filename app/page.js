@@ -15,7 +15,7 @@ import Jason from "@/components/sections/jason/jason";
 import Lucia from "@/components/sections/lucia/lucia";
 import ViceCity from "@/components/sections/vice-city/vice-city";
 import Outro from "@/components/sections/outro";
-import { BouncingArrow } from "@/components/svg";
+import { BouncingArrow } from "@/components/ui/svg";
 import { useGSAPLenis } from "@/lib/gsap-lenis";
 
 gsap.registerPlugin(ScrollTrigger);

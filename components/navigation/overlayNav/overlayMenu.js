@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 
-import { ArrowSvg, GloableSvg } from "../../svg";
+import { ArrowSvg, GloableSvg } from "../../ui/svg";
 import DownloadsGrid from "./components/content/DownloadsGrid";
 import PeopleList from "./components/content/PeopleList";
 import PlacesList from "./components/content/PlacesList";

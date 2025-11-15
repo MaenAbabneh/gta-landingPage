@@ -2,8 +2,8 @@ import "./globals.css";
 
 import localFont from "next/font/local";
 
-import Precacher from "@/components/precacher";
-import Loading from "../components/loading";
+import Precacher from "@/components/ui/precacher";
+import Loading from "../components/ui/loading";
 import LenisProvider from "@/lib/lenis";
 import Script from "next/script";
 

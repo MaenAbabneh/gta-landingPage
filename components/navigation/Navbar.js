@@ -7,9 +7,9 @@ import { useState } from "react";
 
 import { useScrollLock } from "@/hooks/useScrollLock";
 
-import Burger from "../burger";
-import { MainLogo } from "../svg";
-import TrailerOverlay from "../trailervideo";
+import Burger from "../ui/burger";
+import { MainLogo } from "../ui/svg";
+import TrailerOverlay from "../ui/trailervideo";
 import OverlayMenu from "./overlayNav/overlayMenu";
 
 gsap.registerPlugin(ScrollToPlugin);
