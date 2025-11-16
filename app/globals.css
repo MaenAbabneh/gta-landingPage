@@ -555,11 +555,11 @@ body {
 
   /* intro section */
   .story-heading-size {
-    font-size: clamp(2rem, 6vw, 7rem);
+    font-size: clamp(2rem, 4vw, 5rem);
   }
 
   .story-text-size {
-    font-size: clamp(0.8rem, 3vw, 3rem);
+    font-size: clamp(0.8rem, 3vw, 2rem);
   }
 
   /* GTA Gradients */

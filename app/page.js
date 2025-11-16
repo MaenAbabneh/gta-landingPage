@@ -10,7 +10,7 @@ import { useEffect, useRef } from "react";
 import Navbar from "@/components/navigation/Navbar";
 import Cal from "@/components/sections/cal/cal";
 import Hero from "@/components/sections/hero";
-import JasonIntro from "@/components/sections/intro";
+import JasonIntro from "@/components/sections/jasonIntro";
 import Jason from "@/components/sections/jason/jason";
 import Lucia from "@/components/sections/lucia/lucia";
 import ViceCity from "@/components/sections/vice-city/vice-city";

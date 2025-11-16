@@ -34,27 +34,21 @@ const JasonContent_1 = () => {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          isBigDisplay: "(min-width: 1280px)",
-          isDesktop: "(min-width: 1024px) and (max-width: 1279px)",
+          isDesktop: "(min-width: 1280px)",
           isTablet: "(min-width: 768px) and (max-width: 1023px)",
           isMobile: "(max-width: 767px)",
         },
         (context) => {
-          let { isBigDisplay, isDesktop, isTablet, isMobile } =
+          let { isDesktop, isTablet, isMobile } =
             context.conditions;
           let end_scroll;
           let scrup_value;
           let y;
-          if (isBigDisplay) {
-            end_scroll = "+=1200";
-            scrup_value = 1.2;
-            y = -120;
-            gsap.set(PartOneRef.current, { marginTop: "150vh" });
-          } else if (isDesktop) {
+         if (isDesktop) {
             end_scroll = "+=1500";
             scrup_value = 1.5;
             y = -100;
-            gsap.set(PartOneRef.current, { marginTop: "100vh" });
+            gsap.set(PartOneRef.current, { marginTop: "200vh" });
           } else if (isTablet) {
             end_scroll = "+=1000";
             scrup_value = 1;
