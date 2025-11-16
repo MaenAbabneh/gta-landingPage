@@ -40,7 +40,7 @@ function JasonContent_2() {
           let { isDesktop, isTablet, isMobile } = context.conditions;
 
           if (isDesktop) {
-            gsap.set(PartTwoRef.current, { marginTop: "190vh" });
+            gsap.set(PartTwoRef.current, { marginTop: "-80vh" });
           } else if (isTablet) {
           } else if (isMobile) {
           }

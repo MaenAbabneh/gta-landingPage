@@ -26,7 +26,7 @@ function JasonVideo() {
 
   return (
     <section
-      ref={jasonVideoRef}
+      ref={containerRef}
       className="relative w-full h-lvh overflow-hidden "
     >
       <div
