@@ -102,10 +102,10 @@ export default function Home() {
       opacity: 0,
       scrollTrigger: {
         trigger: "#hero",
-        endTrigger: "#jason-intro",
         start: "top top",
         end: "bottom center ",
         scrub: true,
+        markers: true,
       },
       ease: "none",
     });
@@ -115,7 +115,6 @@ export default function Home() {
     <main>
       <div className="bg-hero-gradient fixed inset-0 -z-10 transition-colors" />
       <Navbar />
-
       <Hero />
       <JasonIntro />
       <Jason />
