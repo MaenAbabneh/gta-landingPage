@@ -4,6 +4,7 @@ import { useRef } from "react";
 
 import { useLazyVideo } from "@/hooks/useLazyVideo";
 import { useIntroAnimation } from "@/hooks/animation/useIntroAnimation";
+import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 
 function JasonIntro() {
   const introRef = useRef(null);
@@ -54,22 +55,17 @@ function JasonIntro() {
         ref={FirstVideoRef}
         className="absolute z-0 inset-0 overflow-hidden "
       >
-        <div className="h-lvh ">
-          <video
-            ref={videoRef}
-            src={videoSrc}
-            poster={posterUrl}
-            preload="auto"
-            playsInline
-            muted
-            crossOrigin="anonymous"
-            aria-label="Jason embracing Lucia while looking into the distance."
-            className="w-full h-lvh object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center] aspect-video z-2 overflow-clip"
-          />
-
-          <canvas
-            ref={canvasRef}
-            className="w-full h-lvh object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center] aspect-video z-1"
+        <div className="h-lvh">
+          <AnimatedVideoSection
+            videoRef={videoRef}
+            posterUrl={posterUrl}
+            videoSrc={videoSrc}
+            canvasRef={canvasRef}
+            videoClassName=" object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center] "
+            posterClassName="object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]"
+            canvasClassName="object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]"
+            videoAlt="Jason embracing Lucia while looking into the distance."
+            imgAlt="Jason embracing Lucia while looking into the distance."
           />
         </div>
       </div>

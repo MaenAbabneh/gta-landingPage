@@ -4,14 +4,13 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import { GSDevTools } from "gsap/GSDevTools";
 import { useLazyVideo } from "@/hooks/useLazyVideo";
 import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 
-gsap.registerPlugin(ScrollTrigger, GSDevTools);
+gsap.registerPlugin(ScrollTrigger);
 
 function JasonVideo() {
-  const containerRef = useRef(null);
+  const jasonVideoRef = useRef(null);
   const videoOverlayRef = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -38,26 +37,23 @@ function JasonVideo() {
           let { isDesktop, isTablet, isMobile } = ctx.conditions;
           if (!videoSrc) return;
 
-          const video = VideoRef.current;
+          const video = videoRef.current;
           const canvas = canvasRef.current;
           if (!video || !canvas) return;
 
           const context = canvas.getContext("2d");
 
-          gsap.set(
-            [videoTwoRef.current, canvasRef.current, videoOverlayRef.current],
-            {
-              willChange: "transform, opacity, filter",
-              force3D: true,
-            }
-          );
+          gsap.set([video, canvas, videoOverlayRef.current], {
+            willChange: "transform, opacity, filter",
+            force3D: true,
+          });
 
           if (isDesktop) {
-            gsap.set(videoTwoRef.current, { marginTop: "-50vh" });
+            gsap.set(jasonVideoRef.current, { marginTop: "-50vh" });
           } else if (isTablet) {
-            gsap.set(videoTwoRef.current, { marginTop: "-50vh" });
+            gsap.set(jasonVideoRef.current, { marginTop: "-50vh" });
           } else if (isMobile) {
-            gsap.set(videoTwoRef.current, { marginTop: "-0vh" });
+            gsap.set(jasonVideoRef.current, { marginTop: "-0vh" });
           }
           gsap.set(canvasRef.current, { scale: 1.1 });
           gsap.set(quoteRef.current, { opacity: 0, y: 200 });
@@ -83,7 +79,7 @@ function JasonVideo() {
             const tl = gsap.timeline({
               defaults: { ease: "none" },
               scrollTrigger: {
-                trigger: videoTwoRef.current,
+                trigger: jasonVideoRef.current,
                 start: "top top",
                 end: "+=3000",
                 scrub: true,
@@ -96,10 +92,7 @@ function JasonVideo() {
                 onUpdate: (self) => {
                   if (video.readyState > 1 && video.duration) {
                     const progress = self.progress;
-                    if (
-                      progress >= videoStart &&
-                      progress <= videoEnd 
-                    ) {
+                    if (progress >= videoStart && progress <= videoEnd) {
                       const mapped = gsap.utils.mapRange(
                         videoStart,
                         videoEnd,
@@ -158,7 +151,6 @@ function JasonVideo() {
               );
 
             tl.to(quoteRef.current, { y: "-90vh", ease: "none" }, "fadeOut");
-            GSDevTools.create({ animation: tl });
           };
 
           const waitForVideo = () => {
@@ -191,35 +183,30 @@ function JasonVideo() {
       );
     },
     {
-      scope: containerRef,
+      scope: jasonVideoRef,
       dependencies: [videoSrc],
     }
   );
 
   return (
     <section
-      ref={containerRef}
+      ref={jasonVideoRef}
       className="relative w-full h-lvh overflow-hidden "
     >
       <div
         ref={videoOverlayRef}
         className="absolute inset-0 z-0 overflow-hidden h-lvh "
       >
-
-        <video
-          ref={VideoRef}
-          src={videoSrc}
-          poster={posterUrl}
-          muted
-          aria-label="Video showing Jason Duval in various scenes"
-          playsInline
-          preload="metadata"
-          crossOrigin="anonymous"
-          className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-1 overflow-clip"
-        />
-        <canvas
-          ref={canvasRef}
-          className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-2 overflow-clip"
+        <AnimatedVideoSection
+          videoRef={videoRef}
+          posterUrl={posterUrl}
+          videoSrc={videoSrc}
+          canvasRef={canvasRef}
+          videoClassName=" object-cover [object-position:70%_center] md:[object-position:55%_center] "
+          posterClassName="object-cover [object-position:70%_center] md:[object-position:55%_center]"
+          canvasClassName="object-cover [object-position:70%_center] md:[object-position:55%_center]"
+          videoAlt="Video showing Jason Duval in various scenes"
+          imgAlt="Poster image for video showing Jason Duval in various scenes"
         />
       </div>
 
