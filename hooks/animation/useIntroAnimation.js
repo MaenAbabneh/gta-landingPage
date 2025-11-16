@@ -82,7 +82,7 @@ export function useIntroAnimation(
                 pin: true,
                 pinSpacing: false,
                 scrub: true,
-                markers: true,
+                // markers: true,
                 onUpdate: (self) => {
                   if (video.readyState > 1 && video.duration) {
                     const progress = self.progress;

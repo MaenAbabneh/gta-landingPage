@@ -4,24 +4,25 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-
+import { GSDevTools } from "gsap/GSDevTools";
 import { useLazyVideo } from "@/hooks/useLazyVideo";
+import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, GSDevTools);
 
 function JasonVideo() {
-  const videoTwoRef = useRef(null);
+  const containerRef = useRef(null);
   const videoOverlayRef = useRef(null);
-  const VideoRef = useRef(null);
+  const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const quoteRef = useRef(null);
 
-  const {
-    videoUrl: videoSrc,
-    posterUrl,
-  } = useLazyVideo("Jason_Duval_2_so4cun", {
-    eager: true,
-  });
+  const { videoUrl: videoSrc, posterUrl } = useLazyVideo(
+    "Jason_Duval_2_so4cun",
+    {
+      eager: true,
+    }
+  );
 
   useGSAP(
     () => {
@@ -65,63 +66,48 @@ function JasonVideo() {
             maskImage:
               "radial-gradient(circle at 70vw 50vh, rgb(0, 0, 0) 30vw, rgb(0, 0, 0) 100vw)",
           });
-          const drawVideoToCanvas = () => {
-            if (context && video.readyState > 2) {
-              context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            }
-          };
-          let tl;
-          let isVideoComplete = false;
-          let lastTime = -1;
 
           const setupAnimation = () => {
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
 
-            tl = gsap.timeline({
+            const drawImage = () => {
+              context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            };
+
+            gsap.ticker.add(drawImage);
+
+            const videoStart = 0;
+            const videoEnd = 0.33;
+
+            const tl = gsap.timeline({
               defaults: { ease: "none" },
               scrollTrigger: {
                 trigger: videoTwoRef.current,
                 start: "top top",
-                end: "+=3100 bottom",
+                end: "+=3000",
                 scrub: true,
                 pin: true,
-                ease: "none",
                 pinSpacing: false,
+                markers: true,
                 onEnter: () => {
-                  isVideoComplete = false;
-                  lastTime = -1;
+                  video.currentTime = 0;
                 },
                 onUpdate: (self) => {
-                  if (video.duration) {
-                    if (isVideoComplete) {
-                      if (video.currentTime !== video.duration) {
-                        video.currentTime = video.duration;
-                      }
-                      return;
-                    }
-
-                    const videoScrubDuration = 1000;
-                    const scrollPassed = self.scroll() - self.start;
-                    let videoProgress = scrollPassed / videoScrubDuration;
-
-                    if (videoProgress <= 0) {
-                      videoProgress = 0;
-                    } else if (videoProgress >= 1) {
-                      videoProgress = 1;
-                      isVideoComplete = true;
-                    }
-
-                    // تثبيت الوقت على 60fps لتقليل Range requests
-                    const targetTime =
-                      Math.round(videoProgress * video.duration * 60) / 60;
-
-                    if (self.direction === 1 || videoProgress === 1) {
-                      // تحديث فقط إذا كان الفرق ملحوظاً
-                      if (Math.abs(targetTime - lastTime) > 1 / 60) {
-                        video.currentTime = targetTime;
-                        lastTime = targetTime;
-                      }
+                  if (video.readyState > 1 && video.duration) {
+                    const progress = self.progress;
+                    if (
+                      progress >= videoStart &&
+                      progress <= videoEnd 
+                    ) {
+                      const mapped = gsap.utils.mapRange(
+                        videoStart,
+                        videoEnd,
+                        0,
+                        video.duration,
+                        progress
+                      );
+                      video.currentTime = Math.max(video.currentTime, mapped);
                     }
                   }
                 },
@@ -132,7 +118,6 @@ function JasonVideo() {
               videoOverlayRef.current,
               {
                 opacity: 1,
-                duration: 0.1,
               },
               0
             )
@@ -141,9 +126,8 @@ function JasonVideo() {
                 {
                   opacity: 1,
                   y: 0,
-                  duration: 1,
                 },
-                "<+0.5"
+                "30%"
               )
 
               .add("videoEnd", 0.8)
@@ -152,16 +136,14 @@ function JasonVideo() {
                 canvasRef.current,
                 {
                   scale: 1,
-                  duration: 1,
                 },
-                "videoEnd"
+                "<"
               )
               .to(
                 videoOverlayRef.current,
                 {
                   maskImage:
                     "radial-gradient(circle at 70vw 25vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
-                  duration: 1,
                 },
                 "<+0.1"
               )
@@ -171,19 +153,12 @@ function JasonVideo() {
               .to(
                 videoOverlayRef.current,
 
-                {
-                  opacity: 0,
-                  duration: 0.5,
-                },
+                {},
                 "fadeOut"
               );
 
-            tl.to(
-              quoteRef.current,
-              { y: "-90vh", duration: 1, ease: "none" },
-              "fadeOut"
-            );
-            gsap.ticker.add(drawVideoToCanvas);
+            tl.to(quoteRef.current, { y: "-90vh", ease: "none" }, "fadeOut");
+            GSDevTools.create({ animation: tl });
           };
 
           const waitForVideo = () => {
@@ -216,20 +191,21 @@ function JasonVideo() {
       );
     },
     {
-      scope: videoTwoRef,
+      scope: containerRef,
       dependencies: [videoSrc],
     }
   );
 
   return (
     <section
-      ref={videoTwoRef}
+      ref={containerRef}
       className="relative w-full h-lvh overflow-hidden "
     >
       <div
         ref={videoOverlayRef}
         className="absolute inset-0 z-0 overflow-hidden h-lvh "
       >
+
         <video
           ref={VideoRef}
           src={videoSrc}
@@ -239,11 +215,11 @@ function JasonVideo() {
           playsInline
           preload="metadata"
           crossOrigin="anonymous"
-          className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-2 overflow-clip"
+          className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-1 overflow-clip"
         />
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-1 overflow-clip"
+          className="absolute inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:55%_center] aspect-video z-2 overflow-clip"
         />
       </div>
 

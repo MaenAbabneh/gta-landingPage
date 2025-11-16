@@ -105,7 +105,7 @@ export default function Home() {
         start: "top top",
         end: "bottom center ",
         scrub: true,
-        markers: true,
+        // markers: true,
       },
       ease: "none",
     });
