@@ -22,7 +22,7 @@ export default function AnimatedVideoSection(props) {
         crossOrigin="anonymous"
         aria-label={videoAlt}
         aria-hidden="true"
-        className={videoClassName}
+        className={`${videoClassName} z-30 aspect-video invisible`}
         style={{
           width: "100%",
           height: "100%",
@@ -42,13 +42,13 @@ export default function AnimatedVideoSection(props) {
           src={posterUrl}
           alt={imgAlt}
           loading="lazy"
-          className={posterClassName}
+          className={`${posterClassName} aspect-video z-10 `}
           style={{ width: "100%", height: "100%" }}
         />
       </picture>
       <canvas
         ref={canvasRef}
-        className={canvasClassName}
+        className={`${canvasClassName} aspect-video z-20`}
         style={{
           width: "100%",
           height: "100%",
