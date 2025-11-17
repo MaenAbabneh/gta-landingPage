@@ -45,28 +45,28 @@ const JasonContent_1 = () => {
           let scrup_value;
           let y;
          if (isDesktop) {
-            end_scroll = "+=1500";
-            scrup_value = 1.5;
+            // end_scroll = "+=1500";
+            // scrup_value = 1.5;
             y = -100;
             gsap.set(PartOneRef.current, { marginTop: "200vh" });
           } else if (isTablet) {
-            end_scroll = "+=1000";
-            scrup_value = 1;
+            // end_scroll = "+=1000";
+            // scrup_value = 1;
             y = -80;
-            gsap.set(PartOneRef.current, { marginTop: "150vh" });
+            // gsap.set(PartOneRef.current, { marginTop: "150vh" });
           } else if (isMobile) {
-            end_scroll = "+=2100";
-            scrup_value = 2.1;
+            // end_scroll = "+=2100";
+            // scrup_value = 2.1;
             y = -30;
-            gsap.set(PartOneRef.current, { marginTop: "270vh" });
+            // gsap.set(PartOneRef.current, { marginTop: "270vh" });
           }
 
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: PartOneRef.current,
               start: "top center",
-              end: end_scroll,
-              scrub: scrup_value,
+              end: "bottom top+=200",
+              scrub: true,
               // markers: true
             },
           });

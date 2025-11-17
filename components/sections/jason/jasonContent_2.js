@@ -40,7 +40,7 @@ function JasonContent_2() {
           let { isDesktop, isTablet, isMobile } = context.conditions;
 
           if (isDesktop) {
-            gsap.set(PartTwoRef.current, { marginTop: "-80vh" });
+            gsap.set(PartTwoRef.current, { marginTop: "220vh" });
           } else if (isTablet) {
           } else if (isMobile) {
           }
@@ -50,8 +50,8 @@ function JasonContent_2() {
             scrollTrigger: {
               trigger: PartTwoRef.current,
               start: "top center",
-              end: "+=1800 ",
-              scrub: 1.5,
+              end: "bottom top+=200",
+              scrub: true,
               ease: "none",
               // markers: true,
             },

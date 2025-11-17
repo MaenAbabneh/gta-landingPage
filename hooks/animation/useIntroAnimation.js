@@ -78,10 +78,10 @@ export function useIntroAnimation(
               scrollTrigger: {
                 trigger: introRef.current,
                 start: "top top",
-                end: "+=3000",
+                end: "bottom top-=1500",
                 pin: true,
-                pinSpacing: false,
                 scrub: true,
+                // pinSpacing: false,
                 // markers: true,
                 onUpdate: (self) => {
                   if (video.readyState > 1 && video.duration) {

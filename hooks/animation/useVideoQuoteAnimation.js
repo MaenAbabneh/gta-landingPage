@@ -72,11 +72,11 @@ export function useVideoQuoteAnimation(refs , videoSrc) {
               scrollTrigger: {
                 trigger: containerRef.current,
                 start: "top top",
-                end: "+=3000",
+                end: "bottom top-=1500",
                 scrub: true,
                 pin: true,
                 // pinSpacing: false,
-                markers: true,
+                // markers: true,
                 onEnter: () => {
                   video.currentTime = 0;
                 },
@@ -98,6 +98,7 @@ export function useVideoQuoteAnimation(refs , videoSrc) {
                     }
                   }
                 },
+
               },
             });
 
