@@ -8,8 +8,7 @@ function Lucia() {
   return (
     <section
       id="lucia"
-      data-background="bg-hero-gradient"
-      className=" bg-transparent"
+      className="relative flex flex-col w-full h-full overflow-hidden"
     >
       <LuciaVideo />
       <LuciaContent_1 />

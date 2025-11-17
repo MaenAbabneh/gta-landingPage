@@ -44,7 +44,7 @@ function Cal() {
     { scope: calRef }
   );
   return (
-    <section ref={calRef} id="cal" className="overflow-hidden">
+    <section ref={calRef} id="cal" className="relative flex flex-col w-full h-full overflow-hidden">
       <div ref={BGColorRef} className="calBGColor -z-[5] fixed inset-0 " />
       <CalHero />
       <CalContent />
