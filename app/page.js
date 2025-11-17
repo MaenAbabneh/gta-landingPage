@@ -10,7 +10,6 @@ import { useEffect, useRef } from "react";
 import Navbar from "@/components/navigation/Navbar";
 import Cal from "@/components/sections/cal/cal";
 import Hero from "@/components/sections/hero";
-import JasonIntro from "@/components/sections/jasonIntro";
 import Jason from "@/components/sections/jason/jason";
 import Lucia from "@/components/sections/lucia/lucia";
 import ViceCity from "@/components/sections/vice-city/vice-city";
@@ -116,7 +115,6 @@ export default function Home() {
       <div className="bg-hero-gradient fixed inset-0 -z-10 transition-colors" />
       <Navbar />
       <Hero />
-      <JasonIntro />
       <Jason />
       <Lucia />
       <Cal />
