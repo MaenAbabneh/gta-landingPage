@@ -4,10 +4,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function useIntroAnimation(
-  { introRef, storytextRef, FirstVideoRef, videoRef, canvasRef },
-  videoSrc
-) {
+export function useIntroAnimation(refs, videoSrc) {
+  const { introRef, storytextRef, FirstVideoRef, videoRef, canvasRef } = refs;
+
+  if (!introRef || !storytextRef || !FirstVideoRef || !videoRef || !canvasRef) {
+    console.warn("One or more refs are undefined in useIntroAnimation");
+    return;
+  }
+  
   useGSAP(
     () => {
       const mm = gsap.matchMedia();

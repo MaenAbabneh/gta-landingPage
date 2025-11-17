@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
+import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 
 import { useLazyVideo } from "@/hooks/useLazyVideo";
 
@@ -12,29 +13,28 @@ gsap.registerPlugin(ScrollTrigger);
 function LuciaVideo() {
   const videoTwoRef = useRef(null);
   const videoOverlayRef = useRef(null);
-  const VideoRef = useRef(null);
+  const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const {
-    videoUrl: videoSrc,
-    posterUrl,
-    containerRef,
-  } = useLazyVideo("Lucia_Caminos_1_rlbk0h", {
-    rootMargin: "300px",
-  });
+  const { videoUrl: videoSrc, posterUrl } = useLazyVideo(
+    "Lucia_Caminos_1_rlbk0h",
+    {
+      eager: true,
+    }
+  );
 
   useGSAP(
     () => {
       if (!videoSrc) return;
 
-      const video = VideoRef.current;
+      const video = videoRef.current;
       const canvas = canvasRef.current;
       if (!video || !canvas) return;
 
       const context = canvas.getContext("2d");
 
       gsap.set(videoTwoRef.current, { marginTop: "-40vh" });
-      gsap.set([videoOverlayRef.current, canvasRef.current, VideoRef.current], {
+      gsap.set([videoOverlayRef.current, canvasRef.current, videoRef.current], {
         willChange: "transform, opacity, filter",
         force3D: true,
       });
@@ -54,21 +54,36 @@ function LuciaVideo() {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
+        const drawImage = () => {
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        };
+
+        gsap.ticker.add(drawImage);
+
+        const videoStart = 0;
+        const videoEnd = 0.8;
+
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
             trigger: videoTwoRef.current,
             start: "top top",
-            end: "+=1500",
+            end: "bottom top-=500",
             scrub: true,
             pin: true,
-            pinSpacing: false,
-            ease: "none",
+            // pinSpacing: false,
             onUpdate: (self) => {
-              if (video.duration) {
-                const newTime = self.progress * video.duration;
-                if (Math.abs(newTime - video.currentTime) > 0.05) {
-                  video.currentTime = newTime;
+              if (video.readyState > 1 && video.duration) {
+                const progress = self.progress;
+                if (progress >= videoStart && progress <= videoEnd) {
+                  const mapped = gsap.utils.mapRange(
+                    videoStart,
+                    videoEnd,
+                    0,
+                    video.duration,
+                    progress
+                  );
+                  video.currentTime = mapped;
                 }
               }
             },
@@ -82,24 +97,27 @@ function LuciaVideo() {
           },
           0
         );
+
         tl.to(
           videoOverlayRef.current,
           {
             maskImage:
               "radial-gradient(circle at 10vw 25vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
-            duration: 0.7,
           },
-          "<60%"
-        ).to({}, { duration: 0.5 }); // إضافة تأخير بسيط في المنتصف
+          "80%"
+        )
+
         tl.to(
           videoOverlayRef.current,
           {
             opacity: 0,
           },
-          ">"
+          "95%"
         );
 
-        gsap.ticker.add(drawVideoToCanvas);
+        return () => {
+          (gsap.ticker.remove(drawImage), tl.scrollTrigger.kill(), tl.kill());
+        };
       };
 
       const waitForVideo = () => {
@@ -120,13 +138,6 @@ function LuciaVideo() {
 
       return () => {
         clearTimeout(timer);
-        gsap.ticker.remove(drawVideoToCanvas);
-        if (tl) {
-          if (tl.scrollTrigger) {
-            tl.scrollTrigger.kill();
-          }
-          tl.kill();
-        }
       };
     },
     {
@@ -137,27 +148,23 @@ function LuciaVideo() {
 
   return (
     <section
-      ref={videoTwoRef }
+      ref={videoTwoRef}
       className="relative w-full h-lvh overflow-hidden "
     >
       <div
         ref={videoOverlayRef}
         className="absolute inset-0 z-0 overflow-hidden h-lvh"
       >
-        <video
-          ref={VideoRef}
-          src={videoSrc}
-          poster={posterUrl}
-          muted
-          aria-label="Video showing Jason Duval in various scenes"
-          preload="auto"
-          crossOrigin="anonymous"
-          playsInline
-          className="absoulte inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:10%_center] aspect-video z-2 overflow-clip"
-        />
-        <canvas
-          ref={canvasRef}
-          className="absoulte inset-0 h-full w-full object-cover [object-position:70%_center] md:[object-position:40%_center] aspect-video z-1 overflow-clip"
+        <AnimatedVideoSection
+          videoRef={videoRef}
+          posterUrl={posterUrl}
+          videoSrc={videoSrc}
+          canvasRef={canvasRef}
+          videoClassName=" object-cover [object-position:70%_center] md:[object-position:10%_center]"
+          posterClassName="object-cover [object-position:70%_center] md:[object-position:10%_center]"
+          canvasClassName="object-cover [object-position:70%_center] md:[object-position:10%_center]"
+          videoAlt="Video showing Jason Duval in various scenes"
+          imgAlt="Poster image for video showing Jason Duval in various scenes"
         />
       </div>
     </section>
