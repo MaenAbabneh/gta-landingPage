@@ -24,7 +24,7 @@ export default function Home() {
   const pathname = usePathname();
   const arrowRef = useRef(null);
   const arrowWrapperRef = useRef(null);
-  // const backgroundRef = useRef(null); // <-- 1. مرجع جديد للخلفية
+  const backgroundRef = useRef(null);
 
   const lenis = useLenis();
 
@@ -44,49 +44,49 @@ export default function Home() {
   }, [pathname, lenis]);
 
   useGSAP(() => {
-    // const sections = gsap.utils.toArray("section[data-background]");
+    const sections = gsap.utils.toArray("section[data-background]");
 
-    // sections.forEach((section) => {
-    //   const bgClass = section.dataset.background;
+    sections.forEach((section) => {
+      const bgClass = section.dataset.background;
 
-    //   ScrollTrigger.create({
-    //     trigger: section,
-    //     start: "top center",
-    //     end: "bottom center",
-    //     scrub: true,
-    //     // markers: true,
-    //     onEnter: () => {
-    //       gsap.to(backgroundRef.current, {
-    //         opacity: 0,
-    //         duration: 0.5,
-    //         ease: "none",
-    //         onComplete: () => {
-    //           backgroundRef.current.className = `fixed inset-0 -z-10 pointer-events-none ${bgClass}`;
-    //           gsap.to(backgroundRef.current, {
-    //             opacity: 1,
-    //             duration: 0.5,
-    //             ease: "none",
-    //           });
-    //         },
-    //       });
-    //     },
-    //     onEnterBack: () => {
-    //       gsap.to(backgroundRef.current, {
-    //         opacity: 0,
-    //         duration: 0.5,
-    //         ease: "none",
-    //         onComplete: () => {
-    //           backgroundRef.current.className = `fixed inset-0 -z-10 pointer-events-none ${bgClass}`;
-    //           gsap.to(backgroundRef.current, {
-    //             opacity: 1,
-    //             duration: 0.5,
-    //             ease: "none",
-    //           });
-    //         },
-    //       });
-    //     },
-    //   });
-    // });
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top center",
+        end: "bottom center",
+        scrub: true,
+        // markers: true,
+        onEnter: () => {
+          gsap.to(backgroundRef.current, {
+            opacity: 0,
+            duration: 0.5,
+            ease: "none",
+            onComplete: () => {
+              backgroundRef.current.className = `fixed inset-0 -z-10 pointer-events-none ${bgClass}`;
+              gsap.to(backgroundRef.current, {
+                opacity: 1,
+                duration: 0.5,
+                ease: "none",
+              });
+            },
+          });
+        },
+        onEnterBack: () => {
+          gsap.to(backgroundRef.current, {
+            opacity: 0,
+            duration: 0.5,
+            ease: "none",
+            onComplete: () => {
+              backgroundRef.current.className = `fixed inset-0 -z-10 pointer-events-none ${bgClass}`;
+              gsap.to(backgroundRef.current, {
+                opacity: 1,
+                duration: 0.5,
+                ease: "none",
+              });
+            },
+          });
+        },
+      });
+    });
 
     gsap.to(arrowRef.current, {
       y: 10,
@@ -113,7 +113,7 @@ export default function Home() {
 
   return (
     <main>
-      <div className="bg-hero-gradient fixed inset-0 -z-10 transition-colors" />
+      <div data-testid="background-div" ref={backgroundRef} className="bg-hero-gradient fixed inset-0 -z-10 transition-colors" />
       <Navbar />
 
       <Hero />

@@ -8,7 +8,7 @@ function Lucia() {
   return (
     <section
       id="lucia"
-      data-background="bg-hero-gradient"
+      data-background="bg-gta-gradient-primary"
       className=" bg-transparent"
     >
       <LuciaVideo />
