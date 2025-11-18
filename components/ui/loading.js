@@ -2,19 +2,29 @@
 
 import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
+import { useScrollLockContext } from "@/context/ScrollLockContext";
+import { HeroImage } from "@/constants/assest";
+import { buildVideoThumbnail } from "@/lib/cloudinary";
 
 const Loading = () => {
   const [isVisible, setIsVisible] = useState(true);
   const loaderRef = useRef(null);
+  const { requestLock, releaseLock } = useScrollLockContext();
 
   useEffect(() => {
     let windowLoaded = false;
     let criticalAssetsLoaded = false;
 
-    // إخفاء scrollbar في البداية
+    // Request lock via context at mount
+    if (process.env.NODE_ENV === "development")
+      console.debug("[Loading] mount: requesting lock");
     if (typeof window !== "undefined") {
-      document.documentElement.style.overflow = "hidden";
+      // fallback: add a class to html to force overflow hidden in case of timing issues
+      document.documentElement.classList.add("loading-active");
     }
+
+    // request lock using ref-count API
+    requestLock();
 
     // مراقبة window.onload
     const handleLoad = () => {
@@ -32,13 +42,13 @@ const Loading = () => {
 
     // تحميل الصور الحرجة من Cloudinary
     const criticalImages = [
-      "https://res.cloudinary.com/dlgi2ockk/image/upload/f_auto/q_auto/hero-bg_dtrjtf",
-      "https://res.cloudinary.com/dlgi2ockk/image/upload/f_auto/q_auto/heroKeyArt_a7kave",
-      // thumbnails الفيديوهات الحرجة
-      "https://res.cloudinary.com/dlgi2ockk/video/upload/so_end/w_1920/q_auto:best/f_auto/Jason_Duval_2_so4cun.jpg",
-      "https://res.cloudinary.com/dlgi2ockk/video/upload/so_end/w_1920/q_auto:best/f_auto/Lucia_Caminos_1_rlbk0h.jpg",
-      "https://res.cloudinary.com/dlgi2ockk/video/upload/so_end/w_1920/q_auto:best/f_auto/Lucai_Caminos_2_rqqw1q.jpg",
-    ];
+      HeroImage.HeroBG.url,
+      HeroImage.HeroKeyArt.url,
+      // video thumbnails - use buildVideoThumbnail to generate compatible URLs
+      buildVideoThumbnail("Jason_Duval_2_so4cun", { time: "end", width: 1920, quality: "auto:best" }),
+      buildVideoThumbnail("Lucia_Caminos_1_rlbk0h", { time: "end", width: 1920, quality: "auto:best" }),
+      buildVideoThumbnail("Lucai_Caminos_2_rqqw1q", { time: "end", width: 1920, quality: "auto:best" }),
+    ].filter(Boolean);
 
     let loadedCount = 0;
     const totalCritical = criticalImages.length;
@@ -66,9 +76,14 @@ const Loading = () => {
           // Timeline للتأثير المتزامن
           const tl = gsap.timeline({
             onComplete: () => {
+              if (process.env.NODE_ENV === "development")
+                console.debug("[Loading] animation complete: releasing lock");
               setIsVisible(false);
-              // إظهار scrollbar بعد انتهاء الأنيميشن
-              document.documentElement.style.overflow = "auto";
+              // Unlock scroll after loading animation finishes via release
+              releaseLock();
+              if (typeof window !== "undefined") {
+                document.documentElement.classList.remove("loading-active");
+              }
             },
           });
 
@@ -96,8 +111,11 @@ const Loading = () => {
     return () => {
       if (typeof window !== "undefined") {
         window.removeEventListener("load", handleLoad);
-        // تأكد من إظهار scrollbar عند unmount
-        document.documentElement.style.overflow = "auto";
+        if (process.env.NODE_ENV === "development")
+          console.debug("[Loading] unmount: releasing lock");
+        // Unlock if the component unmounts unexpectedly
+        releaseLock();
+        document.documentElement.classList.remove("loading-active");
       }
     };
   }, []);

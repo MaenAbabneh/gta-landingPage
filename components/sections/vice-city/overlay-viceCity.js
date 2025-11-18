@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { useScrollLock } from "@/hooks/useScrollLock";
+import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 
 import { FullArrowSvg } from "@/components/ui/svg";
@@ -32,7 +32,16 @@ function Overlay_ViceCity({ isOpen, onClose }) {
     }
   }, [isOpen]);
 
-  useScrollLock(isMounted);
+  const { requestLock, releaseLock } = useScrollLockContext();
+  useEffect(() => {
+    if (isMounted) {
+      requestLock();
+      return () => {
+        releaseLock();
+      };
+    }
+    return undefined;
+  }, [isMounted, requestLock, releaseLock]);
 
   useHorizontalScroll(scrollContainerRef, isMounted, {
     lerp: 0.1,

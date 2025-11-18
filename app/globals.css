@@ -927,3 +927,9 @@ body {
     rgba(17, 17, 23, calc(var(--scrollbar-opacity) * 0.8)); /* thumb then track */
   scrollbar-width: thin; /* thin لا يأخذ مساحة كبيرة */
 }
+
+/* Fallback: force hide overflow when loading-active class added (useful for older browsers) */
+html.loading-active,
+body.loading-active {
+  overflow: hidden !important;
+}

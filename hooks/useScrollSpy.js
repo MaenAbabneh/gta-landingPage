@@ -14,7 +14,7 @@ export function useScrollSpy() {
 
     const triggers = [];
 
-    sectionsToTrack.forEach((item) => {
+    sectionsToTrack.forEach((item, index) => {
       // Clean the href and ensure it's a valid section name
       let sectionName = item.href.replace(/^\/+|#+/g, ""); // Remove leading slashes and hashes
 
@@ -50,13 +50,19 @@ export function useScrollSpy() {
             `/${sectionName}`
           );
         },
+        // Clear active state ONLY when scrolling past the last section
         onLeave: () => {
-          setActiveSection("");
-          window.history.replaceState({ fromScroll: true }, "", "/");
+          if (index === sectionsToTrack.length - 1) {
+            setActiveSection("");
+            window.history.replaceState({ fromScroll: true }, "", "/");
+          }
         },
+        // Clear active state ONLY when scrolling before the first section
         onLeaveBack: () => {
-          setActiveSection("");
-          window.history.replaceState({ fromScroll: true }, "", "/");
+          if (index === 0) {
+            setActiveSection("");
+            window.history.replaceState({ fromScroll: true }, "", "/");
+          }
         },
       });
       triggers.push(trigger);

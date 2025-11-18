@@ -7,7 +7,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { useScrollLock } from "@/hooks/useScrollLock";
+// Removed direct useScrollLock import; using context request/release API
+import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { useLazyImage } from "@/hooks/useLazyImage";
 
 import Burger from "./burger";
@@ -47,8 +48,18 @@ const ImageModal = ({
     setIsMounted(true);
   }, []);
 
-  // استخدام useScrollLock فقط إذا لم يتم تعطيله
-  useScrollLock(disableScrollLock ? false : isOpen);
+  // استخدام request/release من ScrollLockContext
+  const { requestLock, releaseLock } = useScrollLockContext();
+
+  useEffect(() => {
+    if (isOpen && !disableScrollLock) {
+      requestLock();
+      return () => {
+        releaseLock();
+      };
+    }
+    return undefined;
+  }, [isOpen, disableScrollLock, requestLock, releaseLock]);
 
   useGSAP(
     () => {
