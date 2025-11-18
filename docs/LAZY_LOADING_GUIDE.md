@@ -39,11 +39,12 @@ const { src, containerRef, isLoaded } = useLazyImage(
 دالة لبناء URL placeholder صغير:
 
 ```javascript
-export function buildImagePlaceholder(publicId) {
-  const cloudName = "dlgi2ockk";
-  // صورة 20px فقط مع blur و جودة منخفضة
-  return `https://res.cloudinary.com/${cloudName}/image/upload/w_20,q_auto:low,f_auto,e_blur:1000/${publicId}`;
-}
+// Usage example - prefer the central builder helper
+import { buildImagePlaceholder } from "@/lib/cloudinary";
+
+const placeholder = buildImagePlaceholder("Jason_Duval_01_kacoeq");
+// example return value:
+// https://res.cloudinary.com/dlgi2ockk/image/upload/w_20,q_auto:low,f_auto,e_blur:1000/Jason_Duval_01_kacoeq
 ```
 
 **مميزات:**
@@ -87,11 +88,13 @@ export function buildImagePlaceholder(publicId) {
 كل صورة الآن تحتوي على:
 
 ```javascript
+import { buildImageUrl, buildImagePlaceholder } from "@/lib/cloudinary";
+
 {
   id: "Jason_Duval_01_kacoeq",
   type: "image",
-  url: "https://res.cloudinary.com/.../f_auto/q_auto/Jason_Duval_01_kacoeq",
-  placeholder: "https://res.cloudinary.com/.../w_20,q_auto:low,f_auto,e_blur:1000/Jason_Duval_01_kacoeq"
+  url: buildImageUrl("Jason_Duval_01_kacoeq"),
+  placeholder: buildImagePlaceholder("Jason_Duval_01_kacoeq")
 }
 ```
 

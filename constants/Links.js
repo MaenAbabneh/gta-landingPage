@@ -1,52 +1,46 @@
+import { buildImageUrl } from "@/lib/cloudinary";
+
 export const gtaData = {
   People: [
     {
       label: "JASON DUVAL",
       href: "jason",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805327/jason_gx78kx.webp",
+      image: buildImageUrl("jason_gx78kx"),
     },
     {
       label: "LUCIA CAMINOS",
       href: "lucia",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805325/lucia_j9bdgy.webp",
+      image: buildImageUrl("lucia_j9bdgy"),
     },
     {
       label: "Cal Hampton",
       href: "cal",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805324/cal_ysuh7h.webp",
+      image: buildImageUrl("cal_ysuh7h"),
     },
     {
       label: "BOOBIE IKE",
       href: "boobie",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805325/boobie_s0m2av.webp",
+      image: buildImageUrl("boobie_s0m2av"),
     },
     {
       label: "DRE'QUAN PRIEST",
       href: "dre",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805326/drequan_yizlm5.webp",
+      image: buildImageUrl("drequan_yizlm5"),
     },
     {
       label: "REAL DIMEZ",
       href: "real",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805328/dimez_dzukob.webp",
+      image: buildImageUrl("dimez_dzukob"),
     },
     {
       label: "RAUL BAUTISTA",
       href: "raul",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805328/raul_mpzomv.webp",
+      image: buildImageUrl("raul_mpzomv"),
     },
     {
       label: "BRIAN HEDER",
       href: "brian",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805321/brian_iyou7l.webp",
+      image: buildImageUrl("brian_iyou7l"),
     },
   ],
 
@@ -54,38 +48,32 @@ export const gtaData = {
     {
       label: "Vice City",
       href: "vice-city",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805887/vice-city_a6uudi.webp",
+      image: buildImageUrl("vice-city_a6uudi"),
     },
     {
       label: "Leonida Keys",
       href: "leonida-keys",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805885/leonida-keys_bfcmpe.webp",
+      image: buildImageUrl("leonida-keys_bfcmpe"),
     },
     {
       label: "Grassrivers",
       href: "grassrivers",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805883/grassrivers_uggitj.webp",
+      image: buildImageUrl("grassrivers_uggitj"),
     },
     {
       label: "Port Gellhorn",
       href: "port-gellhorn",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805886/port-gellhorn_wj8wwg.webp",
+      image: buildImageUrl("port-gellhorn_wj8wwg"),
     },
     {
       label: "Ambrosia",
       href: "ambrosia",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805882/ambrosia_d438ao.webp",
+      image: buildImageUrl("ambrosia_d438ao"),
     },
     {
       label: "Mount Kalaga",
       href: "mount-kalaga",
-      image:
-        "https://res.cloudinary.com/dlgi2ockk/image/upload/v1755805885/kalaga_elxxtp.webp",
+      image: buildImageUrl("kalaga_elxxtp"),
     },
   ],
 
