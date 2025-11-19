@@ -73,6 +73,7 @@ function JasonContent_2() {
       scope: PartTwoRef,
     }
   );
+  
   return (
     <section ref={PartTwoRef} className="relative z-10 grid-gallary gap-5">
       <div className="col-[main-start/5] flex flex-col gap-5 jason-content ">

@@ -41,22 +41,14 @@ const JasonContent_1 = () => {
         (context) => {
           let { isDesktop, isTablet, isMobile } =
             context.conditions;
-          let end_scroll;
-          let scrup_value;
           let y;
          if (isDesktop) {
-            // end_scroll = "+=1500";
-            // scrup_value = 1.5;
+
             y = -100;
             gsap.set(PartOneRef.current, { marginTop: "200vh" });
           } else if (isTablet) {
-            // end_scroll = "+=1000";
-            // scrup_value = 1;
             y = -80;
-            // gsap.set(PartOneRef.current, { marginTop: "150vh" });
           } else if (isMobile) {
-            // end_scroll = "+=2100";
-            // scrup_value = 2.1;
             y = -30;
             // gsap.set(PartOneRef.current, { marginTop: "270vh" });
           }

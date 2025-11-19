@@ -32,10 +32,9 @@ export function useVideoQuoteAnimation(refs , videoSrc) {
           const canvas = canvasRef.current;
           if (!video || !canvas) return;
 
-          const context = canvas.getContext("2d");
+          const context = canvas.getContext("2d" , {alpha : false});
 
-          gsap.set([video, canvas, videoOverlayRef.current], {
-            willChange: "transform, opacity, filter",
+          gsap.set([canvas], {
             force3D: true,
           });
 

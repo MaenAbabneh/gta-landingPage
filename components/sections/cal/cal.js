@@ -29,7 +29,7 @@ function Cal() {
         scrollTrigger: {
           trigger: calRef.current,
           start: "top bottom",
-          end: "bottom+=1100 top",
+          end: "bottom top+=1100",
           scrub: true,
           // markers: true,
         },

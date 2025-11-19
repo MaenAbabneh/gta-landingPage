@@ -5,13 +5,12 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
-
 import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function LuciaVideo() {
-  const videoTwoRef = useRef(null);
+  const sectionRef = useRef(null);
   const videoOverlayRef = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -33,9 +32,9 @@ function LuciaVideo() {
 
       const context = canvas.getContext("2d");
 
-      gsap.set(videoTwoRef.current, { marginTop: "-40vh" });
-      gsap.set([videoOverlayRef.current, canvasRef.current, videoRef.current], {
-        willChange: "transform, opacity, filter",
+      gsap.set(sectionRef.current, { marginTop: "-40vh" });
+
+      gsap.set(canvas, {
         force3D: true,
       });
       gsap.set(videoOverlayRef.current, {
@@ -43,12 +42,6 @@ function LuciaVideo() {
           "radial-gradient(circle at 50vw -50vh, rgb(0, 0, 0) 50vw, rgb(0, 0, 0) 100vw)",
         opacity: 0,
       });
-
-      const drawVideoToCanvas = () => {
-        if (context && video.readyState > 2) {
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        }
-      };
 
       const setupAnimation = () => {
         canvas.width = video.videoWidth;
@@ -66,7 +59,7 @@ function LuciaVideo() {
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
-            trigger: videoTwoRef.current,
+            trigger: sectionRef.current,
             start: "top top",
             end: "bottom top-=500",
             scrub: true,
@@ -105,7 +98,7 @@ function LuciaVideo() {
               "radial-gradient(circle at 10vw 25vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
           },
           "80%"
-        )
+        );
 
         tl.to(
           videoOverlayRef.current,
@@ -141,14 +134,14 @@ function LuciaVideo() {
       };
     },
     {
-      scope: videoTwoRef,
+      scope: sectionRef,
       dependencies: [videoSrc],
     }
   );
 
   return (
     <section
-      ref={videoTwoRef}
+      ref={sectionRef}
       className="relative w-full h-lvh overflow-hidden "
     >
       <div

@@ -45,9 +45,21 @@ const Loading = () => {
       HeroImage.HeroBG.url,
       HeroImage.HeroKeyArt.url,
       // video thumbnails - use buildVideoThumbnail to generate compatible URLs
-      buildVideoThumbnail("Jason_Duval_2_so4cun", { time: "end", width: 1920, quality: "auto:best" }),
-      buildVideoThumbnail("Lucia_Caminos_1_rlbk0h", { time: "end", width: 1920, quality: "auto:best" }),
-      buildVideoThumbnail("Lucai_Caminos_2_rqqw1q", { time: "end", width: 1920, quality: "auto:best" }),
+      buildVideoThumbnail("Jason_Duval_2_so4cun", {
+        time: "end",
+        width: 1920,
+        quality: "auto:best",
+      }),
+      buildVideoThumbnail("Lucia_Caminos_1_rlbk0h", {
+        time: "end",
+        width: 1920,
+        quality: "auto:best",
+      }),
+      buildVideoThumbnail("Lucai_Caminos_2_rqqw1q", {
+        time: "end",
+        width: 1920,
+        quality: "auto:best",
+      }),
     ].filter(Boolean);
 
     let loadedCount = 0;
@@ -72,7 +84,24 @@ const Loading = () => {
         setTimeout(() => {
           // Cross fade: loading يختفي والمحتوى يظهر في نفس الوقت
           const mainContent = document.querySelector(".main-content");
+          const heroSection = document.getElementById("#hero");
 
+          gsap.set(heroSection, { scale: 1.1 });
+          gsap.set(mainContent, { opacity: 0 });
+          if (window.scrollY === 0) {
+            const heroSection = document.getElementById("hero");
+            if (heroSection) {
+              gsap.fromTo(
+                heroSection,
+                { scale: 1.2 },
+                {
+                  scale: 1,
+                  duration: 1.2,
+                  ease: "power2.inOut",
+                }
+              );
+            }
+          }
           // Timeline للتأثير المتزامن
           const tl = gsap.timeline({
             onComplete: () => {
@@ -91,7 +120,7 @@ const Loading = () => {
             loaderRef.current,
             {
               opacity: 0,
-              duration: 1.2,
+              duration: 1,
               ease: "power2.inOut",
             },
             0
@@ -99,11 +128,12 @@ const Loading = () => {
             mainContent,
             {
               opacity: 1,
-              duration: 1.5,
+              duration: 1.2,
               ease: "power2.inOut",
             },
             0 // يبدأ في نفس الوقت (cross fade)
           );
+     
         }, 3000);
       }
     }

@@ -3,14 +3,13 @@
 import { useRef } from "react";
 
 import { useLazyVideo } from "@/hooks/useLazyVideo";
-import { useIntroAnimation } from "@/hooks/animation/useIntroAnimation";
+import { useVideoAnimation } from "@/hooks/animation/useVideoAnimation";
 import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 
 function JasonIntro() {
-  const introRef = useRef(null);
-  const storyRef = useRef(null);
+  const sectionRef = useRef(null);
   const storytextRef = useRef(null);
-  const FirstVideoRef = useRef(null);
+  const videoOverlayRef = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -18,21 +17,18 @@ function JasonIntro() {
     eager: true,
   });
 
-  useIntroAnimation(
-    { introRef, storytextRef, FirstVideoRef, videoRef, canvasRef },
+  useVideoAnimation(
+    { sectionRef, storytextRef, videoOverlayRef, videoRef, canvasRef },
     videoSrc
   );
 
   return (
     <section
       id="jason-intro"
-      ref={introRef}
+      ref={sectionRef}
       className="relative w-full h-lvh overflow-hidden "
     >
-      <div
-        ref={storyRef}
-        className=" absolute z-2 inset-0 flex items-center justify-start bg-transparent"
-      >
+      <div className=" absolute z-2 inset-0 flex items-center justify-start bg-transparent">
         <div
           ref={storytextRef}
           className="flex flex-col items-start justify-start mx-3 md:mx-10 lg:mx-20 xl:mx-70 gradient-text"
@@ -52,7 +48,7 @@ function JasonIntro() {
       </div>
 
       <div
-        ref={FirstVideoRef}
+        ref={videoOverlayRef}
         className="absolute z-0 inset-0 overflow-hidden "
       >
         <div className="h-lvh">

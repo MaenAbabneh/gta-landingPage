@@ -4,10 +4,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function useIntroAnimation(refs, videoSrc) {
-  const { introRef, storytextRef, FirstVideoRef, videoRef, canvasRef } = refs;
+export function useVideoAnimation(refs, videoSrc) {
+  const { sectionRef, storytextRef, videoOverlayRef, videoRef, canvasRef } = refs;
 
-  if (!introRef || !storytextRef || !FirstVideoRef || !videoRef || !canvasRef) {
+  if (!sectionRef || !videoOverlayRef || !videoRef || !canvasRef) {
     console.warn("One or more refs are undefined in useIntroAnimation");
     return;
   }
@@ -32,23 +32,22 @@ export function useIntroAnimation(refs, videoSrc) {
 
           if (!video) return;
 
-          const context = canvas.getContext("2d");
+          const context = canvas.getContext("2d" , {alpha : false});
           if (!canvas || !context) return;
 
           gsap.set(
-            [FirstVideoRef.current, canvasRef.current, videoRef.current],
+            [canvas],
             {
-              willChange: "transform, opacity, filter",
               force3D: true,
             }
           );
 
           if (isDesktop) {
-            gsap.set(introRef.current, { marginTop: "-150vh" });
+            gsap.set(sectionRef.current, { marginTop: "-150vh" });
           } else if (isTablet) {
-            gsap.set(introRef.current, { marginTop: "-100vh" });
+            gsap.set(sectionRef.current, { marginTop: "-100vh" });
           } else if (isMobile) {
-            gsap.set(introRef.current, { marginTop: "-120vh" });
+            gsap.set(sectionRef.current, { marginTop: "-120vh" });
           }
 
           gsap.set(storytextRef.current, {
@@ -58,7 +57,7 @@ export function useIntroAnimation(refs, videoSrc) {
             backgroundImage: `radial-gradient(circle at 50% 200vh, rgb(255, 210, 123) 0%, rgb(223, 58, 147) 15%, rgb(92, 22, 99) 30%, rgba(32, 31, 66, 0) 50%)`,
           });
 
-          gsap.set(FirstVideoRef.current, {
+          gsap.set(videoOverlayRef.current, {
             filter: "brightness(0.2) blur(100px)",
             opacity: 0,
             maskImage:
@@ -80,7 +79,7 @@ export function useIntroAnimation(refs, videoSrc) {
             const tl = gsap.timeline({
               defaults: { ease: "none" },
               scrollTrigger: {
-                trigger: introRef.current,
+                trigger: sectionRef.current,
                 start: "top top",
                 end: "bottom top-=1500",
                 pin: true,
@@ -117,7 +116,7 @@ export function useIntroAnimation(refs, videoSrc) {
             );
 
             tl.to(
-              FirstVideoRef.current,
+              videoOverlayRef.current,
               {
                 filter: "brightness(0.6) blur(100px)",
                 opacity: 0,
@@ -140,7 +139,7 @@ export function useIntroAnimation(refs, videoSrc) {
               },
               ">+=0.2"
             ).to(
-              FirstVideoRef.current,
+              videoOverlayRef.current,
               {
                 opacity: 1,
                 filter: "brightness(1) blur(0px)",
@@ -149,7 +148,7 @@ export function useIntroAnimation(refs, videoSrc) {
             );
 
             tl.to(
-              FirstVideoRef.current,
+              videoOverlayRef.current,
               {
                 maskImage:
                   "radial-gradient(circle at 95vw 0vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
@@ -157,7 +156,7 @@ export function useIntroAnimation(refs, videoSrc) {
               "80%"
             );
             tl.to(
-              FirstVideoRef.current,
+              videoOverlayRef.current,
               {
                 opacity: 0,
               },
@@ -194,7 +193,7 @@ export function useIntroAnimation(refs, videoSrc) {
       );
     },
     {
-      scope: introRef,
+      scope: sectionRef,
       dependencies: [videoSrc],
     }
   );

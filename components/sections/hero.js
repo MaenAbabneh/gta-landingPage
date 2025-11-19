@@ -10,7 +10,7 @@ import { PlayIcon, PsIcon, WatchTrailer, XboxIcon } from "../ui/svg";
 import TrailerOverlay from "../ui/trailervideo";
 import { HeroImage } from "@/constants/assest";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(ScrollTrigger);
 
 function Hero() {
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
@@ -250,7 +250,6 @@ function Hero() {
           className="object-cover scale-125 "
           fill
           sizes="100vw"
-          priority
           suppressHydrationWarning={true}
           unoptimized
         />
@@ -264,7 +263,6 @@ function Hero() {
             willChange: "transform, opacity , scale",
           }}
           fill
-          priority
           suppressHydrationWarning={true}
           unoptimized
         />
