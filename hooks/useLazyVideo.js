@@ -26,18 +26,27 @@ export function useLazyVideo(publicId, options = {}) {
   const [posterUrl, setPosterUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const containerRef = useRef(null);
-  const objectUrlRef = useRef(null);
+  const currentObjectUrlRef = useRef(null);
 
   useEffect(() => {
     // حدد دقة الposter تبعاً لحجم الشاشة وآخر إطار
     const w = typeof window !== "undefined" ? window.innerWidth : 1920;
     const posterWidth = w < 768 ? 720 : w < 1280 ? 1280 : 1920;
     const url = buildVideoThumbnail(publicId, {
-      time: "end",
+      time: "end", // آخر إطار (أفضل من الأول)
       width: posterWidth,
-      quality: "auto:best",
+      quality: "auto:best", // Cloudinary يختار الأفضل تلقائياً
+      format: "auto", // WebP/AVIF تلقائياً
     });
     setPosterUrl(url);
+    // Cache the poster in the background when we have the poster URL.
+    // This is helpful so the poster is present even if the video variant is
+    // still being downloaded or if the video itself is not cached yet.
+    if (url && isCacheSupported()) {
+      cacheAsset(url).catch(() => {
+        // Silently fail, caching is optional
+      });
+    }
 
     // إذا eager، حمّل فوراً
     if (eager) {
@@ -62,12 +71,10 @@ export function useLazyVideo(publicId, options = {}) {
 
     return () => {
       observer.disconnect();
-      // Revoke any created object URL when unmounting
-      if (objectUrlRef.current) {
+      if (currentObjectUrlRef.current) {
         try {
-          URL.revokeObjectURL(objectUrlRef.current);
+          URL.revokeObjectURL(currentObjectUrlRef.current);
         } catch {}
-        objectUrlRef.current = null;
       }
     };
   }, [publicId, eager]);
@@ -93,45 +100,41 @@ export function useLazyVideo(publicId, options = {}) {
       url = asset.urls.desktop;
     }
 
+    // Check Cache Storage first
     if (isCacheSupported()) {
       try {
         const cached = await getCachedAsset(url);
         if (cached) {
+          // Create object URL from cached response
           const blob = await cached.blob();
-          const objectUrl = URL.createObjectURL(blob);
           // Revoke previous object URL if any
-          if (objectUrlRef.current) {
+          if (currentObjectUrlRef.current) {
             try {
-              URL.revokeObjectURL(objectUrlRef.current);
+              URL.revokeObjectURL(currentObjectUrlRef.current);
             } catch {}
           }
-          objectUrlRef.current = objectUrl;
+          const objectUrl = URL.createObjectURL(blob);
+          currentObjectUrlRef.current = objectUrl;
           setVideoUrl(objectUrl);
           setIsLoading(false);
           return;
         }
       } catch (error) {
+        // Cache read failed, continue to network
         console.warn("Cache read failed, using network:", error.message);
       }
     }
 
-    // If we previously set an object URL, revoke it before switching to a network URL
-    if (objectUrlRef.current) {
-      try {
-        URL.revokeObjectURL(objectUrlRef.current);
-      } catch {}
-      objectUrlRef.current = null;
-    }
+    // Not cached: use regular URL and cache in background
     setVideoUrl(url);
     setIsLoading(false);
 
+    // Cache video in background (fire-and-forget, silently fail)
     if (isCacheSupported()) {
-      // خزّن في الكاش في الخلفية (وتجاهل الأخطاء بصمت)
       cacheAsset(url).catch(() => {
-        // تجاهل أخطاء الكاش بصمت
+        // Silently ignore cache failures
       });
     }
-
   };
 
   return {

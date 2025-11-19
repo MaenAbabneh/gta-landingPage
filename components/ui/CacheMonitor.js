@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getCacheStats, getCachedUrls } from "@/lib/cacheManager";
+import {
+  getCacheStats,
+  getCachedUrls,
+  getFailedUrls,
+  clearFailedUrls,
+} from "@/lib/cacheManager";
 
 /**
  * Cache Monitor Component - عرض إحصائيات Cache Storage
@@ -10,6 +15,7 @@ import { getCacheStats, getCachedUrls } from "@/lib/cacheManager";
 export default function CacheMonitor() {
   const [stats, setStats] = useState(null);
   const [cachedAssets, setCachedAssets] = useState([]);
+  const [failedAssets, setFailedAssets] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -27,6 +33,9 @@ export default function CacheMonitor() {
         });
         setCachedAssets(assets);
       }
+      // Update failed URLs
+      const failed = await getFailedUrls();
+      setFailedAssets(failed);
     };
 
     updateStats();
@@ -39,7 +48,25 @@ export default function CacheMonitor() {
 
   const usageMB = (stats.storage.usage / (1024 * 1024)).toFixed(2);
   const quotaMB = (stats.storage.quota / (1024 * 1024)).toFixed(2);
-  const percentage = (stats.storage.percentage * 100).toFixed(1);
+  const percentageRaw = stats.storage.percentage * 100;
+  // Format percentage display for very small values for better visibility
+  const percentage =
+    percentageRaw === 0
+      ? "0.0"
+      : percentageRaw < 0.1
+        ? "<0.1"
+        : percentageRaw < 1
+          ? percentageRaw.toFixed(2)
+          : percentageRaw.toFixed(1);
+
+  // Calculate a numeric width value for the progress bar. When a value is
+  // shown as '<0.1', give it a minimal width so the bar is visible.
+  const numericWidth =
+    percentageRaw === 0
+      ? 0
+      : percentageRaw < 0.1
+        ? 0.1
+        : parseFloat(percentage);
 
   return (
     <div
@@ -158,12 +185,12 @@ export default function CacheMonitor() {
               >
                 <div
                   style={{
-                    width: `${percentage}%`,
+                    width: `${numericWidth}%`,
                     height: "100%",
                     background:
-                      percentage > 80
+                      percentageRaw > 80
                         ? "#f00"
-                        : percentage > 50
+                        : percentageRaw > 50
                           ? "#ff0"
                           : "#0f0",
                     transition: "width 0.3s ease",
@@ -219,6 +246,82 @@ export default function CacheMonitor() {
                     }}
                   >
                     {asset.filename}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Failed Cache Attempts */}
+          <div style={{ marginTop: "12px" }}>
+            <h4
+              style={{ margin: "0 0 10px 0", color: "#f66", fontSize: "14px" }}
+            >
+              Failed to Cache ({failedAssets.length})
+            </h4>
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+                marginBottom: "8px",
+              }}
+            >
+              <button
+                onClick={async () => {
+                  await clearFailedUrls();
+                  const failed = await getFailedUrls();
+                  setFailedAssets(failed);
+                }}
+                style={{
+                  background: "#111",
+                  color: "#f66",
+                  border: "1px solid #f66",
+                  padding: "6px 10px",
+                  cursor: "pointer",
+                  borderRadius: "6px",
+                }}
+              >
+                Clear failed
+              </button>
+              <div style={{ fontSize: "12px", color: "#888" }}>
+                Clear only the in-memory failed list, not the cache.
+              </div>
+            </div>
+            <div
+              style={{
+                maxHeight: "120px",
+                overflow: "auto",
+                background: "#2a2a2a",
+                borderRadius: "8px",
+                padding: "10px",
+              }}
+            >
+              {failedAssets.length === 0 ? (
+                <div
+                  style={{
+                    color: "#888",
+                    fontSize: "12px",
+                    textAlign: "center",
+                  }}
+                >
+                  No failed cache attempts.
+                </div>
+              ) : (
+                failedAssets.map((asset, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      padding: "6px",
+                      marginBottom: "6px",
+                      background: "#1a1a1a",
+                      borderRadius: "4px",
+                      fontSize: "11px",
+                      wordBreak: "break-all",
+                      borderLeft: "3px solid #f66",
+                    }}
+                  >
+                    {asset}
                   </div>
                 ))
               )}

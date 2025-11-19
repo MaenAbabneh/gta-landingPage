@@ -4,6 +4,8 @@ import localFont from "next/font/local";
 
 import Precacher from "@/components/ui/precacher";
 import Loading from "../components/ui/loading";
+import CacheMonitor from "@/components/ui/CacheMonitor";
+
 import LenisProvider from "@/lib/lenis";
 import { ScrollLockProvider } from "@/context/ScrollLockContext";
 import Script from "next/script";
@@ -210,7 +212,10 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" className={`loading-active ${fontLong.variable} ${fontRound.variable}`}>
+    <html
+      lang="en"
+      className={`loading-active ${fontLong.variable} ${fontRound.variable}`}
+    >
       <head>
         {/* Preconnect to Cloudinary for faster asset loading */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
@@ -228,6 +233,7 @@ export default function RootLayout({ children }) {
             <div className="main-content" style={{ opacity: 0 }}>
               {children}
               <Precacher />
+              {process.env.NODE_ENV === "development" && <CacheMonitor />}
             </div>
           </ScrollLockProvider>
         </LenisProvider>
