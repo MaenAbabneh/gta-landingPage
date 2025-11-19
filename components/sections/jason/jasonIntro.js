@@ -17,9 +17,19 @@ function JasonIntro() {
     eager: true,
   });
 
+  // Run the video animation and apply brightness/blur filters (only for this section)
+  // Add filter config so brightness/blur apply only to this section
   useVideoAnimation(
     { sectionRef, storytextRef, videoOverlayRef, videoRef, canvasRef },
-    videoSrc
+    videoSrc,
+    {
+      filters: {
+        videoOverlay: "brightness(0.2) blur(100px)",
+        videoOverlayIn: "brightness(0.6) blur(100px)",
+        videoOverlayOut: "brightness(1) blur(0px)",
+      },
+      isJason: true,
+    },
   );
 
   return (
