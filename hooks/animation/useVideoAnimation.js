@@ -4,11 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function useVideoAnimation(
-  refs = {},
-  videoSrc,
-  config = {},
-) {
+export function useVideoAnimation(refs = {}, videoSrc, config = {}) {
   const { sectionRef, storytextRef, videoOverlayRef, videoRef, canvasRef } =
     refs || {};
 
@@ -38,7 +34,7 @@ export function useVideoAnimation(
     sectionPinEnd = "bottom top-=1500",
     isJason = false,
     isLucia = false,
-    
+    isOutro = false,
   } = config;
 
   useGSAP(
@@ -205,7 +201,25 @@ export function useVideoAnimation(
                 },
                 "95%"
               );
+            } else if (isOutro) {
+              tl.to(
+                videoOverlayRef.current,
+                {
+                  opacity: 1,
+                  duration: 0.3,
+                },
+                0
+              );
+              tl.to(
+                videoOverlayRef.current,
+                {
+                  opacity: 0,
+                  duration: 0.01,
+                },
+                "95%"
+              );
             }
+
             return () => {
               gsap.ticker.remove(drawImage);
               tl.scrollTrigger.kill();

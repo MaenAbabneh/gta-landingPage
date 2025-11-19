@@ -4,16 +4,28 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function useVideoQuoteAnimation(refs , videoSrc) {
-
+export function useVideoQuoteAnimation(refs = {}, videoSrc , config = {}) {
   const { containerRef, videoRef, canvasRef, quoteRef, videoOverlayRef } = refs;
 
-  if (!containerRef || !videoRef || !canvasRef || !quoteRef || !videoOverlayRef) {
+    const {
+    videoStart = 0,
+    videoEnd = 0.5,
+    marginTop = { desktop: "-50vh", tablet: "0vh", mobile: "0vh" },
+    sectionPinEnd = "bottom top-=1500",
+  } = config;
+
+  if (
+    !containerRef ||
+    !videoRef ||
+    !canvasRef ||
+    !quoteRef ||
+    !videoOverlayRef
+  ) {
     console.warn("One or more refs are undefined in useVideoQuoteAnimation");
     return;
   }
 
-    useGSAP(
+  useGSAP(
     () => {
       const mm = gsap.matchMedia();
 
@@ -32,18 +44,18 @@ export function useVideoQuoteAnimation(refs , videoSrc) {
           const canvas = canvasRef.current;
           if (!video || !canvas) return;
 
-          const context = canvas.getContext("2d" , {alpha : false});
+          const context = canvas.getContext("2d", { alpha: false });
 
           gsap.set([canvas], {
             force3D: true,
           });
 
           if (isDesktop) {
-            gsap.set(containerRef.current, { marginTop: "-50vh" });
+            gsap.set(containerRef.current, { marginTop: marginTop.desktop });
           } else if (isTablet) {
-            gsap.set(containerRef.current, { marginTop: "-50vh" });
+            gsap.set(containerRef.current, { marginTop: marginTop.tablet });
           } else if (isMobile) {
-            gsap.set(containerRef.current, { marginTop: "-0vh" });
+            gsap.set(containerRef.current, { marginTop: marginTop.mobile });
           }
           gsap.set(canvasRef.current, { scale: 1.1 });
           gsap.set(quoteRef.current, { opacity: 0, y: 200 });
@@ -63,15 +75,14 @@ export function useVideoQuoteAnimation(refs , videoSrc) {
 
             gsap.ticker.add(drawImage);
 
-            const videoStart = 0;
-            const videoEnd = 0.5;
+
 
             const tl = gsap.timeline({
               defaults: { ease: "none" },
               scrollTrigger: {
                 trigger: containerRef.current,
                 start: "top top",
-                end: "bottom top-=1500",
+                end: sectionPinEnd,
                 scrub: true,
                 pin: true,
                 // pinSpacing: false,
@@ -80,7 +91,7 @@ export function useVideoQuoteAnimation(refs , videoSrc) {
                   video.currentTime = 0;
                 },
                 onLeave: () => {
-                    video.currentTime = video.duration;
+                  video.currentTime = video.duration;
                 },
                 onUpdate: (self) => {
                   if (video.readyState > 1 && video.duration) {
@@ -97,7 +108,6 @@ export function useVideoQuoteAnimation(refs , videoSrc) {
                     }
                   }
                 },
-
               },
             });
 
