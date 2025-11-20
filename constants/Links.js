@@ -1,46 +1,47 @@
-import { buildImageUrl } from "@/lib/cloudinary";
+const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "dlgi2ockk";
+const CLD_BASE = `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto`;
 
 export const gtaData = {
   People: [
     {
       label: "JASON DUVAL",
       href: "jason",
-      image: buildImageUrl("jason_gx78kx"),
+      image: `${CLD_BASE}/jason_gx78kx`,
     },
     {
       label: "LUCIA CAMINOS",
       href: "lucia",
-      image: buildImageUrl("lucia_j9bdgy"),
+      image: `${CLD_BASE}/lucia_j9bdgy`,
     },
     {
       label: "Cal Hampton",
       href: "cal",
-      image: buildImageUrl("cal_ysuh7h"),
+      image: `${CLD_BASE}/cal_ysuh7h`,
     },
     {
       label: "BOOBIE IKE",
       href: "boobie",
-      image: buildImageUrl("boobie_s0m2av"),
+      image: `${CLD_BASE}/boobie_s0m2av`,
     },
     {
       label: "DRE'QUAN PRIEST",
       href: "dre",
-      image: buildImageUrl("drequan_yizlm5"),
+      image: `${CLD_BASE}/drequan_yizlm5`,
     },
     {
       label: "REAL DIMEZ",
       href: "real",
-      image: buildImageUrl("dimez_dzukob"),
+      image: `${CLD_BASE}/dimez_dzukob`,
     },
     {
       label: "RAUL BAUTISTA",
       href: "raul",
-      image: buildImageUrl("raul_mpzomv"),
+      image: `${CLD_BASE}/raul_mpzomv`,
     },
     {
       label: "BRIAN HEDER",
       href: "brian",
-      image: buildImageUrl("brian_iyou7l"),
+      image: `${CLD_BASE}/brian_iyou7l`,
     },
   ],
 
@@ -48,32 +49,32 @@ export const gtaData = {
     {
       label: "Vice City",
       href: "vice-city",
-      image: buildImageUrl("vice-city_a6uudi"),
+      image: `${CLD_BASE}/vice-city_a6uudi`,
     },
     {
       label: "Leonida Keys",
       href: "leonida-keys",
-      image: buildImageUrl("leonida-keys_bfcmpe"),
+      image: `${CLD_BASE}/leonida-keys_bfcmpe`,
     },
     {
       label: "Grassrivers",
       href: "grassrivers",
-      image: buildImageUrl("grassrivers_uggitj"),
+      image: `${CLD_BASE}/grassrivers_uggitj`,
     },
     {
       label: "Port Gellhorn",
       href: "port-gellhorn",
-      image: buildImageUrl("port-gellhorn_wj8wwg"),
+      image: `${CLD_BASE}/port-gellhorn_wj8wwg`,
     },
     {
       label: "Ambrosia",
       href: "ambrosia",
-      image: buildImageUrl("ambrosia_d438ao"),
+      image: `${CLD_BASE}/ambrosia_d438ao`,
     },
     {
       label: "Mount Kalaga",
       href: "mount-kalaga",
-      image: buildImageUrl("kalaga_elxxtp"),
+      image: `${CLD_BASE}/kalaga_elxxtp`,
     },
   ],
 
