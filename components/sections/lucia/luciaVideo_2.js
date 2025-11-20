@@ -29,7 +29,7 @@ function LuciaVideo_2() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-lvh overflow-hidden "
+      className="relative w-full h-lvh -mt-[50vh] overflow-hidden "
     >
       <div
         ref={videoOverlayRef}

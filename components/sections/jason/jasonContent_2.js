@@ -39,33 +39,24 @@ function JasonContent_2() {
         (context) => {
           let { isDesktop, isTablet, isMobile } = context.conditions;
 
-          if (isDesktop) {
-            gsap.set(PartTwoRef.current, { marginTop: "220vh" });
-          } else if (isTablet) {
-          } else if (isMobile) {
-          }
+          let y = isDesktop ? 200 : isTablet ? 150 : 100;
+
           gsap.set(fadeImageRef.current, { opacity: 0 });
 
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: PartTwoRef.current,
-              start: "top center",
-              end: "bottom top+=200",
+              start: "top bottom",
+              end: "bottom top",
               scrub: true,
-              ease: "none",
               // markers: true,
             },
           });
 
           tl.to(rightSideRef.current, {
-            y: 200,
+            y: y,
             ease: "none",
-            duration: 1.8,
-          }).to(
-            fadeImageRef.current,
-            { opacity: 1, ease: "none", duration: 0.5 },
-            "0"
-          );
+          }).to(fadeImageRef.current, { opacity: 1, ease: "none" }, 0);
         }
       );
     },
@@ -73,9 +64,12 @@ function JasonContent_2() {
       scope: PartTwoRef,
     }
   );
-  
+
   return (
-    <section ref={PartTwoRef} className="relative z-10 grid-gallary gap-5">
+    <section
+      ref={PartTwoRef}
+      className="relative z-10 mt-[220vh] grid-gallary gap-5 pointer-events-none md:pointer-events-auto"
+    >
       <div className="col-[main-start/5] flex flex-col gap-5 jason-content ">
         <h2 className=" text-pink text-3xl lg:text-[2.5rem] xl:text-[2.4rem] font-round font-bold text-balance leading-8 lg:leading-10 xl:leading-10 mb-20 self-center">
           Another day in

@@ -36,7 +36,7 @@ function JasonIntro() {
     <section
       id="jason-intro"
       ref={sectionRef}
-      className="relative w-full h-lvh overflow-hidden "
+      className="relative w-full h-lvh -mt-[150vh] overflow-hidden "
     >
       <div className=" absolute z-2 inset-0 flex items-center justify-start bg-transparent">
         <div

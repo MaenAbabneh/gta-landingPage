@@ -176,6 +176,8 @@ function ViceCity() {
               <video
                 ref={videoRef}
                 src={videoSrc}
+                width={1920}
+                height={720}
                 poster={posterUrl}
                 preload="metadata"
                 playsInline
@@ -188,6 +190,8 @@ function ViceCity() {
               {/* الكانفاس */}
               <canvas
                 ref={canvasRef}
+                width={1920}
+                height={720}
                 className="absolute inset-0 w-full h-full object-cover z-1"
               />
             </div>

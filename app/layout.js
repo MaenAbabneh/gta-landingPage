@@ -20,7 +20,7 @@ const fontLong = localFont({
   ],
   variable: "--font-long",
   display: "swap",
-  preload: true,
+  preload: false,
 });
 
 const fontRound = localFont({

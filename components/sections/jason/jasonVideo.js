@@ -21,13 +21,14 @@ function JasonVideo() {
 
   useVideoQuoteAnimation(
     { containerRef, videoRef, canvasRef, quoteRef, videoOverlayRef },
-    videoSrc
+    videoSrc,
+    { videoStart: 0, videoEnd: 0.45 }
   );
 
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-lvh overflow-hidden "
+      className="relative w-full h-lvh -mt-[50vh] overflow-hidden "
     >
       <div
         ref={videoOverlayRef}

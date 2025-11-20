@@ -16,6 +16,8 @@ export default function AnimatedVideoSection(props) {
       <video
         ref={videoRef}
         src={videoSrc}
+        width={1920}
+        height={720}
         preload="metadata"
         playsInline
         muted
@@ -41,7 +43,6 @@ export default function AnimatedVideoSection(props) {
         <img
           src={posterUrl}
           alt={imgAlt}
-          loading="lazy"
           className={`${posterClassName} aspect-video z-10 `}
           style={{ width: "100%", height: "100%" }}
         />
@@ -49,6 +50,8 @@ export default function AnimatedVideoSection(props) {
       <canvas
         ref={canvasRef}
         className={`${canvasClassName} aspect-video z-20`}
+        width={1920}
+        height={720}
         style={{
           width: "100%",
           height: "100%",

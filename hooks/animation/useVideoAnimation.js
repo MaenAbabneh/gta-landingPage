@@ -11,7 +11,6 @@ export function useVideoAnimation(refs = {}, videoSrc, config = {}) {
   const {
     videoStart = 0.2,
     videoEnd = 0.9,
-    marginTop = { desktop: "-150vh", tablet: "-100vh", mobile: "-120vh" },
     maskImages = {
       storytext:
         "radial-gradient(at 50% 0vh, rgb(0, 0, 0) 120vh, rgba(0, 0, 0, 0) 150vh)",
@@ -31,7 +30,7 @@ export function useVideoAnimation(refs = {}, videoSrc, config = {}) {
       videoOverlayIn: "",
       videoOverlayOut: "",
     },
-    sectionPinEnd = "bottom top-=1500",
+    sectionPinEnd = "+=300%",
     isJason = false,
     isLucia = false,
     isOutro = false,
@@ -39,17 +38,6 @@ export function useVideoAnimation(refs = {}, videoSrc, config = {}) {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia();
-
-      mm.add(
-        {
-          isDesktop: "(min-width: 1024px)",
-          isTablet: "(min-width: 768px) and (max-width: 1023px)",
-          isMobile: "(max-width: 767px)",
-        },
-        (ctx) => {
-          let { isDesktop, isTablet, isMobile } = ctx.conditions;
-
           if (!videoSrc) return;
 
           const video = videoRef.current;
@@ -62,14 +50,6 @@ export function useVideoAnimation(refs = {}, videoSrc, config = {}) {
 
           gsap.set([canvas], { force3D: true });
 
-          // marginTop حسب الجهاز
-          if (isDesktop) {
-            gsap.set(sectionRef.current, { marginTop: marginTop.desktop });
-          } else if (isTablet) {
-            gsap.set(sectionRef.current, { marginTop: marginTop.tablet });
-          } else if (isMobile) {
-            gsap.set(sectionRef.current, { marginTop: marginTop.mobile });
-          }
           if (storytextRef && storytextRef.current) {
             gsap.set(storytextRef.current, {
               opacity: 1,
@@ -100,7 +80,7 @@ export function useVideoAnimation(refs = {}, videoSrc, config = {}) {
                 end: sectionPinEnd,
                 pin: true,
                 scrub: true,
-                // pinSpacing: false,
+                // pinSpacing: false,               
                 // markers: true,
                 onUpdate: (self) => {
                   if (video.readyState > 1 && video.duration) {
@@ -246,8 +226,7 @@ export function useVideoAnimation(refs = {}, videoSrc, config = {}) {
           return () => {
             clearTimeout(timer);
           };
-        }
-      );
+
     },
     {
       scope: sectionRef,

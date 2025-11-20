@@ -258,6 +258,8 @@ function CalContent() {
             <video
               ref={videoRef}
               src={videoSrc}
+              width={1920}
+              height={720}
               poster={posterUrl}
               preload="metadata"
               playsInline
@@ -269,6 +271,8 @@ function CalContent() {
 
             <canvas
               ref={canvasRef}
+              width={1920}
+              height={720}
               className="absolute inset-0 w-full h-full object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]  z-1 overflow-clip"
             />
 
@@ -303,7 +307,6 @@ function CalContent() {
               placeholder={placeholderOne}
               className="object-cover [object-position:100%_center] "
               ButtonStyle="w-full h-full "
-              priority
             />
           </div>
           <div

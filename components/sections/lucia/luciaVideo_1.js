@@ -28,12 +28,11 @@ function LuciaVideo() {
     {
       videoStart: 0,
       videoEnd: 0.8,
-      marginTop: { desktop: "-40vh", tablet: "-40vh", mobile: "-40vh" },
       maskImages: {
         videoOverlay: "radial-gradient(circle at 50vw -50vh, rgb(0, 0, 0) 50vw, rgb(0, 0, 0) 100vw)",
         videoOverlay80: "radial-gradient(circle at 10vw 25vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
       },
-      sectionPinEnd: "bottom top-=500",
+      // sectionPinEnd: "bottom top-=500",
       isLucia: true,
     },
   );
@@ -41,7 +40,7 @@ function LuciaVideo() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-lvh overflow-hidden "
+      className="relative w-full h-lvh -mt-[40vh] overflow-hidden "
     >
       <div
         ref={videoOverlayRef}

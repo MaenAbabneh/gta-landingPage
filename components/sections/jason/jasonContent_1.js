@@ -41,23 +41,12 @@ const JasonContent_1 = () => {
         (context) => {
           let { isDesktop, isTablet, isMobile } =
             context.conditions;
-          let y;
-         if (isDesktop) {
-
-            y = -100;
-            gsap.set(PartOneRef.current, { marginTop: "200vh" });
-          } else if (isTablet) {
-            y = -80;
-          } else if (isMobile) {
-            y = -30;
-            // gsap.set(PartOneRef.current, { marginTop: "270vh" });
-          }
-
+          let y = isDesktop ? 150 : (isTablet ? 80 : 50);
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: PartOneRef.current,
-              start: "top center",
-              end: "bottom top+=200",
+              start: "top bottom",
+              end: "bottom top",
               scrub: true,
               // markers: true
             },
@@ -75,7 +64,7 @@ const JasonContent_1 = () => {
   );
 
   return (
-    <section ref={PartOneRef} className="relative z-10 grid-gallary gap-5">
+    <section ref={PartOneRef} className="relative z-10 mt-[200vh] grid-gallary gap-5 pointer-events-none md:pointer-events-auto ">
       <div className="col-[content-start/5] flex flex-col gap-5 ">
         <h1 className="text-yellow font-long uppercase md:text-[3.3rem] lg:text-[7vw] xl:text-[6rem] 2xl:text-9xl text-nowrap">
           Jason Duval
