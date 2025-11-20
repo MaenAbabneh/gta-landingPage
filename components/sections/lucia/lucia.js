@@ -6,8 +6,7 @@ import LuciaVideo_2 from "./luciaVideo_2";
 
 function Lucia() {
   return (
-    <section
-      id="lucia"
+    <div
       className="relative flex flex-col w-full h-full overflow-hidden"
     >
       <LuciaVideo />
@@ -15,7 +14,7 @@ function Lucia() {
       <LuciaVideo_2 />
       <LuciaContent_2 />
       <LuciaFooter />
-    </section>
+    </div>
   );
 }
 

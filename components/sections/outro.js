@@ -30,8 +30,7 @@ function Outro() {
   );
 
   return (
-    <section
-      id="outro"
+    <div
       ref={sectionRef}
       className="relative w-full h-lvh overflow-hidden"
     >
@@ -48,7 +47,7 @@ function Outro() {
           imgAlt="Poster image for video showing Jason Duval in various scenes"
         />
       </div>
-    </section>
+    </div>
   );
 }
 

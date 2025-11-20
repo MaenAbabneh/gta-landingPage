@@ -6,12 +6,12 @@ import JasonContent_2 from "./jasonContent_2";
 function Jason() {
   return (
     <>
-      <section id="jason" className="relative flex flex-col w-full h-full overflow-hidden">
+      <div className="relative flex flex-col w-full h-full overflow-hidden">
         <JasonIntro />
         <JasonContent_1 />
         <JasonVideo />
         <JasonContent_2 />
-      </section>
+      </div>
     </>
   );
 }

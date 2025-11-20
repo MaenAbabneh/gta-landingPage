@@ -39,7 +39,7 @@ export function useScrollSpy() {
           window.history.replaceState(
             { fromScroll: true },
             "",
-            `/${sectionName}`
+            `/`
           );
         },
         onEnterBack: () => {
@@ -47,7 +47,7 @@ export function useScrollSpy() {
           window.history.replaceState(
             { fromScroll: true },
             "",
-            `/${sectionName}`
+            `/`
           );
         },
         // Clear active state ONLY when scrolling past the last section

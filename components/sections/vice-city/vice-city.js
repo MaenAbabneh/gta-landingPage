@@ -23,7 +23,6 @@ function ViceCity() {
   const {
     videoUrl: videoSrc,
     posterUrl,
-    containerRef: lazyRef,
   } = useLazyVideo("Vice_City_tazkqo", {
     eager: true,
   });
@@ -142,12 +141,8 @@ function ViceCity() {
   );
 
   return (
-    <section
-      id="vice-city"
-      ref={(el) => {
-        containerRef.current = el;
-        lazyRef.current = el;
-      }}
+    <div
+      ref={containerRef}
       className="min-h-dvh w-full pb-20 overflow-hidden"
     >
       <div
@@ -216,7 +211,7 @@ function ViceCity() {
         isOpen={isOverlayOpen}
         onClose={() => setIsOverlayOpen(false)}
       />
-    </section>
+    </div>
   );
 }
 

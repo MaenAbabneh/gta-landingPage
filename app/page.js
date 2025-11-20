@@ -3,21 +3,44 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
+import dynamic from "next/dynamic";
+
 import Navbar from "@/components/navigation/Navbar";
-import Cal from "@/components/sections/cal/cal";
 import Hero from "@/components/sections/hero";
-import Jason from "@/components/sections/jason/jason";
-import Lucia from "@/components/sections/lucia/lucia";
-import ViceCity from "@/components/sections/vice-city/vice-city";
-import Outro from "@/components/sections/outro";
+
+const Jason = dynamic(() => import("@/components/sections/jason/jason"), {
+  ssr: false,
+  loading: () => <div className="h-[300vh] bg-black/50 animate-pulse"></div>, // شاشة تحميل مؤقتة
+});
+const Lucia = dynamic(() => import("@/components/sections/lucia/lucia"), {
+  ssr: false,
+  loading: () => <div className="h-[300vh] bg-black/50 animate-pulse"></div>,
+});
+const Cal = dynamic(() => import("@/components/sections/cal/cal"), {
+  ssr: false,
+  loading: () => <div className="h-[200vh] bg-black/50 animate-pulse"></div>,
+});
+const ViceCity = dynamic(
+  () => import("@/components/sections/vice-city/vice-city"),
+  {
+    ssr: false,
+    loading: () => <div className="h-[100vh] bg-black/50 animate-pulse"></div>,
+  }
+);
+const Outro = dynamic(() => import("@/components/sections/outro"), {
+  ssr: false,
+  loading: () => <div className="h-[100vh] bg-black/50 animate-pulse"></div>,
+});
+
 import { BouncingArrow } from "@/components/ui/svg";
 import { useGSAPLenis } from "@/lib/gsap-lenis";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default function Home() {
   const pathname = usePathname();
@@ -33,11 +56,23 @@ export default function Home() {
     if (window.history.state?.fromScroll) {
       return;
     }
-    const sectionId = pathname.substring(1);
-    if (sectionId && document.getElementById(sectionId) && lenis) {
+    const sectionId = pathname.replace(/^\//, "");
+    const targetElement = document.getElementById(sectionId);
+
+    if (targetElement && lenis) {
       const timer = setTimeout(() => {
-        lenis.scrollTo(`#${sectionId}`, { duration: 1.2 });
-      }, 500);
+        gsap.to(window, {
+          scrollTo: { y: targetElement, offsetY: 0, autoKill: true },
+          duration: 0.5,
+          ease: "power2.inOut",
+          onComplete: () => {
+            window.history.replaceState({}, "", `/${sectionId}`);
+            if (lenis) {
+              lenis.emit();
+            }
+          },
+        });
+      }, 1000);
       return () => clearTimeout(timer);
     }
   }, [pathname, lenis]);
@@ -114,12 +149,26 @@ export default function Home() {
     <main>
       <div className="bg-hero-gradient fixed inset-0 -z-10 transition-colors" />
       <Navbar />
-      <Hero />
-      <Jason />
-      <Lucia />
-      <Cal />
-      <ViceCity />
-      <Outro />
+        <Hero />
+      <section id="jason">
+        <Jason />
+      </section>
+
+      <section id="lucia">
+        <Lucia />
+      </section>
+
+      <section id="cal">
+        <Cal />
+      </section>
+
+      <section id="vice-city">
+        <ViceCity />
+      </section>
+
+      <section id="outro">
+        <Outro />
+      </section>
       <div ref={arrowWrapperRef} className=" w-full">
         <BouncingArrow
           ref={arrowRef}
