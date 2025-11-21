@@ -17,11 +17,8 @@ function Cal() {
   useGSAP(
     () => {
       const bgEl = BGColorRef.current;
-      const videoTrigger = document.querySelector(
-        '[data-background="cal-video"]'
-      );
 
-      if (!videoTrigger && !bgEl) return;
+      if (!bgEl) return;
 
       gsap.set(bgEl, { opacity: 0 });
 
@@ -29,22 +26,25 @@ function Cal() {
         scrollTrigger: {
           trigger: calRef.current,
           start: "top bottom",
-          end: "bottom top+=1100",
+          end: "bottom+=80% top",
           scrub: true,
           // markers: true,
         },
       });
-      tl.to(
+      tl.to(bgEl, { opacity: 1, duration: 0.2 }, 0).to(
         bgEl,
-        { opacity: 1, ease: "none", duration: 0.5 },
-        0
-      ).to(bgEl, { opacity: 0, ease: "none" }, ">");
-
+        { opacity: 0 },
+        ">"
+      );
     },
     { scope: calRef }
   );
+
   return (
-    <div ref={calRef}  className="relative flex flex-col w-full h-full overflow-hidden">
+    <div
+      ref={calRef}
+      className="relative flex flex-col w-full h-full overflow-hidden"
+    >
       <div ref={BGColorRef} className="calBGColor -z-[5] fixed inset-0 " />
       <CalHero />
       <CalContent />

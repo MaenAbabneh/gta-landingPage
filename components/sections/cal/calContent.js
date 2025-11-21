@@ -1,34 +1,44 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { CalImage } from "@/constants/assest";
+import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
+
 import ImageModel from "@/components/ui/ImageModel";
 import { useLazyVideo } from "@/hooks/useLazyVideo";
 import { getAssetIds } from "@/constants/assest";
 
-gsap.registerPlugin(ScrollTrigger);
+import { useVideoSideCharAnimation } from "@/hooks/animation/useVideoSideCharAnimetion";
+
 
 function CalContent() {
-  const PartTwoRef = useRef(null);
+  const sectionRef = useRef(null);
   const rightSideRef = useRef(null);
-  const leftImageRef = useRef(null);
+  const leftSideRef = useRef(null);
+  const FirstVideoRef = useRef(null);
+  const videoOverlayRef = useRef(null);
+  const bgOverlayRef = useRef(null);
+  const textRef = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const FirstVideoRef = useRef(null);
-  const textRef = useRef(null);
 
-  const { desktop: calDesktop, mobile: calMobile, poster: calPoster, posterMobile: calPosterMobile } = getAssetIds("Cal_Hampton_mnncgn");
+  const {
+    desktop: calDesktop,
+    mobile: calMobile,
+  } = getAssetIds("Cal_Hampton_mnncgn");
   const {
     videoUrl: videoSrc,
     posterUrl,
     posterMobile,
-    containerRef,
-  } = useLazyVideo({ desktop: calDesktop || "Cal_Hampton_mnncgn", mobile: calMobile || "Cal_Hampton_mobile_eo0dgu" }, {
-    eager: true,
-  });
+  } = useLazyVideo(
+    {
+      desktop: calDesktop || "Cal_Hampton_mnncgn",
+      mobile: calMobile || "Cal_Hampton_mobile_eo0dgu",
+    },
+    {
+      eager: true,
+    }
+  );
 
   // ✅ استخدام URLs المبنية مسبقاً
   const ImageOne = CalImage.Image_1.url;
@@ -47,199 +57,27 @@ function CalContent() {
   const placeholderThree = CalImage.Image_2.placeholder;
   const placeholderFour = CalImage.Image_3.placeholder;
 
-  useGSAP(
-    () => {
-      if (!videoSrc) return;
 
-      const video = videoRef.current;
-      const canvas = canvasRef.current;
-
-      if (!video) return;
-
-      const context = canvas.getContext("2d");
-      if (!canvas || !context) return;
-
-      gsap.set([FirstVideoRef.current, canvasRef.current, videoRef.current], {
-        willChange: "transform, opacity, filter",
-        force3D: true,
-      });
-
-      gsap.set(PartTwoRef.current, { marginTop: "-20vh" });
-      const setupAnimation = () => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        // الحصول على عنصر الـ overlay
-        const bgoverlay = PartTwoRef.current.querySelector(
-          '[data-overlay="bg-overlay"]'
-        );
-        const overlay = FirstVideoRef.current.querySelector(
-          '[data-overlay="video-overlay"]'
-        );
-
-        // تايملاين السكشن لتحريك العمود لِلأعلى بدون التأثير على التثبيت
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: PartTwoRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
-            ease: "none",
-            invalidateOnRefresh: true, // أعد حساب المواقع/القيم عند أي refresh
-            anticipatePin: 1,
-            // markers: true,
-          },
-        });
-
-        // حرك محتوى العمود فقط: الصورة + طبقة حركة الفيديو
-        tl.to(rightSideRef.current, { y: 150, ease: "none" }, 0);
-
-        const videoST = ScrollTrigger.create({
-          trigger: FirstVideoRef.current,
-          start: "center center",
-          end: "bottom top",
-          scrub: true,
-          pin: leftImageRef.current,
-          invalidateOnRefresh: true, // أعد حساب المواقع/القيم عند أي refresh
-          ease: "none",
-          // markers: true,
-          onUpdate: (self) => {
-            if (video.duration) {
-              const newTime = self.progress * video.duration;
-              if (Math.abs(newTime - video.currentTime) > 0.05) {
-                video.currentTime = newTime;
-              }
-            }
-          },
-        });
-
-        gsap.set(overlay, { opacity: 1 });
-        gsap.set([bgoverlay, textRef.current], { opacity: 0 });
-        gsap.set(".img-fade", { opacity: 1 });
-        const overlayTL = gsap.timeline({
-          scrollTrigger: {
-            trigger: FirstVideoRef.current,
-            start: "top-=800 bottom", // يبدأ قبل ظهور الفيديو بـ800px (أبكر بكثير)
-            end: "bottom top", // ينتهي عند خروج الفيديو من التثبيت مباشرة
-            scrub: true,
-            ease: "none",
-            // markers: true,
-          },
-        });
-
-        // ظهور الخلفية (من البداية حتى بداية التثبيت)
-        overlayTL.to(
-          overlay,
-          {
-            opacity: 0,
-            ease: "none",
-          },
-          0
-        );
-        overlayTL.to(
-          bgoverlay,
-          {
-            opacity: 1,
-            ease: "none",
-          },
-          0
-        );
-        overlayTL.to(
-          ".img-fade",
-          {
-            opacity: 0,
-            duration: 0.3,
-          },
-          0.17
-        );
-
-        // اختفاء الخلفية (بعد نهاية التثبيت)
-        overlayTL.to(
-          overlay,
-          {
-            opacity: 1,
-            ease: "none",
-          },
-          0.8
-        ); // يبدأ الاختفاء في 80% من المسافة الكلية (أبكر)
-        overlayTL.to(
-          bgoverlay,
-          {
-            opacity: 0,
-            ease: "none",
-          },
-          0.8
-        );
-        overlayTL.to(
-          textRef.current,
-          {
-            opacity: 1,
-          },
-          0.5
-        );
-        overlayTL.to(
-          ".img-fade",
-          {
-            opacity: 1,
-            duration: 0.3,
-          },
-          0.8
-        );
-
-        const draw = () => {
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        };
-        gsap.ticker.add(draw);
-
-        return () => {
-          gsap.ticker.remove(draw);
-          videoST.kill();
-          overlayTL.scrollTrigger?.kill();
-          overlayTL.kill();
-          tl.scrollTrigger?.kill();
-          tl.kill();
-        };
-      };
-
-      const waitForVideo = () => {
-        if (video.readyState >= 1 && video.duration) {
-          setupAnimation();
-        } else {
-          video.addEventListener(
-            "loadedmetadata",
-            () => {
-              setupAnimation();
-            },
-            { once: true }
-          );
-        }
-      };
-
-      const timer = setTimeout(waitForVideo, 100);
-
-      return () => {
-        clearTimeout(timer);
-      };
-    },
-    {
-      scope: PartTwoRef,
-      dependencies: [videoSrc],
-    }
-  );
+  useVideoSideCharAnimation(
+    { sectionRef, rightSideRef, leftSideRef, textRef, bgOverlayRef,videoOverlayRef, FirstVideoRef, videoRef, canvasRef },
+    videoSrc,
+  )
+ 
   return (
     <section
-      ref={PartTwoRef}
-      className="relative z-10 cal-gallary gap-x-5 items-start pb-[30vh]"
+      ref={sectionRef}
+      className="relative z-10 cal-gallary gap-x-5 -mt-[20vh] items-start pb-[30vh]"
     >
       <div
         className="fixed inset-0 w-full h-full bg-black/70  pointer-events-none"
         style={{ opacity: 0 }}
+        ref={bgOverlayRef}
         data-overlay="bg-overlay"
       />
 
       <div className="col-[main-start/mid] self-auto">
         <div
-          ref={leftImageRef}
+          ref={leftSideRef}
           className="grid grid-cols-7 gap-5 md:pt-25 xl:pt-30 "
         >
           <div className="relative w-full h-auto aspect-[1/1] overflow-hidden col-[3/8] img-fade">
@@ -258,31 +96,22 @@ function CalContent() {
             ref={FirstVideoRef}
             className="col-[1/8] video-overlay h-auto w-full aspect-square "
           >
-            <video
-              ref={videoRef}
-              src={videoSrc}
-              width={1920}
-              height={720}
-              poster={posterUrl}
-              preload="metadata"
-              playsInline
-              muted
-              crossOrigin="anonymous"
-              aria-label="Jason embracing Lucia while looking into the distance."
-              className="absolute inset-0 w-full h-full object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]  z-2 overflow-clip"
+            <AnimatedVideoSection
+              videoRef={videoRef}
+              posterUrl={posterUrl}
+              posterMobile={posterMobile}
+              videoSrc={videoSrc}
+              canvasRef={canvasRef}
+              videoClassName="object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]"
+              posterClassName="object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]"
+              canvasClassName="object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]"
+              videoAlt="Video showing Jason Duval in various scenes"
+              imgAlt="Poster image for video showing Jason Duval in various scenes"
             />
-
-            <canvas
-              ref={canvasRef}
-              width={1920}
-              height={720}
-              className="absolute inset-0 w-full h-full object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]  z-1 overflow-clip"
-            />
-
             <div
-              className="absolute inset-0 w-full h-full bg-gta-dark-blue/90 z-[3] pointer-events-none"
+              className="absolute inset-0 w-full h-full bg-gta-dark-blue/90 z-50 pointer-events-none"
               style={{ opacity: 0 }}
-              data-overlay="video-overlay"
+              ref={videoOverlayRef}
             />
           </div>
           <div className="relative w-full h-auto aspect-[9/16] overflow-hidden col-[4/8] img-fade">

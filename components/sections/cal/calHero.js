@@ -18,20 +18,13 @@ function CalHero() {
   useGSAP(
     () => {
       gsap.set(containerRef.current, { opacity: 1 });
-      gsap.set(maskWrapperRef.current, {
-        willChange: "clip-path, transform",
-        force3D: true,
-      });
-      gsap.set([backgroundImageRef.current, bgKeyArtRef.current], {
-        willChange: "transform",
-        force3D: true,
-      });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top 120%",
-          end: "bottom top+=500",
-          scrub: 1,
+          end: "bottom top",
+          scrub: true,
           // markers: true,
         },
       });
@@ -60,12 +53,12 @@ function CalHero() {
         textRef.current,
         { y: 20, ease: "none", },
         { y: 0, ease: "none", duration: 1 },
-        "<"
+        0
       );
       tl.to(
         containerRef.current,
         { opacity: 0, ease: "none", duration: 1 },
-        ">+=80%"
+        "60%"
       );
     },
     { scope: containerRef }
