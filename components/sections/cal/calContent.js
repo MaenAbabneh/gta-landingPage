@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { CalImage } from "@/constants/assest";
 import ImageModel from "@/components/ui/ImageModel";
 import { useLazyVideo } from "@/hooks/useLazyVideo";
+import { getAssetIds } from "@/constants/assest";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,11 +20,13 @@ function CalContent() {
   const FirstVideoRef = useRef(null);
   const textRef = useRef(null);
 
+  const { desktop: calDesktop, mobile: calMobile, poster: calPoster, posterMobile: calPosterMobile } = getAssetIds("Cal_Hampton_mnncgn");
   const {
     videoUrl: videoSrc,
     posterUrl,
+    posterMobile,
     containerRef,
-  } = useLazyVideo("Cal_Hampton_mnncgn", {
+  } = useLazyVideo({ desktop: calDesktop || "Cal_Hampton_mnncgn", mobile: calMobile || "Cal_Hampton_mobile_eo0dgu" }, {
     eager: true,
   });
 

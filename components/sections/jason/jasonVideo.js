@@ -13,7 +13,7 @@ function JasonVideo() {
   const quoteRef = useRef(null);
 
   const { videoUrl: videoSrc, posterUrl } = useLazyVideo(
-    "Jason_Duval_2_so4cun",
+    "Jason_Duval_2_i1i3s6",
     {
       eager: true,
     }
@@ -22,7 +22,6 @@ function JasonVideo() {
   useVideoQuoteAnimation(
     { containerRef, videoRef, canvasRef, quoteRef, videoOverlayRef },
     videoSrc,
-    { videoStart: 0, videoEnd: 0.45 }
   );
 
   return (

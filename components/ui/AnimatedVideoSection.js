@@ -4,6 +4,7 @@ export default function AnimatedVideoSection(props) {
     canvasRef,
     videoSrc,
     posterUrl,
+    posterMobile,
     videoClassName,
     posterClassName,
     canvasClassName,
@@ -40,6 +41,9 @@ export default function AnimatedVideoSection(props) {
           inset: 0,
         }}
       >
+        {posterMobile && (
+          <source media="(max-width: 767px)" srcSet={posterMobile} />
+        )}
         <img
           src={posterUrl}
           alt={imgAlt}

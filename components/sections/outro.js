@@ -4,6 +4,7 @@ import { useRef } from "react";
 
 import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 import { useLazyVideo } from "@/hooks/useLazyVideo";
+import { getAssetIds } from "@/constants/assest";
 import { useVideoAnimation } from "@/hooks/animation/useVideoAnimation";
 
 
@@ -14,7 +15,8 @@ function Outro() {
   const canvasRef = useRef(null);
   const storytextRef = useRef(null);
 
-  const { videoUrl: videoSrc, posterUrl } = useLazyVideo("outro_dy82ms", {
+  const { desktop: outroDesktop, mobile: outroMobile, poster: outroPoster, posterMobile: outroPosterMobile } = getAssetIds("outro_dy82ms");
+  const { videoUrl: videoSrc, posterUrl, posterMobile } = useLazyVideo({ desktop: outroDesktop || "outro_dy82ms", mobile: outroMobile || "Outro_mobile_pdesiw" }, {
     eager: true,
   });
   useVideoAnimation(
@@ -38,6 +40,7 @@ function Outro() {
         <AnimatedVideoSection
           videoRef={videoRef}
           posterUrl={posterUrl}
+          posterMobile={posterMobile}
           videoSrc={videoSrc}
           canvasRef={canvasRef}
           videoClassName="object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center]"

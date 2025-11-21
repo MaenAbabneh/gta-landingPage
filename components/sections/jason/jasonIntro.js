@@ -3,6 +3,7 @@
 import { useRef } from "react";
 
 import { useLazyVideo } from "@/hooks/useLazyVideo";
+import { getAssetIds } from "@/constants/assest";
 import { useVideoAnimation } from "@/hooks/animation/useVideoAnimation";
 import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 
@@ -13,7 +14,10 @@ function JasonIntro() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const { videoUrl: videoSrc, posterUrl } = useLazyVideo("intro_ff13rf", {
+  const { desktop: introDesktop, mobile: introMobile} = getAssetIds("intro_ff13rf");
+  const { videoUrl: videoSrc, posterUrl, posterMobile } = useLazyVideo(
+    { desktop: introDesktop || "intro_ff13rf", mobile: introMobile || "Lucia_Caminos_mobile_rkbhmx" },
+    {
     eager: true,
   });
 
@@ -65,6 +69,7 @@ function JasonIntro() {
           <AnimatedVideoSection
             videoRef={videoRef}
             posterUrl={posterUrl}
+            posterMobile={posterMobile}
             videoSrc={videoSrc}
             canvasRef={canvasRef}
             videoClassName=" object-cover [object-position:70%_center] md:[object-position:80%_center] xl:[object-position:90%_center] "

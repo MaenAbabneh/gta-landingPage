@@ -5,6 +5,7 @@ import gsap from "gsap";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { useLazyVideo } from "@/hooks/useLazyVideo";
+import { getAssetIds } from "@/constants/assest";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Overlay_ViceCity from "./overlay-viceCity";
 import { VisitLeonied } from "@/components/ui/svg";
@@ -20,10 +21,12 @@ function ViceCity() {
   const canvasRef = useRef(null);
   const bgRef = useRef(null);
 
+  const { desktop: viceDesktop, mobile: viceMobile, poster: vicePoster, posterMobile: vicePosterMobile } = getAssetIds("Vice_City_tazkqo");
   const {
     videoUrl: videoSrc,
     posterUrl,
-  } = useLazyVideo("Vice_City_tazkqo", {
+    posterMobile,
+  } = useLazyVideo({ desktop: viceDesktop || "Vice_City_tazkqo", mobile: viceMobile || "vice_City_mobile_tugsol" }, {
     eager: true,
   });
 

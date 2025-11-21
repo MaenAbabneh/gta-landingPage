@@ -6,6 +6,7 @@ import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 import { useVideoQuoteAnimation } from "@/hooks/animation/useVideoQuoteAnimation";
 
 import { useLazyVideo } from "@/hooks/useLazyVideo";
+import { getAssetIds } from "@/constants/assest";
 
 function LuciaVideo_2() {
   const containerRef = useRef(null);
@@ -14,8 +15,9 @@ function LuciaVideo_2() {
   const canvasRef = useRef(null);
   const quoteRef = useRef(null);
 
-  const { videoUrl: videoSrc, posterUrl } = useLazyVideo(
-    "Lucai_Caminos_2_rqqw1q",
+  const { desktop: lucia2Desktop, mobile: lucia2Mobile, poster: lucia2Poster, posterMobile: lucia2PosterMobile } = getAssetIds("Lucai_Caminos_2_rqqw1q");
+  const { videoUrl: videoSrc, posterUrl, posterMobile } = useLazyVideo(
+    { desktop: lucia2Desktop || "Lucai_Caminos_2_rqqw1q", mobile: lucia2Mobile || "Lucia_Caminos_mobile_2_qa9spk" },
     {
       eager: true,
     }
@@ -38,6 +40,7 @@ function LuciaVideo_2() {
         <AnimatedVideoSection
           videoRef={videoRef}
           posterUrl={posterUrl}
+          posterMobile={posterMobile}
           videoSrc={videoSrc}
           canvasRef={canvasRef}
           videoClassName=" object-cover [object-position:70%_center] lg:[object-position:60%_center]"
