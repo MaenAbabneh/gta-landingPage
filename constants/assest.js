@@ -6,13 +6,16 @@ import {
 } from "@/lib/cloudinary";
 
 export const SITE_ASSIST = [
-  { id: "intro_ff13rf", type: "video" },
-  { id: "Jason_Duval_2_so4cun", type: "video" },
-  { id: "Lucia_Caminos_1_rlbk0h", type: "video" },
-  { id: "Lucai_Caminos_2_rqqw1q", type: "video" },
-  { id: "Cal_Hampton_mnncgn", type: "video" },
-  { id: "Vice_City_tazkqo", type: "video" },
-  { id: "outro_dy82ms", type: "video" },
+  // To provide a mobile-optimized video, add a `mobileId` property.
+  // e.g. { id: 'intro_ff13rf', mobileId: 'intro_ff13rf_mobile', type: 'video' }
+  
+  { id: "intro_ff13rf", type: "video", mobileId: "Lucia_Caminos_mobile_rkbhmx" },
+  { id: "Jason_Duval_2_i1i3s6", type: "video", mobileId: "Jason_Duval_mobile_2_pigkcq" },
+  { id: "Lucia_Caminos_1_rlbk0h", type: "video", mobileId: "intro_mobile_tx8cql" },
+  { id: "Lucai_Caminos_2_rqqw1q", type: "video", mobileId: "Lucia_Caminos_mobile_2_qa9spk" },
+  { id: "Cal_Hampton_mnncgn", type: "video", mobileId: "Cal_Hampton_mobile_eo0dgu" },
+  { id: "Vice_City_tazkqo", type: "video", mobileId: "vice_City_mobile_tugsol" },
+  { id: "outro_dy82ms", type: "video", mobileId: "Outro_mobile_pdesiw" },
   { id: "Jason_Duval_01_kacoeq", type: "image" },
   { id: "Jason_Duval_02_ttet2g", type: "image" },
   { id: "Jason_Duval_03_ov4pov", type: "image" },
@@ -50,15 +53,88 @@ export const prebuiltassets = SITE_ASSIST.map((asset) => {
   } else {
     return {
       ...asset,
-      urls: buildResponsiveVideoUrls(asset.id),
-      poster: buildVideoThumbnail(asset.id, {
+      // If an asset includes a `mobileId` property, buildResponsiveVideoUrls will
+      // accept an object: { mobile, tablet, desktop }. We pass the desktop id
+      // by default and let the helper pick fallback values.
+      urls: buildResponsiveVideoUrls(
+        asset.mobileId
+          ? { mobile: asset.mobileId, desktop: asset.id || asset.mobileId }
+          : asset.id
+      ),
+      poster: buildVideoThumbnail(asset.id || asset.mobileId, {
         time: "end",
         width: 1920,
+        quality: "auto:best",
+      }),
+      // posterMobile for smaller screens; build from mobileId if provided, else fall back
+      posterMobile: buildVideoThumbnail(asset.mobileId || asset.id, {
+        time: "end",
+        width: 720,
         quality: "auto:best",
       }),
     };
   }
 });
+
+/**
+ * getAssetById(id)
+ * -----------------
+ * Lookup helper that returns the `prebuiltassets` entry for the given id.
+ * The function will first try to match a desktop `id`, then a `mobileId`.
+ *
+ * Returns: the full asset object from `prebuiltassets` or `null` if not found.
+ *
+ * Example:
+ *   const asset = getAssetById('Jason_Duval_2_i1i3s6');
+ *   // asset.urls, asset.poster, asset.posterMobile are available if defined
+ */
+export function getAssetById(id) {
+  if (!id) return null;
+  // First try exact id match
+  let found = prebuiltassets.find((a) => a.id === id);
+  if (found) return found;
+  // Next try mobileId match
+  found = prebuiltassets.find((a) => a.mobileId === id);
+  return found || null;
+}
+
+/**
+ * getAssetIds(id)
+ * ----------------
+ * Normalization helper returning a small object used by most components and
+ * hooks. It accepts a desktop id or a mobile id and returns a fallback-safe
+ * structure with the following fields:
+ *   - desktop: publicId string used for desktop
+ *   - mobile: publicId string used for mobile
+ *   - poster: desktop poster URL or null
+ *   - posterMobile: poster URL for mobile or fallback to poster
+ *   - urls: prebuilt video urls (desktop/tablet/mobile) if available
+ *
+ * Returns an object even when the asset isn't present in `prebuiltassets` —
+ * this makes the caller logic simple and safe.
+ *
+ * Example:
+ *   const { desktop, mobile, posterMobile } = getAssetIds('Cal_Hampton_mnncgn');
+ */
+export function getAssetIds(id) {
+  const asset = getAssetById(id);
+  if (!asset) {
+    return {
+      desktop: id,
+      mobile: id,
+      poster: null,
+      posterMobile: null,
+      urls: null,
+    };
+  }
+  return {
+    desktop: asset.id || asset.mobileId,
+    mobile: asset.mobileId || asset.id,
+    poster: asset.poster || null,
+    posterMobile: asset.posterMobile || asset.poster || null,
+    urls: asset.urls || null,
+  };
+}
 
 const buildImageObject = (imageData) => {
   const result = {};

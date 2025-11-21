@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { prebuiltassets } from "@/constants/assest";
+import { prebuiltassets, getAssetIds } from "@/constants/assest";
 import { useAssetPrecacher } from "@/hooks/useAssetPrecacher";
 import { cleanOldCaches, getCacheStats } from "@/lib/cacheManager";
 
@@ -36,24 +36,33 @@ export default function Precacher({ onStart }) {
 
   // ✅ تحميل كل الفيديوهات في الخلفية عند التحميل الأولي (بدون التأثير على التحميل الأولي)
   const allVideos = prebuiltassets
-    .filter((asset) => asset.type === "video" && asset.urls)
-    .map((asset) => ({
-      id: asset.id,
-      type: "video",
-      urls: asset.urls,
-    }));
+    .filter((asset) => asset.type === "video")
+    .map((asset) => {
+      const ids = getAssetIds(asset.id);
+      if (!ids || !ids.urls) return null;
+      return {
+        id: asset.id,
+        type: "video",
+        urls: ids.urls,
+      };
+    })
+    .filter(Boolean);
 
   // Also include poster images for proactive caching so that poster images are
   // available even when the video variant cached differs from the one requested
   // later. Posters are image resources and will be cached by the asset precacher
   // as images.
   const posterImages = prebuiltassets
-    .filter((asset) => asset.type === "video" && asset.poster)
-    .map((asset) => ({
-      id: `${asset.id}-poster`,
-      type: "image",
-      url: asset.poster,
-    }));
+    .filter((asset) => asset.type === "video")
+    .flatMap((asset) => {
+      const ids = getAssetIds(asset.id);
+      if (!ids) return [];
+      const out = [];
+      if (ids.poster) out.push({ id: `${asset.id}-poster`, type: "image", url: ids.poster });
+      if (ids.posterMobile && ids.posterMobile !== ids.poster)
+        out.push({ id: `${asset.id}-poster-mobile`, type: "image", url: ids.posterMobile });
+      return out;
+    });
 
   const assetsToCache = [...allVideos, ...posterImages];
 
