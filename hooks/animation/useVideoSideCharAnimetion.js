@@ -5,9 +5,19 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export function useVideoSideCharAnimation(refs = {}, videoSrc, config = {}) {
-  const { sectionRef, rightSideRef, leftSideRef, textRef, bgOverlayRef,videoOverlayRef, FirstVideoRef, videoRef, canvasRef } = refs || {};
+  const {
+    sectionRef,
+    rightSideRef,
+    leftSideRef,
+    textRef,
+    bgOverlayRef,
+    videoOverlayRef,
+    FirstVideoRef,
+    videoRef,
+    canvasRef,
+  } = refs || {};
 
-  const {  } = config;
+  const {} = config;
 
   useGSAP(
     () => {
@@ -16,8 +26,7 @@ export function useVideoSideCharAnimation(refs = {}, videoSrc, config = {}) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
       // التأكد من وجود العناصر
-      if (!video || !canvas)
-        return;
+      if (!video || !canvas) return;
 
       const context = canvas.getContext("2d");
       if (!context) return;
@@ -31,10 +40,10 @@ export function useVideoSideCharAnimation(refs = {}, videoSrc, config = {}) {
         const bgoverlay = bgOverlayRef.current;
         const overlay = videoOverlayRef.current;
 
-        const draw = () => {
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        };
-        gsap.ticker.add(draw);
+        // const draw = () => {
+        //   context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        // };
+        // gsap.ticker.add(draw);
 
         const mainTl = gsap.timeline({
           scrollTrigger: {
@@ -47,6 +56,7 @@ export function useVideoSideCharAnimation(refs = {}, videoSrc, config = {}) {
             onUpdate: (self) => {
               if (video.readyState > 1 && video.duration) {
                 video.currentTime = self.progress * video.duration;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
               }
             },
           },

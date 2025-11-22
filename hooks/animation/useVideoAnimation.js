@@ -38,195 +38,196 @@ export function useVideoAnimation(refs = {}, videoSrc, config = {}) {
 
   useGSAP(
     () => {
-          if (!videoSrc) return;
+      if (!videoSrc) return;
 
-          const video = videoRef.current;
-          const canvas = canvasRef.current;
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
 
-          if (!video) return;
+      if (!video) return;
 
-          const context = canvas.getContext("2d", { alpha: false });
-          if (!canvas || !context) return;
+      const context = canvas.getContext("2d", { alpha: false });
+      if (!canvas || !context) return;
 
-          gsap.set([canvas], { force3D: true });
+      gsap.set([canvas], { force3D: true });
 
-          if (storytextRef && storytextRef.current) {
-            gsap.set(storytextRef.current, {
+      if (storytextRef && storytextRef.current) {
+        gsap.set(storytextRef.current, {
+          opacity: 1,
+          maskImage: maskImages.storytext,
+          backgroundImage: backgroundImages.storytext,
+        });
+      }
+      gsap.set(videoOverlayRef.current, {
+        filter: filters.videoOverlay,
+        opacity: 0,
+        maskImage: maskImages.videoOverlay,
+      });
+      const setupAnimation = () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // const drawImage = () => {
+        //   context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        // };
+
+        // gsap.ticker.add(drawImage);
+
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: sectionPinEnd,
+            pin: true,
+            scrub: true,
+            // pinSpacing: false,
+            // markers: true,
+            onUpdate: (self) => {
+              if (video.readyState > 1 && video.duration) {
+                const progress = self.progress;
+                if (progress >= videoStart && progress <= videoEnd) {
+                  const mapped = gsap.utils.mapRange(
+                    videoStart,
+                    videoEnd,
+                    0,
+                    video.duration,
+                    progress
+                  );
+                  video.currentTime = mapped;
+                  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                }
+              }
+            },
+          },
+        });
+
+        tl.addLabel("start", 0);
+
+        if (storytextRef && storytextRef.current && isJason) {
+          tl.fromTo(
+            storytextRef.current,
+            { scale: 1 },
+            {
+              scale: 0.7,
+              duration: 1,
+            },
+            "start"
+          );
+
+          tl.to(
+            videoOverlayRef.current,
+            {
+              filter: filters.videoOverlayIn,
+              opacity: 0,
+            },
+            "start"
+          ).to(
+            storytextRef.current,
+            {
+              backgroundImage: backgroundImages.storytextIn,
+            },
+            "<"
+          );
+
+          tl.to(
+            storytextRef.current,
+            {
+              opacity: 0,
+              maskImage: maskImages.storytextOut,
+            },
+            ">+=0.1"
+          ).to(
+            videoOverlayRef.current,
+            {
               opacity: 1,
-              maskImage: maskImages.storytext,
-              backgroundImage: backgroundImages.storytext,
-            });
-          }
-          gsap.set(videoOverlayRef.current, {
-            filter: filters.videoOverlay,
-            opacity: 0,
-            maskImage: maskImages.videoOverlay,
-          });
-          const setupAnimation = () => {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+              filter: filters.videoOverlayOut,
+            },
+            "<"
+          );
 
-            const drawImage = () => {
-              context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            };
+          tl.to(
+            videoOverlayRef.current,
+            {
+              maskImage: maskImages.videoOverlay80,
+            },
+            "80%"
+          );
+          tl.to(
+            videoOverlayRef.current,
+            {
+              opacity: 0,
+            },
+            "90%"
+          );
+        } else if (isLucia) {
+          tl.to(
+            videoOverlayRef.current,
+            {
+              opacity: 1,
+            },
+            0
+          );
 
-            gsap.ticker.add(drawImage);
+          tl.to(
+            videoOverlayRef.current,
+            {
+              maskImage: maskImages.videoOverlay80,
+            },
+            "80%"
+          );
 
-            const tl = gsap.timeline({
-              defaults: { ease: "none" },
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top top",
-                end: sectionPinEnd,
-                pin: true,
-                scrub: true,
-                // pinSpacing: false,               
-                // markers: true,
-                onUpdate: (self) => {
-                  if (video.readyState > 1 && video.duration) {
-                    const progress = self.progress;
-                    if (progress >= videoStart && progress <= videoEnd) {
-                      const mapped = gsap.utils.mapRange(
-                        videoStart,
-                        videoEnd,
-                        0,
-                        video.duration,
-                        progress
-                      );
-                      video.currentTime = mapped;
-                    }
-                  }
-                },
-              },
-            });
+          tl.to(
+            videoOverlayRef.current,
+            {
+              opacity: 0,
+            },
+            "95%"
+          );
+        } else if (isOutro) {
+          tl.to(
+            videoOverlayRef.current,
+            {
+              opacity: 1,
+              duration: 0.3,
+            },
+            0
+          );
+          tl.to(
+            videoOverlayRef.current,
+            {
+              opacity: 0,
+              duration: 0.01,
+            },
+            "95%"
+          );
+        }
 
-            tl.addLabel("start", 0);
-            if (storytextRef && storytextRef.current && isJason) {
-              tl.fromTo(
-                storytextRef.current,
-                { scale: 1 },
-                {
-                  scale: 0.7,
-                  duration: 1,
-                },
-                "start"
-              );
+        return () => {
+          gsap.ticker.remove(drawImage);
+          tl.scrollTrigger.kill();
+          tl.kill();
+        };
+      };
 
-              tl.to(
-                videoOverlayRef.current,
-                {
-                  filter: filters.videoOverlayIn,
-                  opacity: 0,
-                },
-                "start"
-              ).to(
-                storytextRef.current,
-                {
-                  backgroundImage: backgroundImages.storytextIn,
-                },
-                "<"
-              );
-
-              tl.to(
-                storytextRef.current,
-                {
-                  opacity: 0,
-                  maskImage: maskImages.storytextOut,
-                },
-                ">+=0.2"
-              ).to(
-                videoOverlayRef.current,
-                {
-                  opacity: 1,
-                  filter: filters.videoOverlayOut,
-                },
-                "<"
-              );
-
-              tl.to(
-                videoOverlayRef.current,
-                {
-                  maskImage: maskImages.videoOverlay80,
-                },
-                "80%"
-              );
-              tl.to(
-                videoOverlayRef.current,
-                {
-                  opacity: 0,
-                },
-                "90%"
-              );
-            } else if (isLucia) {
-              tl.to(
-                videoOverlayRef.current,
-                {
-                  opacity: 1,
-                },
-                0
-              );
-
-              tl.to(
-                videoOverlayRef.current,
-                {
-                  maskImage: maskImages.videoOverlay80,
-                },
-                "80%"
-              );
-
-              tl.to(
-                videoOverlayRef.current,
-                {
-                  opacity: 0,
-                },
-                "95%"
-              );
-            } else if (isOutro) {
-              tl.to(
-                videoOverlayRef.current,
-                {
-                  opacity: 1,
-                  duration: 0.3,
-                },
-                0
-              );
-              tl.to(
-                videoOverlayRef.current,
-                {
-                  opacity: 0,
-                  duration: 0.01,
-                },
-                "95%"
-              );
-            }
-
-            return () => {
-              gsap.ticker.remove(drawImage);
-              tl.scrollTrigger.kill();
-              tl.kill();
-            };
-          };
-
-          const waitForVideo = () => {
-            if (video.readyState >= 1 && video.duration) {
+      const waitForVideo = () => {
+        if (video.readyState >= 1 && video.duration) {
+          setupAnimation();
+        } else {
+          video.addEventListener(
+            "loadedmetadata",
+            () => {
               setupAnimation();
-            } else {
-              video.addEventListener(
-                "loadedmetadata",
-                () => {
-                  setupAnimation();
-                },
-                { once: true }
-              );
-            }
-          };
+            },
+            { once: true }
+          );
+        }
+      };
 
-          const timer = setTimeout(waitForVideo, 100);
+      const timer = setTimeout(waitForVideo, 100);
 
-          return () => {
-            clearTimeout(timer);
-          };
-
+      return () => {
+        clearTimeout(timer);
+      };
     },
     {
       scope: sectionRef,

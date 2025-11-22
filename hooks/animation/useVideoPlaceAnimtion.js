@@ -30,10 +30,10 @@ export function useVideoPlaceAnimation(refs = {}, videoSrc, config = {}) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
-        const drawImage = () => {
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        };
-        gsap.ticker.add(drawImage);
+        // const drawImage = () => {
+        //   context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        // };
+        // gsap.ticker.add(drawImage);
 
         const bgTL = gsap.timeline({
           scrollTrigger: {
@@ -45,6 +45,7 @@ export function useVideoPlaceAnimation(refs = {}, videoSrc, config = {}) {
             onUpdate: (self) => {
               if (video.readyState > 1 && video.duration) {
                 video.currentTime = self.progress * video.duration;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
               }
             },
           },

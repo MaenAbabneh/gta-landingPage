@@ -46,11 +46,11 @@ export function useVideoQuoteAnimation(refs = {}, videoSrc, config = {}) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
-        const drawImage = () => {
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        };
+        // const drawImage = () => {
+        //   context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        // };
 
-        gsap.ticker.add(drawImage);
+        // gsap.ticker.add(drawImage);
 
         const tl = gsap.timeline({
           defaults: { ease: "none" },
@@ -80,6 +80,7 @@ export function useVideoQuoteAnimation(refs = {}, videoSrc, config = {}) {
                     progress
                   );
                   video.currentTime = Math.max(video.currentTime, mapped);
+                  context.drawImage(video, 0, 0, canvas.width, canvas.height);
                 }
               }
             },
