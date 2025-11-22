@@ -6,17 +6,15 @@ import LuciaVideo_2 from "./luciaVideo_2";
 
 function Lucia() {
   return (
-    <section
-      id="lucia"
-      data-background="bg-hero-gradient"
-      className=" bg-transparent"
+    <div
+      className="relative flex flex-col w-full h-full overflow-hidden"
     >
       <LuciaVideo />
       <LuciaContent_1 />
       <LuciaVideo_2 />
       <LuciaContent_2 />
       <LuciaFooter />
-    </section>
+    </div>
   );
 }
 

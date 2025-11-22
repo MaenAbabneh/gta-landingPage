@@ -18,25 +18,17 @@ function CalHero() {
   useGSAP(
     () => {
       gsap.set(containerRef.current, { opacity: 1 });
-      gsap.set(maskWrapperRef.current, {
-        willChange: "clip-path, transform",
-        force3D: true,
-      });
-      gsap.set([backgroundImageRef.current, bgKeyArtRef.current], {
-        willChange: "transform",
-        force3D: true,
-      });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top 120%",
-          end: "+=2000",
-          scrub: 1,
+          end: "bottom top",
+          scrub: true,
           // markers: true,
         },
       });
 
-      // استخدام متغير CSS للتحكم في clip-path
       tl.fromTo(
         maskWrapperRef.current,
         {
@@ -53,19 +45,20 @@ function CalHero() {
       );
       tl.fromTo(
         [backgroundImageRef.current],
-        { y: -50, ease: "none", duration: 1.2 },
-        { y: 0, ease: "none", duration: 1.2 },
-        0
-      ).fromTo(
-        textRef.current,
-        { y: 20, ease: "none", duration: 1 },
+        { y: -50, ease: "none",  },
         { y: 0, ease: "none", duration: 1 },
-        "<"
+        0
+      )
+      tl.fromTo(
+        textRef.current,
+        { y: 20, ease: "none", },
+        { y: 0, ease: "none", duration: 1 },
+        0
       );
       tl.to(
         containerRef.current,
         { opacity: 0, ease: "none", duration: 1 },
-        ">+=80%"
+        "60%"
       );
     },
     { scope: containerRef }

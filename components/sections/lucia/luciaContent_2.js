@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { LuciaImage } from "@/constants/assest";
-import ImageModel from "@/components/ImageModel";
+import ImageModel from "@/components/ui/ImageModel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -40,33 +40,23 @@ function LuciaContent_2() {
         },
         (context) => {
           let { isDesktop, isTablet, isMobile } = context.conditions;
-          if (isDesktop) {
-            gsap.set(PartTwoRef.current, { marginTop: "190vh" });
-          } else if (isTablet) {
-            gsap.set(PartTwoRef.current, { marginTop: "200vh" });
-          } else if (isMobile) {
-            gsap.set(PartTwoRef.current, { marginTop: "150vh" });
-          }
+          let y = isDesktop ? -100 : isTablet ? -80 : -60;
+
           gsap.set(fadeImageRef.current, { opacity: 0 });
 
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: PartTwoRef.current,
-              start: "top top",
-              end: "+=1800 bottom",
+              start: "top bottom",
+              end: "bottom top",
               scrub: true,
               // markers: true,
             },
           });
           tl.to(rightSideRef.current, {
-            y: -100,
+            y: y,
             ease: "none",
-            duration: 1,
-          }).to(
-            fadeImageRef.current,
-            { opacity: 1, ease: "none", duration: 0.6 },
-            "0"
-          );
+          }).to(fadeImageRef.current, { opacity: 1, ease: "none" }, 0);
         }
       );
     },
@@ -76,7 +66,10 @@ function LuciaContent_2() {
   );
 
   return (
-    <section ref={PartTwoRef} className="relative z-10 grid-gallary gap-5">
+    <section
+      ref={PartTwoRef}
+      className="relative z-10 grid-gallary mt-[230vh] gap-5"
+    >
       <div
         ref={rightSideRef}
         className="flex flex-col col-[content-start/5] jason-content gap-20"
@@ -115,7 +108,6 @@ function LuciaContent_2() {
             placeholder={placeholderFour}
             className="object-cover [object-position:0%_center] "
             ButtonStyle="w-full h-full "
-            priority
           />
         </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { cacheAsset, isCacheSupported } from "@/lib/cacheManager";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -27,28 +28,47 @@ export function useAssetPrecacher(
       return urls.desktop;
     };
 
-    const prefetchImage = (url) => {
+    const prefetchImage = async (url) => {
       try {
+        if (isCacheSupported()) {
+          const cached = await cacheAsset(url);
+          if (cached) return;
+        }
+        // Fallback: traditional prefetch
+
         const link = document.createElement("link");
         link.rel = "prefetch";
         link.as = "image";
         link.href = url;
         document.head.appendChild(link);
-      } catch {}
-      const img = new Image();
-      img.decoding = "async";
-      img.loading = "eager";
-      img.src = url;
+      } catch {
+        // Silently fail and continue
+      }
+      try {
+        const img = new Image();
+        img.decoding = "async";
+        img.loading = "eager";
+        img.src = url;
+      } catch {
+        // Silently fail
+      }
     };
 
     const prefetchVideo = async (url) => {
       try {
+        if (isCacheSupported()) {
+          const cached = await cacheAsset(url);
+          if (cached) return;
+        }
+        // Fallback: simple fetch to warm browser cache
         await fetch(url, {
           mode: "cors",
           cache: "default",
           credentials: "omit",
         });
-      } catch {}
+      } catch {
+        // Silently fail
+      }
     };
 
     const run = async () => {

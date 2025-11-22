@@ -1,73 +1,38 @@
-import { useLenis } from "lenis/react";
+"use client";
+
 import { useEffect, useRef } from "react";
+import {
+  requestScrollLock as managerRequestScrollLock,
+  releaseScrollLock as managerReleaseScrollLock,
+} from "@/lib/scroll-manager";
 
 /**
- * Custom Hook لإيقاف وتفعيل التمرير + إخفاء شريط التمرير
- * @param {boolean} isLocked - حالة قفل التمرير (true = إيقاف, false = تفعيل)
+ * Deprecated hook: delegating to scroll-manager to avoid DOM duplication.
+ * @param {boolean} isLocked
  */
 export function useScrollLock(isLocked) {
-  const lenis = useLenis();
-
-  // حفظ القيم الأصلية لاستعادتها
-  const prevOverflowRef = useRef("");
-  const prevPaddingRightRef = useRef("");
-  const prevOverscrollRef = useRef("");
-  const scrollbarWidthRef = useRef(0);
+  const didRequestRef = useRef(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const body = document.body;
-    const html = document.documentElement;
-
     if (isLocked) {
-      // حساب عرض شريط التمرير قبل إخفائه
-      scrollbarWidthRef.current =
-        window.innerWidth - document.documentElement.clientWidth;
-
-      // إيقاف Lenis (smooth scroll)
-      lenis?.stop();
-
-      // حفظ القيم الحالية
-      prevOverflowRef.current = body.style.overflow;
-      prevPaddingRightRef.current = body.style.paddingRight;
-      prevOverscrollRef.current = html.style.overscrollBehavior;
-
-      // إخفاء التمرير
-      body.style.overflow = "hidden";
-
-      // تعويض اختفاء الشريط لمنع القفزة الأفقية
-      if (scrollbarWidthRef.current > 0) {
-        body.style.paddingRight = `${scrollbarWidthRef.current}px`;
+      if (!didRequestRef.current) {
+        managerRequestScrollLock();
+        didRequestRef.current = true;
       }
-
-      // منع سلوك overscroll (خصوصاً على iOS)
-      html.style.overscrollBehavior = "none";
     } else {
-      // إعادة التمرير
-      lenis?.start();
-
-      // استرجاع القيم الأصلية
-      body.style.overflow = prevOverflowRef.current || "";
-      body.style.paddingRight = prevPaddingRightRef.current || "";
-      html.style.overscrollBehavior = prevOverscrollRef.current || "";
-
-      // إعادة تعيين عرض scrollbar
-      scrollbarWidthRef.current = 0;
+      if (didRequestRef.current) {
+        managerReleaseScrollLock();
+        didRequestRef.current = false;
+      }
     }
 
-    // Cleanup: تأكد من الاسترجاع عند التفكيك
     return () => {
-      if (isLocked) {
-        lenis?.start();
-        if (typeof window !== "undefined") {
-          const body = document.body;
-          const html = document.documentElement;
-          body.style.overflow = "";
-          body.style.paddingRight = "";
-          html.style.overscrollBehavior = "";
-        }
+      if (didRequestRef.current) {
+        managerReleaseScrollLock();
+        didRequestRef.current = false;
       }
     };
-  }, [isLocked, lenis]);
+  }, [isLocked]);
 }

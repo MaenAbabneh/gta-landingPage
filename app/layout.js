@@ -2,10 +2,14 @@ import "./globals.css";
 
 import localFont from "next/font/local";
 
-import Precacher from "@/components/precacher";
-import Loading from "../components/loading";
+import Precacher from "@/components/ui/precacher";
+import Loading from "../components/ui/loading";
+import CacheMonitor from "@/components/ui/CacheMonitor";
+
 import LenisProvider from "@/lib/lenis";
+import { ScrollLockProvider } from "@/context/ScrollLockContext";
 import Script from "next/script";
+import { buildVideoThumbnail, buildImageUrl } from "@/lib/cloudinary";
 
 const fontLong = localFont({
   src: [
@@ -16,7 +20,7 @@ const fontLong = localFont({
   ],
   variable: "--font-long",
   display: "swap",
-  preload: true,
+  preload: false,
 });
 
 const fontRound = localFont({
@@ -88,7 +92,7 @@ export const metadata = {
     siteName: "GTA VI Landing Page",
     images: [
       {
-        url: "https://res.cloudinary.com/dlgi2ockk/image/upload/f_auto/q_auto:best/hero-bg_dtrjtf",
+        url: buildImageUrl("hero-bg_dtrjtf"),
         width: 1920,
         height: 1080,
         alt: "Grand Theft Auto VI - Vice City",
@@ -100,9 +104,7 @@ export const metadata = {
     title: "Grand Theft Auto VI | Coming May 26, 2026",
     description:
       "Experience the next chapter in the Grand Theft Auto series. Explore Vice City with Jason and Lucia.",
-    images: [
-      "https://res.cloudinary.com/dlgi2ockk/image/upload/f_auto/q_auto:best/hero-bg_dtrjtf",
-    ],
+    images: [buildImageUrl("hero-bg_dtrjtf")],
   },
   alternates: {
     canonical: "https://gta-vi-landing.vercel.app",
@@ -141,7 +143,7 @@ export default function RootLayout({ children }) {
         url: "https://www.rockstargames.com",
         logo: {
           "@type": "ImageObject",
-          url: "https://res.cloudinary.com/dlgi2ockk/image/upload/f_auto/q_auto/heroKeyArt_a7kave",
+          url: buildImageUrl("heroKeyArt_a7kave"),
         },
       },
       {
@@ -158,15 +160,15 @@ export default function RootLayout({ children }) {
         },
         gamePlatform: ["PlayStation 5", "Xbox Series X", "Xbox Series S"],
         datePublished: "2026-05-26",
-        image:
-          "https://res.cloudinary.com/dlgi2ockk/image/upload/f_auto/q_auto/hero-bg_dtrjtf",
+        image: buildImageUrl("hero-bg_dtrjtf"),
         trailer: {
           "@type": "VideoObject",
           name: "Grand Theft Auto VI Trailer",
           description:
             "Official trailer for Grand Theft Auto VI showcasing Vice City, Jason, and Lucia",
           thumbnailUrl:
-            "https://res.cloudinary.com/dlgi2ockk/video/upload/so_end/w_1920/q_auto:best/f_auto/Lucia_Caminos_1_rlbk0h.jpg",
+            buildVideoThumbnail("Lucia_Caminos_1_rlbk0h") ||
+            buildImageUrl("Lucia_Caminos_1_rlbk0h"),
           uploadDate: "2023-12-05T00:00:00Z",
           duration: "PT1M30S",
           contentUrl: "https://www.youtube.com/watch?v=QdBZY2fkU-0",
@@ -210,7 +212,10 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" className={`${fontLong.variable} ${fontRound.variable}`}>
+    <html
+      lang="en"
+      className={`loading-active ${fontLong.variable} ${fontRound.variable}`}
+    >
       <head>
         {/* Preconnect to Cloudinary for faster asset loading */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
@@ -222,13 +227,16 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <Loading />
-        <div className="main-content" style={{ opacity: 0 }}>
-          <LenisProvider>
-            {children}
-            <Precacher />
-          </LenisProvider>
-        </div>
+        <LenisProvider>
+          <ScrollLockProvider>
+            <Loading />
+            <div className="main-content" style={{ opacity: 0 }}>
+              {children}
+              <Precacher />
+              {process.env.NODE_ENV === "development" && <CacheMonitor />}
+            </div>
+          </ScrollLockProvider>
+        </LenisProvider>
       </body>
     </html>
   );

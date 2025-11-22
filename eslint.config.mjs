@@ -29,6 +29,15 @@ const eslintConfig = defineConfig( [
       "simple-import-sort/exports": "error",
       // إلغاء import/order لتجنب التضارب
       "import/order": "off",
+      // Disallow hard-coded Cloudinary CDN strings; use the helper functions in lib/cloudinary instead
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "Literal[value=/^https?:\\/\\/res\\.cloudinary\\.com\\/.*$/]",
+          message:
+            "Avoid hard-coded Cloudinary URLs; use buildImageUrl / buildVideoThumbnail from lib/cloudinary instead.",
+        },
+      ],
     },
   },
 ]);

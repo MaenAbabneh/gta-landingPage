@@ -3,13 +3,12 @@
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useScrollLockContext } from "@/context/ScrollLockContext";
 
-import { useScrollLock } from "@/hooks/useScrollLock";
-
-import Burger from "../burger";
-import { MainLogo } from "../svg";
-import TrailerOverlay from "../trailervideo";
+import Burger from "../ui/burger";
+import { MainLogo } from "../ui/svg";
+import TrailerOverlay from "../ui/trailervideo";
 import OverlayMenu from "./overlayNav/overlayMenu";
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -21,7 +20,14 @@ function Navbar() {
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
   const [selectedTrailer, setSelectedTrailer] = useState(null);
 
-  useScrollLock(isMenuOpen);
+  const { requestLock, releaseLock } = useScrollLockContext();
+  useEffect(() => {
+    if (isMenuOpen) {
+      requestLock();
+      return () => releaseLock();
+    }
+    return undefined;
+  }, [isMenuOpen, requestLock, releaseLock]);
 
   const handleLinkClick = (href) => {
     // التحقق إذا كان العنصر المنقور عليه هو trailer
@@ -52,7 +58,7 @@ function Navbar() {
     window.history.replaceState({}, "", `/${sectionName}`);
 
     gsap.to(window, {
-      duration: 1.2,
+      duration: 0.1,
       ease: "power2.inOut",
       scrollTo: {
         y: target,

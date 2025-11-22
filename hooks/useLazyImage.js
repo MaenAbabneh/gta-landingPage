@@ -1,6 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import {
+  getCachedAsset,
+  cacheAsset,
+  isCacheSupported,
+} from "@/lib/cacheManager";
 
 export function useLazyImage(imageUrl, placeholderUrl, options = {}) {
   const { rootMargin = "1500px" } = options;
@@ -11,17 +16,49 @@ export function useLazyImage(imageUrl, placeholderUrl, options = {}) {
   useEffect(() => {
     const element = containerRef.current;
     if (!element) return;
+    let currentObjectUrl = null;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        entries.forEach(async (entry) => {
           if (entry.isIntersecting) {
-            // بدء تحميل الصورة الكاملة
+            // Check Cache Storage first
+            if (isCacheSupported()) {
+              try {
+                const cached = await getCachedAsset(imageUrl);
+                if (cached) {
+                  const blob = await cached.blob();
+                  // Revoke any previously-created object URL for this hook
+                  if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
+                  const objectUrl = URL.createObjectURL(blob);
+                  currentObjectUrl = objectUrl;
+                  setCurrentSrc(objectUrl);
+                  setIsLoaded(true);
+                  observer.disconnect();
+                  return;
+                }
+              } catch (error) {
+                // Cache read failed, continue to normal load
+                console.warn(
+                  "Cache read failed, using network:",
+                  error.message
+                );
+              }
+            }
+
+            // Not cached: load normally and cache in background
             const img = new Image();
             img.src = imageUrl;
             img.onload = () => {
               setCurrentSrc(imageUrl);
               setIsLoaded(true);
+
+              // Cache in background (silently fail if error)
+              if (isCacheSupported()) {
+                cacheAsset(imageUrl).catch(() => {
+                  // Silently ignore cache failures
+                });
+              }
             };
             observer.disconnect();
           }
@@ -37,6 +74,12 @@ export function useLazyImage(imageUrl, placeholderUrl, options = {}) {
 
     return () => {
       observer.disconnect();
+      // Clean up any created object URL to avoid memory leaks
+      if (currentObjectUrl) {
+        try {
+          URL.revokeObjectURL(currentObjectUrl);
+        } catch {}
+      }
     };
   }, [imageUrl, rootMargin]);
 

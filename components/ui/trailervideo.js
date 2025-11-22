@@ -7,7 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { gtaData } from "@/constants/Links";
-import { useScrollLock } from "@/hooks/useScrollLock";
+import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { useYoutubeVideo } from "@/hooks/useYotubeVideo";
 
 function TrailerOverlay({ isOpen, onClose, isOpenfalse }) {
@@ -37,7 +37,16 @@ function TrailerOverlay({ isOpen, onClose, isOpenfalse }) {
     }
   }, [isOpen]);
 
-  useScrollLock(isMounted);
+  const { requestLock, releaseLock } = useScrollLockContext();
+  useEffect(() => {
+    if (isMounted) {
+      requestLock();
+      return () => {
+        releaseLock();
+      };
+    }
+    return undefined;
+  }, [isMounted, requestLock, releaseLock]);
 
   const cleanVideoID = videoID ? videoID.split("?")[0] : "";
 

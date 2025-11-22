@@ -555,11 +555,11 @@ body {
 
   /* intro section */
   .story-heading-size {
-    font-size: clamp(2rem, 6vw, 7rem);
+    font-size: clamp(2rem, 4vw, 5rem);
   }
 
   .story-text-size {
-    font-size: clamp(0.8rem, 3vw, 3rem);
+    font-size: clamp(0.8rem, 3vw, 2rem);
   }
 
   /* GTA Gradients */
@@ -758,7 +758,7 @@ body {
   .grid-gallary {
     --cols-count: 1;
     width: 100%;
-    height: 100%;
+    min-height: 100dvh;
     display: grid;
     grid-template-columns:
       [main-start] 1fr
@@ -926,4 +926,10 @@ body {
   scrollbar-color: rgba(157, 157, 157, var(--scrollbar-opacity))
     rgba(17, 17, 23, calc(var(--scrollbar-opacity) * 0.8)); /* thumb then track */
   scrollbar-width: thin; /* thin لا يأخذ مساحة كبيرة */
+}
+
+/* Fallback: force hide overflow when loading-active class added (useful for older browsers) */
+html.loading-active,
+body.loading-active {
+  overflow: hidden !important;
 }

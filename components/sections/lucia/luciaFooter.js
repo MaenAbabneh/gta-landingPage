@@ -14,23 +14,7 @@ function LuciaFooter() {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia();
 
-      mm.add(
-        {
-          isDesktop: "(min-width: 1024px)",
-          isTablet: "(min-width: 768px) and (max-width: 1023px)",
-          isMobile: "(max-width: 767px)",
-        },
-        (context) => {
-          let { isDesktop, isTablet, isMobile } = context.conditions;
-          if (isDesktop) {
-            gsap.set(containerRef.current, { marginTop: "20vh" });
-          } else if (isTablet) {
-            gsap.set(containerRef.current, { marginTop: "30vh" });
-          } else if (isMobile) {
-            gsap.set(containerRef.current, { marginTop: "80vh" });
-          }
           gsap.set(textRef.current, {
             backgroundImage:
               "radial-gradient(at 80% 40%, rgb(252, 82, 67) 0%, rgb(223, 58, 147) 50%, transparent 100%)",
@@ -68,15 +52,14 @@ function LuciaFooter() {
             { "--outroShift": 0, ease: "none", duration: 1.2 },
             0
           );
-        }
-      );
+   
     },
     { scope: containerRef }
   );
 
   return (
     // 1. الحاوية الرئيسية الآن لا تحدد الارتفاع، بل ستتمدد لتناسب المحتوى
-    <div ref={containerRef} className="relative w-full ">
+    <div ref={containerRef} className="relative w-full mt-[20vh] ">
       {/* 2. حاوية الصورة، الآن هي عنصر عادي بارتفاع شاشة كاملة */}
       <div
         ref={overlayRef}

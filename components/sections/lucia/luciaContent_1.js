@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { LuciaImage } from "@/constants/assest";
-import ImageModal from "@/components/ImageModel";
+import ImageModal from "@/components/ui/ImageModel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,26 +39,20 @@ const LuciaContent_1 = () => {
         },
         (context) => {
           let { isDesktop, isTablet, isMobile } = context.conditions;
-          if (isDesktop) {
-            gsap.set(PartOneRef.current, { marginTop: "120vh" });
-          } else if (isTablet) {
-            gsap.set(PartOneRef.current, { marginTop: "150vh" });
-          } else if (isMobile) {
-            gsap.set(PartOneRef.current, { marginTop: "170vh" });
-          }
+          let y = isDesktop ? -100 : (isTablet ? -80 : -60);
 
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: PartOneRef.current,
               start: "top center",
-              end: "+=1500",
-              scrub: 2,
+              end: "bottom top",
+              scrub: true,
               ease: "none",
               // pinSpacing: false,
               // markers: true
             },
           });
-          tl.to(rightColumRef.current, { y: -100, ease: "none", duration: 1 });
+          tl.to(rightColumRef.current, { y: y, ease: "none", duration: 1 });
         }
       );
     },
@@ -66,7 +60,10 @@ const LuciaContent_1 = () => {
   );
 
   return (
-    <section ref={PartOneRef} className="relative z-10 grid-gallary gap-x-5">
+    <section
+      ref={PartOneRef}
+      className="relative z-10 grid-gallary mt-[200vh] gap-x-5"
+    >
       {/* Left Column */}
       <div
         ref={rightColumRef}

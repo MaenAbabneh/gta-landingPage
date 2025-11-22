@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import ImageModal from "@/components/ImageModel";
+import ImageModal from "@/components/ui/ImageModel";
 import { JasonImage } from "@/constants/assest";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -34,45 +34,20 @@ const JasonContent_1 = () => {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          isBigDisplay: "(min-width: 1280px)",
-          isDesktop: "(min-width: 1024px) and (max-width: 1279px)",
+          isDesktop: "(min-width: 1280px)",
           isTablet: "(min-width: 768px) and (max-width: 1023px)",
           isMobile: "(max-width: 767px)",
         },
         (context) => {
-          let { isBigDisplay, isDesktop, isTablet, isMobile } =
+          let { isDesktop, isTablet, isMobile } =
             context.conditions;
-          let end_scroll;
-          let scrup_value;
-          let y;
-          if (isBigDisplay) {
-            end_scroll = "+=1200";
-            scrup_value = 1.2;
-            y = -120;
-            gsap.set(PartOneRef.current, { marginTop: "150vh" });
-          } else if (isDesktop) {
-            end_scroll = "+=1500";
-            scrup_value = 1.5;
-            y = -100;
-            gsap.set(PartOneRef.current, { marginTop: "100vh" });
-          } else if (isTablet) {
-            end_scroll = "+=1000";
-            scrup_value = 1;
-            y = -80;
-            gsap.set(PartOneRef.current, { marginTop: "150vh" });
-          } else if (isMobile) {
-            end_scroll = "+=2100";
-            scrup_value = 2.1;
-            y = -30;
-            gsap.set(PartOneRef.current, { marginTop: "270vh" });
-          }
-
+          let y = isDesktop ? 150 : (isTablet ? 80 : 50);
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: PartOneRef.current,
-              start: "top center",
-              end: end_scroll,
-              scrub: scrup_value,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
               // markers: true
             },
           });
@@ -89,7 +64,7 @@ const JasonContent_1 = () => {
   );
 
   return (
-    <section ref={PartOneRef} className="relative z-10 grid-gallary gap-5">
+    <section ref={PartOneRef} className="relative z-10 mt-[200vh] grid-gallary gap-5 pointer-events-none md:pointer-events-auto ">
       <div className="col-[content-start/5] flex flex-col gap-5 ">
         <h1 className="text-yellow font-long uppercase md:text-[3.3rem] lg:text-[7vw] xl:text-[6rem] 2xl:text-9xl text-nowrap">
           Jason Duval

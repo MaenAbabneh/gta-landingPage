@@ -1,13 +1,14 @@
 "use client";
 
+import * as Dialog from "@radix-ui/react-dialog";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 
-import { useScrollLock } from "@/hooks/useScrollLock";
+// Removed direct useScrollLock import; using context request/release API
+import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { useLazyImage } from "@/hooks/useLazyImage";
 
 import Burger from "./burger";
@@ -24,9 +25,8 @@ const ImageModal = ({
   ButtonStyle,
   fadeImageRef,
   priority = false,
-  disableScrollLock = false, // خاصية جديدة لتعطيل قفل التمرير
-  placeholder, // إضافة placeholder
-  enableLazyLoad = true, // تفعيل lazy loading افتراضياً
+  placeholder,
+  enableLazyLoad = true,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -47,8 +47,18 @@ const ImageModal = ({
     setIsMounted(true);
   }, []);
 
-  // استخدام useScrollLock فقط إذا لم يتم تعطيله
-  useScrollLock(disableScrollLock ? false : isOpen);
+  // استخدام request/release من ScrollLockContext
+  const { requestLock, releaseLock } = useScrollLockContext();
+
+  useEffect(() => {
+    if (isOpen) {
+      requestLock();
+      return () => {
+        releaseLock();
+      };
+    }
+    return undefined;
+  }, [isOpen, requestLock, releaseLock]);
 
   useGSAP(
     () => {
@@ -224,88 +234,117 @@ const ImageModal = ({
   };
 
   return (
-    <>
-      <button
-        ref={(el) => {
-          buttonRef.current = el;
-          if (enableLazyLoad) containerRef.current = el;
-        }}
-        onClick={openModal}
-        className={`relative ${ButtonStyle}`}
-        aria-label={`Open ${alt || "image"} in modal`}
-      >
-        <div
-          ref={fadeImageRef}
-          className="group relative max-w-full h-full overflow-hidden"
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={(open) => {
+        // Only run the close animation when the dialog is closing.
+        if (open) setIsOpen(true);
+        else closeModal();
+      }}
+      modal={false}
+    >
+      <Dialog.Trigger asChild>
+        <button
+          ref={(el) => {
+            buttonRef.current = el;
+            if (enableLazyLoad) containerRef.current = el;
+          }}
+          onClick={openModal}
+          className={`relative ${ButtonStyle}`}
+          aria-label={`Open ${alt || "image"} in modal`}
         >
-          <Image
-            suppressHydrationWarning={true}
-            src={finalSrc}
-            alt={alt}
-            fill
-            sizes={sizes}
-            priority={priority}
-            unoptimized
-            className={`${className} border-gta-yellow border-0 group-hover:border-6 transition-all duration-300 ease-in-out ${
-              !isLoaded && enableLazyLoad ? "blur-md" : ""
-            }`}
-            style={{
-              transition: isLoaded ? "filter 0.3s ease-in-out" : "none",
-            }}
-          />
-          <span className="flex items-center justify-center w-12 h-12 absolute bottom-0 right-0 m-5 bg-gta-gray rounded-full group-hover:bg-gta-yellow transition-colors duration-300 ease-in-out">
-            <ExpandedArrow className="w-5 h-5 text-gta-yellow group-hover:text-gta-gray" />
-          </span>
-        </div>
-      </button>
-
-      {isMounted &&
-        isOpen &&
-        createPortal(
-          <div ref={portalRef} className="fixed inset-0 z-[9998]">
-            <div
-              className="modal-bg fixed inset-0 bg-black"
-              onClick={closeModal}
+          <div
+            ref={fadeImageRef}
+            className="group relative max-w-full h-full overflow-hidden"
+          >
+            <Image
+              suppressHydrationWarning={true}
+              src={finalSrc}
+              alt={alt}
+              fill
+              sizes={sizes}
+              priority={priority}
+              unoptimized
+              className={`${className} border-gta-yellow border-0 group-hover:border-6 transition-all duration-300 ease-in-out ${
+                !isLoaded && enableLazyLoad ? "blur-md" : ""
+              }`}
+              style={{
+                transition: isLoaded ? "filter 0.3s ease-in-out" : "none",
+              }}
             />
+            <span className="flex items-center justify-center w-12 h-12 absolute bottom-0 right-0 m-5 bg-gta-gray rounded-full group-hover:bg-gta-yellow transition-colors duration-300 ease-in-out">
+              <ExpandedArrow className="w-5 h-5 text-gta-yellow group-hover:text-gta-gray" />
+            </span>
+          </div>
+        </button>
+      </Dialog.Trigger>
 
-            {/* هذا العنصر هو الذي يتم تحريكه بالكامل */}
-            <div className="modal-image absolute">
+      <Dialog.Portal forceMount>
+        {isMounted && isOpen && (
+          <Dialog.Content
+            className="fixed inset-0 z-[9998]"
+            onEscapeKeyDown={(e) => {
+              e.preventDefault();
+              closeModal();
+            }}
+            onInteractOutside={(e) => {
+              e.preventDefault();
+            }}
+            onCloseAutoFocus={(e) => e.preventDefault()}
+            aria-describedby="modal-desc"
+          >
+            <Dialog.Title className="sr-only">{alt}</Dialog.Title>
+            <Dialog.Description id="modal-desc" className="sr-only">
+              Fullscreen view
+            </Dialog.Description>
+            <div ref={portalRef} className="fixed inset-0 z-[9998]">
               <div
-                className="zoom-wrap absolute inset-0"
-                style={{ willChange: "transform,filter" }}
-              >
-                {/* الصورة الأولى (تبدأ بحجم الزر) */}
-                <div className="absolute inset-0">
-                  <Image
-                    src={viewerImg}
-                    alt={alt}
-                    fill
-                    sizes="100vw"
-                    unoptimized
-                    className={`${className} thumb-image`}
+                className="modal-bg fixed inset-0 bg-black"
+                onClick={closeModal}
+              />
+
+              {/* هذا العنصر هو الذي يتم تحريكه بالكامل */}
+              <div className="modal-image absolute">
+                <div
+                  className="zoom-wrap absolute inset-0"
+                  style={{ willChange: "transform,filter" }}
+                >
+                  {/* الصورة الأولى (تبدأ بحجم الزر) */}
+                  <div className="absolute inset-0">
+                    <Image
+                      src={viewerImg}
+                      alt={alt}
+                      fill
+                      sizes="100vw"
+                      unoptimized
+                      className={`${className} thumb-image`}
+                    />
+                  </div>
+                  <div
+                    className="vignette absolute inset-0 pointer-events-none"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.75) 100%)",
+                    }}
                   />
                 </div>
-                <div
-                  className="vignette absolute inset-0 pointer-events-none"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.75) 100%)",
-                  }}
+              </div>
+
+              <div className="modal-burger absolute top-5 right-5 z-50 pointer-events-auto">
+                <Burger
+                  isMenuOpen={true}
+                  setIsMenuOpen={closeModal}
+                  isOpenStyle="modal-burger burger-lightbox hover:bg-gta-gray-dark transition-colors"
+                  spanStyleUp="!bg-gta-pink"
+                  spanStyleDown="!bg-gta-pink"
                 />
               </div>
+              <Dialog.Close className="sr-only">Close</Dialog.Close>
             </div>
-
-            <Burger
-              isMenuOpen={true}
-              setIsMenuOpen={closeModal}
-              isOpenStyle="modal-burger burger-lightbox hover:bg-gta-gray-dark transition-colors"
-              spanStyleUp=" !bg-gta-pink"
-              spanStyleDown="!bg-gta-pink"
-            />
-          </div>,
-          document.body
+          </Dialog.Content>
         )}
-    </>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 };
 

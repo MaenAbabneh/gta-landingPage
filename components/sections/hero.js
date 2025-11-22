@@ -6,11 +6,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useRef, useState } from "react";
 
-import { PlayIcon, PsIcon, WatchTrailer, XboxIcon } from "../svg";
-import TrailerOverlay from "../trailervideo";
+import { PlayIcon, WatchTrailer } from "../ui/svg";
+import TrailerOverlay from "../ui/trailervideo";
+import ComingSoon from "@/components/ui/comingsoon";
 import { HeroImage } from "@/constants/assest";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(ScrollTrigger);
 
 function Hero() {
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
@@ -224,118 +225,76 @@ function Hero() {
   );
 
   return (
-      <section
-        id="hero"
-        ref={containerRef}
-        className="relative w-full min-h-dvh  overflow-hidden "
+    <section
+      id="hero"
+      ref={containerRef}
+      className="relative w-full min-h-dvh overflow-hidden "
+    >
+      <div
+        ref={viLogoOverlayRef}
+        className="fixed inset-0 z-[2] viLogo pb-35 md:pb-57  xl:pb-80 "
+        style={{
+          willChange: "width height",
+        }}
+      />
+      <div
+        ref={maskWrapperRef}
+        className="mask-wrapper absolute inset-0 z-[1] pb-35 md:pb-57  xl:pb-80"
+        style={{
+          willChange: "widht height",
+        }}
       >
-        <div
-          ref={viLogoOverlayRef}
-          className="fixed inset-0 z-[2] viLogo pb-35 md:pb-57  xl:pb-80 "
-          style={{
-            willChange: "width height",
-          }}
+        <Image
+          ref={backgroundImageRef}
+          src={HeroImage.HeroBG.url}
+          alt="Hero Background"
+          className="object-cover scale-125 "
+          fill
+          sizes="100vw"
+          suppressHydrationWarning={true}
+          unoptimized
         />
+        <Image
+          ref={bgKeyArtRef}
+          src={HeroImage.HeroKeyArt.url}
+          alt="Hero Key Art"
+          className="object-cover scale-125 "
+          sizes="100vw"
+          fill
+          unoptimized
+          suppressHydrationWarning={true}
+        />
+      </div>
+
+      <button
+        ref={buttonRef}
+        alt="Play Button"
+        onClick={() => setIsOpenOverlay(true)}
+        className="absolute z-10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center hover:scale-[1.05] transition-transform duration-750 cursor-pointer "
+      >
+        <PlayIcon className="md:w-26 md:h-26 text-gta-white backdrop-blur-[100px] rounded-full " />
+      </button>
+
+      <div className="absolute z-10 inset-0 flex flex-col items-center justify-end  pb-12 pointer-events-none">
         <div
-          ref={maskWrapperRef}
-          className="mask-wrapper absolute inset-0 z-[1] pb-35 md:pb-57  xl:pb-80"
-          style={{
-            willChange: "widht height",
-          }}
+          ref={WatchRef}
+          className="relative w-55 h-14 flex items-center justify-center transition-transform duration-750 "
         >
-          <Image
-            ref={backgroundImageRef}
-            src={HeroImage.HeroBG.url}
-            alt="Hero Background"
-            className="object-cover scale-125 "
-            fill
-            sizes="100vw"
-            priority
-            suppressHydrationWarning={true}
-            unoptimized
-          />
-          <Image
-            ref={bgKeyArtRef}
-            src={HeroImage.HeroKeyArt.url}
-            alt="Hero Key Art"
-            className="object-cover scale-125 "
-            sizes="100vw"
-            style={{
-              willChange: "transform, opacity , scale",
-            }}
-            fill
-            priority
-            suppressHydrationWarning={true}
-            unoptimized
-          />
+          <WatchTrailer className="absolute inset-0 -translate-y-10 translate-x-13 text-white glow-logo " />
+          <span className="absolute text-[0.8rem] font-round font-black tracking-[0.35em] -translate-y-2.5 uppercase text-center text-white whitespace-nowrap glow-text">
+            Watch Trailer 2
+          </span>
         </div>
+      </div>
 
-        <button
-          ref={buttonRef}
-          alt="Play Button"
-          onClick={() => setIsOpenOverlay(true)}
-          className="absolute z-10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center hover:scale-[1.05] transition-transform duration-750 cursor-pointer "
-        >
-          <PlayIcon className="md:w-26 md:h-26 text-gta-white backdrop-blur-[100px] rounded-full " />
-        </button>
+      <ComingSoon refs={{ comingSoonRef, VIlogoRef, textRef, consolesRef }} />
 
-        <div className="absolute z-10 inset-0 flex flex-col items-center justify-end  pb-12 pointer-events-none">
-          <div
-            ref={WatchRef}
-            className="relative w-55 h-14 flex items-center justify-center transition-transform duration-750 "
-          >
-            <WatchTrailer className="absolute inset-0 -translate-y-10 translate-x-13 text-white glow-logo " />
-            <span className="absolute text-[0.8rem] font-round font-black tracking-[0.35em] -translate-y-2.5 uppercase text-center text-white whitespace-nowrap glow-text">
-              Watch Trailer 2
-            </span>
-          </div>
-        </div>
-
-        <div
-          ref={comingSoonRef}
-          className="absolute z-[0] inset-0 w-full h-lvh  flex flex-col items-center justify-center"
-        >
-          <div className="flex flex-col items-center justify-center h-full w-full md:gap-5">
-            <div
-              ref={VIlogoRef}
-              className="hidden-VI-Logo opacity-0 relative lg:mb-5"
-              style={{
-                visibility: "hidden",
-              }}
-            >
-              <Image
-                src="/images/logo.webp"
-                alt="Grand Theft Auto VI Logo"
-                fill
-                sizes="( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover "
-              />
-            </div>
-            <h3
-              ref={textRef}
-              className=" text-center text-[3rem] md:text-[5rem] lg:text-[5.4rem] xl:text-[6.3rem] font-black leading-10 md:leading-17 lg:leading-19 xl:leading-22 gradient-text "
-            >
-              COMING
-              <br />
-              MAY 26
-              <br />
-              2026
-            </h3>
-            <div
-              ref={consolesRef}
-              className="flex flex-row items-center justify-center gap-5  text-gta-white "
-            >
-              <PsIcon className="max-w-16  md:min-w-25 xl:max-w-100 md:max-h-40 xl:max-h-100" />
-              <XboxIcon className="max-w-25  md:min-w-40 xl:max-w-170 md:max-h-40 xl:max-h-100" />
-            </div>
-          </div>
-        </div>
       <TrailerOverlay
         isOpen={isOpenOverlay}
         isOpenfalse={!isOpenOverlay}
         onClose={() => setIsOpenOverlay(false)}
       />
-      </section>
+    </section>
   );
 }
 
