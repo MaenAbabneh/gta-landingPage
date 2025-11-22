@@ -17,7 +17,7 @@ export function useVideoSideCharAnimation(refs = {}, videoSrc, config = {}) {
     canvasRef,
   } = refs || {};
 
-  const {} = config;
+  const { videoStart = 0, videoEnd = 1 } = config;
 
   useGSAP(
     () => {
@@ -25,25 +25,70 @@ export function useVideoSideCharAnimation(refs = {}, videoSrc, config = {}) {
 
       const video = videoRef.current;
       const canvas = canvasRef.current;
-      // التأكد من وجود العناصر
+      const bgoverlay = bgOverlayRef.current;
+      const overlay = videoOverlayRef.current;
+
       if (!video || !canvas) return;
 
       const context = canvas.getContext("2d");
       if (!context) return;
 
       gsap.set(canvas, { force3D: true });
+      gsap.set(overlay, { opacity: 1 });
+      gsap.set([bgoverlay, textRef.current], { opacity: 0 });
+      gsap.set(".img-fade", { opacity: 1 });
+
+      if (rightSideRef.current && sectionRef.current) {
+        gsap.fromTo(
+          rightSideRef.current,
+          { y: 0 },
+          {
+            y: 150,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+              id: "right-col-parallax",
+            },
+          }
+        );
+      }
+
+      if (sectionRef.current) {
+        gsap.to(sectionRef.current, {
+          opacity: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "bottom bottom",
+            end: "bottom top",
+            scrub: true,
+            id: "section-exit-fade",
+          },
+        });
+      }
 
       const setupAnimation = () => {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        const bgoverlay = bgOverlayRef.current;
-        const overlay = videoOverlayRef.current;
+        const earlyTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: FirstVideoRef.current,
+            start: "top 85%",
+            end: "center center",
+            scrub: true,
+            id: "early-entry",
+          },
+        });
 
-        // const draw = () => {
-        //   context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        // };
-        // gsap.ticker.add(draw);
+        earlyTl
+          .to(overlay, { opacity: 0, ease: "none" })
+          .to(bgoverlay, { opacity: 1, ease: "none" }, "<")
+          .to(".img-fade", { opacity: 0, ease: "none" }, "<");
 
         const mainTl = gsap.timeline({
           scrollTrigger: {
@@ -52,52 +97,55 @@ export function useVideoSideCharAnimation(refs = {}, videoSrc, config = {}) {
             end: "bottom top",
             scrub: true,
             pin: leftSideRef.current,
-            // markers: true,
+            id: "main-pin",
             onUpdate: (self) => {
               if (video.readyState > 1 && video.duration) {
-                video.currentTime = self.progress * video.duration;
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const progress = self.progress;
+                if (progress >= 0 && progress <= 1) {
+                  const mapped = gsap.utils.mapRange(
+                    videoStart,
+                    videoEnd,
+                    0,
+                    video.duration,
+                    progress
+                  );
+                  video.currentTime = mapped;
+                  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                }
               }
             },
           },
         });
 
-        // ب) حركة العمود الأيمن (Parallax)
-        // نربطها بنفس التايم لاين لضمان التزامن
-        mainTl.to(rightSideRef.current, { y: 150, ease: "none" }, 0);
+        mainTl.to(textRef.current, { opacity: 1, duration: 0.2 }, 0.2);
 
-        // ج) أنيميشن الطبقات (Overlays) والنصوص
-        // استخدام "Labels" أو أرقام نسبية للتحكم الدقيق في التوقيت
+        const exitTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: FirstVideoRef.current,
+            start: () =>
+              mainTl.scrollTrigger ? mainTl.scrollTrigger.end : "bottom bottom",
+            end: "+=50%",
+            scrub: true,
+            id: "exit-anim",
+            invalidateOnRefresh: true, // لإعادة الحساب عند تغيير حجم الشاشة
+          },
+        });
 
-        // 1. حالة البداية
-        gsap.set(overlay, { opacity: 1 });
-        gsap.set([bgoverlay, textRef.current], { opacity: 0 });
-        gsap.set(".img-fade", { opacity: 1 });
-
-        // 2. تسلسل الأنيميشن داخل نفس التايم لاين
-
-        // البداية: إخفاء الـ overlay وإظهار الخلفية الداكنة
-        mainTl
-          .to(overlay, { opacity: 0, ease: "none", duration: 0.2 }, 0)
-          .to(bgoverlay, { opacity: 1, ease: "none", duration: 0.2 }, 0)
-          .to(".img-fade", { opacity: 0, duration: 0.2 }, 0);
-
-        // النهاية: (عندما يقترب الفيديو من النهاية)
-        // نستخدم Position Parameter (مثل 0.8) لتحديد متى يبدأ الاختفاء بالنسبة لمدة الفيديو
-        mainTl
-          .to(overlay, { opacity: 1, ease: "none", duration: 0.2 }, 0.8)
-          .to(bgoverlay, { opacity: 0, ease: "none", duration: 0.2 }, 0.8)
-          .to(textRef.current, { opacity: 1, duration: 0.2 }, 0.5) // ظهور النص في المنتصف
-          .to(".img-fade", { opacity: 1, duration: 0.2 }, 0.8);
+        exitTl
+          .to(bgoverlay, { opacity: 0, ease: "none" })
+          .to(overlay, { opacity: 1, ease: "none" }, "<")
+          .to(".img-fade", { opacity: 1, ease: "none" }, "<");
 
         return () => {
-          gsap.ticker.remove(draw);
+          earlyTl.scrollTrigger?.kill();
+          earlyTl.kill();
           mainTl.scrollTrigger?.kill();
           mainTl.kill();
+          exitTl.scrollTrigger?.kill();
+          exitTl.kill();
         };
       };
 
-      // انتظار تحميل الفيديو
       if (video.readyState >= 1 && video.duration) {
         setupAnimation();
       } else {

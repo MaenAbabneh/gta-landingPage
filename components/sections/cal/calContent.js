@@ -164,7 +164,7 @@ function CalContent() {
               priority
             />
           </div>
-          <div className="col-[2/6] cal-text-2 pt-20  ">
+          <div className="col-[2/6] cal-text-2 pt-30  ">
             <q className="text-[2.3rem] leading-10 font-black text-gta-blue ">
               The psychopaths are in charge. Get used to it.
             </q>
