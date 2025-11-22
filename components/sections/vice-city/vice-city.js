@@ -1,7 +1,5 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import { useRef, useState } from "react";
 import { getAssetIds } from "@/constants/assest";
 
@@ -13,10 +11,6 @@ import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 import Overlay_ViceCity from "./overlay-viceCity";
 import { VisitLeonied } from "@/components/ui/svg";
 
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
 function ViceCity() {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
@@ -25,6 +19,7 @@ function ViceCity() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const bgRef = useRef(null);
+  const headRef = useRef(null);
 
   const { desktop: viceDesktop, mobile: viceMobile } =
     getAssetIds("Vice_City_tazkqo");
@@ -43,7 +38,7 @@ function ViceCity() {
   );
 
   useVideoPlaceAnimation(
-    { sectionRef, videoRef, canvasRef, bgRef },
+    { sectionRef, videoRef, canvasRef, bgRef, headRef },
     videoSrc
   );
 
@@ -55,7 +50,10 @@ function ViceCity() {
         style={{ opacity: 0 }}
       />
       <div className="cal-gallary gap-5 md:gap-10 h-full">
-        <div className="col-[content-start/content-end] flex flex-col md:flex-row items-center justify-center gap-5 md:gap-10">
+        <div
+          ref={headRef}
+          className="col-[content-start/content-end] flex flex-col md:flex-row items-center justify-center gap-5 md:gap-10"
+        >
           <VisitLeonied className="w-[40vw] md:w-[20vw]" />
           <p className="text-balance text-center md:text-start md:max-w-70 text-sm md:text-2xl font-black font-round text-gta-white">
             Tour a few of the must-see destinations across the sunshine state.

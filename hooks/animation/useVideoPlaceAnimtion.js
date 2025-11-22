@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export function useVideoPlaceAnimation(refs = {}, videoSrc, config = {}) {
-  const { sectionRef, videoRef, canvasRef, bgRef } = refs || {};
+  const { sectionRef, videoRef, canvasRef, bgRef , headRef } = refs || {};
 
   useGSAP(
     () => {
@@ -25,6 +25,7 @@ export function useVideoPlaceAnimation(refs = {}, videoSrc, config = {}) {
       });
 
       gsap.set(bgRef?.current, { opacity: 0 });
+      gsap.set(headRef?.current, { opacity: 0 });
 
       const setupAnimation = () => {
         canvas.width = video.videoWidth;
@@ -58,6 +59,10 @@ export function useVideoPlaceAnimation(refs = {}, videoSrc, config = {}) {
             ease: "none",
           },
           0
+        ).to(
+          headRef.current,
+          { opacity: 1, ease: "none" },
+          0
         );
 
         bgTL.to(
@@ -70,7 +75,7 @@ export function useVideoPlaceAnimation(refs = {}, videoSrc, config = {}) {
         );
 
         return () => {
-          gsap.ticker.remove(drawImage);
+          // gsap.ticker.remove(drawImage);
           tl.scrollTrigger.kill();
           tl.kill();
         };
