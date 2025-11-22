@@ -8,34 +8,13 @@ import { useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-import dynamic from "next/dynamic";
-
 import Navbar from "@/components/navigation/Navbar";
 import Hero from "@/components/sections/hero";
-
-const Jason = dynamic(() => import("@/components/sections/jason/jason"), {
-  ssr: false,
-  loading: () => <div className="h-[300vh] bg-black/50 animate-pulse"></div>, // شاشة تحميل مؤقتة
-});
-const Lucia = dynamic(() => import("@/components/sections/lucia/lucia"), {
-  ssr: false,
-  loading: () => <div className="h-[300vh] bg-black/50 animate-pulse"></div>,
-});
-const Cal = dynamic(() => import("@/components/sections/cal/cal"), {
-  ssr: false,
-  loading: () => <div className="h-[200vh] bg-black/50 animate-pulse"></div>,
-});
-const ViceCity = dynamic(
-  () => import("@/components/sections/vice-city/vice-city"),
-  {
-    ssr: false,
-    loading: () => <div className="h-[100vh] bg-black/50 animate-pulse"></div>,
-  }
-);
-const Outro = dynamic(() => import("@/components/sections/outro"), {
-  ssr: false,
-  loading: () => <div className="h-[100vh] bg-black/50 animate-pulse"></div>,
-});
+import Jason from "@/components/sections/jason/jason";
+import Lucia from "@/components/sections/lucia/lucia";
+import Cal from "@/components/sections/cal/cal";
+import ViceCity from "@/components/sections/vice-city/vice-city";
+import Outro from "@/components/sections/outro";
 
 import { BouncingArrow } from "@/components/ui/svg";
 import { useGSAPLenis } from "@/lib/gsap-lenis";

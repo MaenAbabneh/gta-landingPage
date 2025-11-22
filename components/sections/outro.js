@@ -15,7 +15,7 @@ function Outro() {
   const canvasRef = useRef(null);
   const storytextRef = useRef(null);
 
-  const { desktop: outroDesktop, mobile: outroMobile, poster: outroPoster, posterMobile: outroPosterMobile } = getAssetIds("outro_dy82ms");
+  const { desktop: outroDesktop, mobile: outroMobile } = getAssetIds("outro_dy82ms");
   const { videoUrl: videoSrc, posterUrl, posterMobile } = useLazyVideo({ desktop: outroDesktop || "outro_dy82ms", mobile: outroMobile || "Outro_mobile_pdesiw" }, {
     eager: true,
   });
@@ -25,7 +25,6 @@ function Outro() {
     {
       videoStart: 0,
       videoEnd: 0.8,
-      marginTop: { desktop: "0vh", tablet: "0vh", mobile: "0vh" },
       sectionPinEnd: "bottom top-1000",
       isOutro: true,
     },
@@ -34,7 +33,7 @@ function Outro() {
   return (
     <div
       ref={sectionRef}
-      className="relative w-full h-lvh overflow-hidden"
+      className="relative w-full h-lvh mt-[50vh] overflow-hidden"
     >
       <div ref={videoOverlayRef} className="h-lvh">
         <AnimatedVideoSection
