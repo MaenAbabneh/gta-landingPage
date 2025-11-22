@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useRef, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import {
   requestScrollLock as managerRequestScrollLock,
   releaseScrollLock as managerReleaseScrollLock,
