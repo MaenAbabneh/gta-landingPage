@@ -21,6 +21,7 @@ function OverlayMenu({
   setHoveredItem,
   setActiveTab,
   isMenuOpen,
+  setIsMenuOpen,
 }) {
   const activeSection = useScrollSpy();
 
@@ -61,7 +62,7 @@ function OverlayMenu({
             activeTab={activeTab}
             onHover={handleItemHover}
             onLeave={handleItemLeave}
-            onTrailerClick={handleLinkClick}
+            onOpenTrailer={() => setIsMenuOpen(false)}
           />
         );
 

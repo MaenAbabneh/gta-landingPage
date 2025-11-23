@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTrailer } from "@/context/TrailerContext";
 
 import { gtaData } from "@/constants/Links";
 
@@ -8,12 +9,15 @@ export default function TrailersList({
   onHover,
   onLeave,
   activeTab,
-  onTrailerClick,
+  onOpenTrailer,
 }) {
+  const { openTrailer } = useTrailer();
+
   const handleTrailerClick = (trailer) => {
-    if (onTrailerClick) {
-      onTrailerClick(trailer);
-    }
+    // Open trailer via context
+    openTrailer(trailer);
+    // Close overlay menu if caller provided a callback
+    if (typeof onOpenTrailer === "function") onOpenTrailer();
   };
 
   return (

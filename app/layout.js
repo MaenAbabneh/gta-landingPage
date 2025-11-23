@@ -10,6 +10,8 @@ import LenisProvider from "@/lib/lenis";
 import { ScrollLockProvider } from "@/context/ScrollLockContext";
 import Script from "next/script";
 import { buildVideoThumbnail, buildImageUrl } from "@/lib/cloudinary";
+import { TrailerProvider } from "@/context/TrailerContext";
+import TrailerOverlay from "@/components/ui/trailervideo";
 
 const fontLong = localFont({
   src: [
@@ -229,12 +231,15 @@ export default function RootLayout({ children }) {
         />
         <LenisProvider>
           <ScrollLockProvider>
-            <Loading />
-            <div className="main-content" style={{ opacity: 0 }}>
-              {children}
-              <Precacher />
-              {process.env.NODE_ENV === "development" && <CacheMonitor />}
-            </div>
+            <TrailerProvider>
+              <Loading />
+              <div className="main-content" style={{ opacity: 0 }}>
+                {children}
+                <Precacher />
+                {process.env.NODE_ENV === "development" && <CacheMonitor />}
+              </div>
+              <TrailerOverlay />
+            </TrailerProvider>
           </ScrollLockProvider>
         </LenisProvider>
       </body>

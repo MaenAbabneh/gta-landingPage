@@ -6,14 +6,25 @@ import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { useTrailer } from "@/context/TrailerContext";
 import { gtaData } from "@/constants/Links";
 import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { useYoutubeVideo } from "@/hooks/useYotubeVideo";
 
-function TrailerOverlay({ isOpen, onClose, isOpenfalse }) {
+function TrailerOverlay() {
   const overlaybgRef = useRef(null);
   const videoRef = useRef(null);
   const buttonRef = useRef(null);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  const { isOpen, closeTrailer, selectedTrailer } = useTrailer();
+
+  const { requestLock, releaseLock } = useScrollLockContext();
+
+  const onClose = () => {
+    closeTrailer();
+  };
 
   const Defult_video_ID = gtaData.Trailers.find(
     (trailer) => trailer.isNew
@@ -29,15 +40,12 @@ function TrailerOverlay({ isOpen, onClose, isOpenfalse }) {
     setVideoID(initialVideoID);
   }
 
-  const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
     if (isOpen) {
       setIsMounted(true);
     }
   }, [isOpen]);
 
-  const { requestLock, releaseLock } = useScrollLockContext();
   useEffect(() => {
     if (isMounted) {
       requestLock();
