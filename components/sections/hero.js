@@ -289,11 +289,6 @@ function Hero() {
 
       <ComingSoon refs={{ comingSoonRef, VIlogoRef, textRef, consolesRef }} />
 
-      {/* <TrailerOverlay
-        isOpen={isOpenOverlay}
-        isOpenfalse={!isOpenOverlay}
-        onClose={() => setIsOpenOverlay(false)}
-      /> */}
     </section>
   );
 }

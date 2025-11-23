@@ -22,8 +22,7 @@ export const TrailerProvider = ({ children }) => {
 
   const closeTrailer = () => {
     setIsOpen(false);
-    // Delay clearing data to allow exit animation to finish
-    setTimeout(() => setSelectedTrailer(null), 500);
+    setSelectedTrailer(null)
   };
 
   // Use useMemo to prevent unnecessary re-renders
