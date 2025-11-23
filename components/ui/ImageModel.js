@@ -7,7 +7,6 @@ import { Flip } from "gsap/Flip";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-// Removed direct useScrollLock import; using context request/release API
 import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { useLazyImage } from "@/hooks/useLazyImage";
 
@@ -30,24 +29,26 @@ const ImageModal = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+
   const buttonRef = useRef(null);
   const portalRef = useRef(null);
+  const modalImageRef = useRef(null);
+  const modalBgRef = useRef(null);
+  const vignetteRef = useRef(null);
+  const modalBurgerRef = useRef(null);
 
-  // استخدام lazy loading
   const {
     src: lazySrc,
     containerRef,
     isLoaded,
   } = useLazyImage(src, placeholder, { rootMargin: "1500px" });
 
-  // استخدام src الفعلي أو lazy src حسب الإعدادات
   const finalSrc = enableLazyLoad ? lazySrc || placeholder : src;
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // استخدام request/release من ScrollLockContext
   const { requestLock, releaseLock } = useScrollLockContext();
 
   useEffect(() => {
@@ -66,117 +67,113 @@ const ImageModal = ({
 
       const portal = portalRef.current;
       const button = buttonRef.current;
-      if (!portal || !button) return;
+      const modalImage = modalImageRef.current;
+      const modalBg = modalBgRef.current;
+      const vignette = vignetteRef.current;
+      const modalBurger = modalBurgerRef.current;
 
-      const rect = button.getBoundingClientRect();
+      if (!portal || !button || !modalImage || !modalBg || !vignette) return;
 
-      const modalImage = portal.querySelector(".modal-image");
-      const modalBg = portal.querySelector(".modal-bg");
-      const vignette = portal.querySelector(".vignette");
-      const modalBurger = portal.querySelector(".modal-burger");
-
-      // الخطوة 1: جهّز الحالة الأولية للـ modal ليبدو مطابقًا للزر
-      gsap.set(modalImage, {
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-        height: rect.height,
-      });
-      gsap.set(modalBg, { opacity: 0 });
-      gsap.set(vignette, { opacity: 0 });
-
-      if (modalBurger) {
-        gsap.set(modalBurger, {
-          opacity: 0,
-          pointerEvents: "none",
-        });
-      }
-
-      // الخطوة 2: التقط هذه الحالة الأولية كنقطة بداية للأنيميشن
-      const state = Flip.getState(modalImage);
-
-      const finalSrc = viewerImg || src;
-
-      const runFlipWithSize = (finalW, finalH) => {
-        // ضع modalImage في الحالة النهائية (مركزيّة مع الحفاظ على الحجم)
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const top = Math.max(0, (vh - finalH) / 2);
-        const left = Math.max(0, (vw - finalW) / 2);
+      if (isOpen) {
+        const rect = button.getBoundingClientRect();
 
         gsap.set(modalImage, {
-          width: finalW,
-          height: finalH,
-          top,
-          left,
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height,
         });
+        gsap.set(modalBg, { opacity: 0 });
+        gsap.set(vignette, { opacity: 0 });
 
-        // الخطوة 4: قم بالتحريك من الحالة الأولى إلى الحالة النهائية
-        Flip.from(state, {
-          duration: 0.5,
-          ease: "expo.in",
-          onStart: () => {
-            // هنا نقوم بالأنيميشنات الداخلية التي لم تتغير
-            const tl = gsap.timeline();
-            tl.to(
-              modalBg,
-              { opacity: 1, duration: 1, ease: "power2.out" },
-              0.5
-            );
-            tl.to(vignette, { opacity: 0.5, duration: 1.2 }, 0);
-
-            if (modalBurger) {
-              tl.to(
-                modalBurger,
-                {
-                  opacity: 1,
-                  duration: 0.6,
-                  ease: "power2.out",
-                  pointerEvents: "auto",
-                },
-                0.9
-              );
-            }
-          },
-        });
-      };
-
-      // حاول تحميل الصورة للحصول على أبعادها الحقيقية
-      if (finalSrc) {
-        const probe = new window.Image();
-        probe.src = finalSrc;
-        const handle = () => {
-          const naturalW = probe.naturalWidth || window.innerWidth;
-          const naturalH = probe.naturalHeight || window.innerHeight;
-          // قيّد الحجم ليتناسب مع نافذة العرض
-          const scale = Math.min(
-            1,
-            Math.min(
-              window.innerWidth / naturalW,
-              window.innerHeight / naturalH
-            )
-          );
-          runFlipWithSize(
-            Math.round(naturalW * scale),
-            Math.round(naturalH * scale)
-          );
-        };
-        if (probe.complete) {
-          handle();
-        } else {
-          probe.onload = handle;
-          probe.onerror = () => {
-            // في حال فشل تحميل الصورة، استخدم ملء الشاشة كاحتياط
-            runFlipWithSize(window.innerWidth, window.innerHeight);
-          };
+        if (modalBurger) {
+          gsap.set(modalBurger, {
+            opacity: 0,
+            pointerEvents: "none",
+          });
         }
-      } else {
-        // لا يوجد مصدر نهائي، استخدم ملء الشاشة
-        runFlipWithSize(window.innerWidth, window.innerHeight);
+
+        const state = Flip.getState(modalImage);
+
+        const finalSrc = viewerImg || src;
+
+        const runFlipWithSize = (finalW, finalH) => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const top = Math.max(0, (vh - finalH) / 2);
+          const left = Math.max(0, (vw - finalW) / 2);
+
+          gsap.set(modalImage, {
+            width: finalW,
+            height: finalH,
+            top,
+            left,
+          });
+
+          Flip.from(state, {
+            duration: 0.5,
+            ease: "expo.in",
+            onStart: () => {
+              const tl = gsap.timeline();
+              tl.to(
+                modalBg,
+                { opacity: 1, duration: 1, ease: "power2.out" },
+                0.5
+              );
+              tl.to(vignette, { opacity: 0.5, duration: 1.2 }, 0);
+
+              if (modalBurger) {
+                tl.to(
+                  modalBurger,
+                  {
+                    opacity: 1,
+                    duration: 0.6,
+                    ease: "power2.out",
+                    pointerEvents: "auto",
+                  },
+                  0.9
+                );
+              }
+            },
+          });
+        };
+
+        // حاول تحميل الصورة للحصول على أبعادها الحقيقية
+        if (finalSrc) {
+          const probe = new window.Image();
+          probe.src = finalSrc;
+          const handle = () => {
+            const naturalW = probe.naturalWidth || window.innerWidth;
+            const naturalH = probe.naturalHeight || window.innerHeight;
+            // قيّد الحجم ليتناسب مع نافذة العرض
+            const scale = Math.min(
+              1,
+              Math.min(
+                window.innerWidth / naturalW,
+                window.innerHeight / naturalH
+              )
+            );
+            runFlipWithSize(
+              Math.round(naturalW * scale),
+              Math.round(naturalH * scale)
+            );
+          };
+          if (probe.complete) {
+            handle();
+          } else {
+            probe.onload = handle;
+            probe.onerror = () => {
+              runFlipWithSize(window.innerWidth, window.innerHeight);
+            };
+          }
+        } else {
+          runFlipWithSize(window.innerWidth, window.innerHeight);
+        }
+      } else if (!isOpen && isMounted) {
       }
     },
     { dependencies: [isOpen], scope: portalRef }
-  ); // يعتمد على isOpen
+  );
 
   const openModal = () => {
     setIsOpen(true);
@@ -237,11 +234,9 @@ const ImageModal = ({
     <Dialog.Root
       open={isOpen}
       onOpenChange={(open) => {
-        // Only run the close animation when the dialog is closing.
         if (open) setIsOpen(true);
         else closeModal();
       }}
-      modal={false}
     >
       <Dialog.Trigger asChild>
         <button
@@ -282,7 +277,8 @@ const ImageModal = ({
       <Dialog.Portal forceMount>
         {isMounted && isOpen && (
           <Dialog.Content
-            className="fixed inset-0 z-[9998]"
+            ref={portalRef}
+            className="fixed inset-0 z-[110]"
             onEscapeKeyDown={(e) => {
               e.preventDefault();
               closeModal();
@@ -297,50 +293,53 @@ const ImageModal = ({
             <Dialog.Description id="modal-desc" className="sr-only">
               Fullscreen view
             </Dialog.Description>
-            <div ref={portalRef} className="fixed inset-0 z-[9998]">
-              <div
-                className="modal-bg fixed inset-0 bg-black"
-                onClick={closeModal}
-              />
+            <div
+              ref={modalBgRef}
+              className="modal-bg fixed inset-0 bg-black"
+              onClick={closeModal}
+            />
 
-              {/* هذا العنصر هو الذي يتم تحريكه بالكامل */}
-              <div className="modal-image absolute">
-                <div
-                  className="zoom-wrap absolute inset-0"
-                  style={{ willChange: "transform,filter" }}
-                >
-                  {/* الصورة الأولى (تبدأ بحجم الزر) */}
-                  <div className="absolute inset-0">
-                    <Image
-                      src={viewerImg}
-                      alt={alt}
-                      fill
-                      sizes="100vw"
-                      unoptimized
-                      className={`${className} thumb-image`}
-                    />
-                  </div>
-                  <div
-                    className="vignette absolute inset-0 pointer-events-none"
-                    style={{
-                      background:
-                        "radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.75) 100%)",
-                    }}
+            {/* هذا العنصر هو الذي يتم تحريكه بالكامل */}
+            <div ref={modalImageRef} className="modal-image absolute">
+              <div
+                className="zoom-wrap absolute inset-0"
+                style={{ willChange: "transform,filter" }}
+              >
+                {/* الصورة الأولى (تبدأ بحجم الزر) */}
+                <div className="absolute inset-0">
+                  <Image
+                    src={viewerImg}
+                    alt={alt}
+                    fill
+                    sizes="100vw"
+                    unoptimized
+                    className={`${className} thumb-image`}
                   />
                 </div>
-              </div>
-
-              <div className="modal-burger absolute top-5 right-5 z-50 pointer-events-auto">
-                <Burger
-                  isMenuOpen={true}
-                  setIsMenuOpen={closeModal}
-                  isOpenStyle="modal-burger burger-lightbox hover:bg-gta-gray-dark transition-colors"
-                  spanStyleUp="!bg-gta-pink"
-                  spanStyleDown="!bg-gta-pink"
+                <div
+                  ref={vignetteRef}
+                  className="vignette absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.75) 100%)",
+                  }}
                 />
               </div>
-              <Dialog.Close className="sr-only">Close</Dialog.Close>
             </div>
+
+            <div
+              ref={modalBurgerRef}
+              className="modal-burger absolute top-5 right-5 z-50 pointer-events-auto"
+            >
+              <Burger
+                isMenuOpen={true}
+                setIsMenuOpen={closeModal}
+                isOpenStyle="modal-burger burger-lightbox hover:bg-gta-gray-dark transition-colors"
+                spanStyleUp="!bg-gta-pink"
+                spanStyleDown="!bg-gta-pink"
+              />
+            </div>
+            <Dialog.Close className="sr-only">Close</Dialog.Close>
           </Dialog.Content>
         )}
       </Dialog.Portal>
