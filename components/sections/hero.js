@@ -7,14 +7,14 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 
 import { PlayIcon, WatchTrailer } from "../ui/svg";
-import TrailerOverlay from "../ui/trailervideo";
+import { useTrailer } from "@/context/TrailerContext";
 import ComingSoon from "@/components/ui/comingsoon";
 import { HeroImage } from "@/constants/assest";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function Hero() {
-  const [isOpenOverlay, setIsOpenOverlay] = useState(false);
+  const { openTrailer } = useTrailer();
 
   const containerRef = useRef(null);
   const maskWrapperRef = useRef(null);
@@ -269,7 +269,7 @@ function Hero() {
       <button
         ref={buttonRef}
         alt="Play Button"
-        onClick={() => setIsOpenOverlay(true)}
+        onClick={() => openTrailer()}
         className="absolute z-10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center hover:scale-[1.05] transition-transform duration-750 cursor-pointer "
       >
         <PlayIcon className="md:w-26 md:h-26 text-gta-white backdrop-blur-[100px] rounded-full " />
@@ -289,11 +289,6 @@ function Hero() {
 
       <ComingSoon refs={{ comingSoonRef, VIlogoRef, textRef, consolesRef }} />
 
-      <TrailerOverlay
-        isOpen={isOpenOverlay}
-        isOpenfalse={!isOpenOverlay}
-        onClose={() => setIsOpenOverlay(false)}
-      />
     </section>
   );
 }

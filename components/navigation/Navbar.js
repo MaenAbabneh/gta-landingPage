@@ -8,7 +8,7 @@ import { useScrollLockContext } from "@/context/ScrollLockContext";
 
 import Burger from "../ui/burger";
 import { MainLogo } from "../ui/svg";
-import TrailerOverlay from "../ui/trailervideo";
+import { useTrailer } from "@/context/TrailerContext";
 import OverlayMenu from "./overlayNav/overlayMenu";
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -17,8 +17,8 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("People");
   const [hoveredItem, setHoveredItem] = useState(null);
-  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
-  const [selectedTrailer, setSelectedTrailer] = useState(null);
+  
+  const { openTrailer } = useTrailer();
 
   const { requestLock, releaseLock } = useScrollLockContext();
   useEffect(() => {
@@ -34,10 +34,8 @@ function Navbar() {
     if (typeof href === "object" && href.video_ID) {
       // إغلاق القائمة الرئيسية
       setIsMenuOpen(false);
-      // حفظ معلومات الفيديو المختار
-      setSelectedTrailer(href);
-      // فتح TrailerOverlay
-      setIsTrailerOpen(true);
+      // افتح التريلر عبر context
+      openTrailer(href);
       return;
     }
 
@@ -93,13 +91,9 @@ function Navbar() {
         hoveredItem={hoveredItem}
         setHoveredItem={setHoveredItem}
         handleLinkClick={handleLinkClick}
+        setIsMenuOpen={setIsMenuOpen}
       />
 
-      <TrailerOverlay
-        isOpen={isTrailerOpen}
-        onClose={() => setIsTrailerOpen(false)}
-        initialTrailer={selectedTrailer}
-      />
     </nav>
   );
 }

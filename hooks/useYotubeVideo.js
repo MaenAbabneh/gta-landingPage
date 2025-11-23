@@ -91,7 +91,6 @@ export function useYoutubeVideo(containerId, videoID, isOpen) {
       initializePlayer();
     }
 
-    // التنظيف: تدمير المشغل عند إغلاق الـ overlay
     return () => {
       isMounted = false;
       if (
@@ -104,17 +103,15 @@ export function useYoutubeVideo(containerId, videoID, isOpen) {
       }
       setIsReady(false);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, containerId]); // ⚠️ فقط isOpen و containerId - videoID يُعالج في useEffect المنفصل
+  }, [isOpen, containerId]); 
 
-  // 2️⃣ تحديث الفيديو عند تغيير videoID (بدون إعادة إنشاء المشغل)
   useEffect(() => {
     if (playerRef.current && isReady && videoID) {
       
       console.log("Loading new video:", videoID);
       playerRef.current.loadVideoById(videoID);
     }
-  }, [videoID, isReady]); // يعمل فقط عند تغيير videoID
+  }, [videoID, isReady]); 
 
   return { playerRef, isReady };
 }

@@ -1,10 +1,9 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import { useRef, useState } from "react";
 
 import { useScrollSpy } from "@/hooks/useScrollSpy";
+import { useNavOverlayAnimation } from "@/hooks/animation/useNavOverlayAnimetion";
 
 import { ArrowSvg, GloableSvg } from "../../ui/svg";
 import DownloadsGrid from "./components/content/DownloadsGrid";
@@ -21,6 +20,7 @@ function OverlayMenu({
   setHoveredItem,
   setActiveTab,
   isMenuOpen,
+  setIsMenuOpen,
 }) {
   const activeSection = useScrollSpy();
 
@@ -61,7 +61,7 @@ function OverlayMenu({
             activeTab={activeTab}
             onHover={handleItemHover}
             onLeave={handleItemLeave}
-            onTrailerClick={handleLinkClick}
+            onOpenTrailer={() => setIsMenuOpen(false)}
           />
         );
 
@@ -87,75 +87,16 @@ function OverlayMenu({
 
   const [isAnimating, setIsAnimating] = useState(false);
 
-  useGSAP(
-    () => {
-      const container = containerRef.current;
-      const overlay = overlayRef.current;
-      const panel = panelRef.current;
-      const leftColum = leftColumRef.current;
-
-      if (!container || !overlay || !panel) return;
-
-      // إلغاء أي أنيميشن سابق
-      if (timelineRef.current) {
-        timelineRef.current.kill();
-        timelineRef.current = null;
-      }
-
-      if (isMenuOpen) {
-        setIsAnimating(true);
-
-        gsap.set(container, { pointerEvents: "none", visibility: "visible" });
-
-        const tl = gsap.timeline({
-          defaults: { ease: "power2.out" },
-          onComplete: () => {
-            gsap.set(container, {
-              pointerEvents: "auto",
-              visibility: "visible",
-            });
-            setIsAnimating(false);
-            timelineRef.current = null;
-          },
-        });
-
-        timelineRef.current = tl;
-
-        tl.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0)
-          .fromTo(
-            panel,
-            { x: 500, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.4 },
-            "<"
-          )
-          .fromTo(
-            leftColum,
-            { opacity: 0 },
-            { opacity: 1, duration: 0.5 },
-            "<"
-          );
-      } else {
-        setIsAnimating(true);
-
-        gsap.set(container, { pointerEvents: "none" });
-
-        const tl = gsap.timeline({
-          ease: "power2.in",
-          onComplete: () => {
-            gsap.set(container, { visibility: "hidden" });
-            setIsAnimating(false);
-            timelineRef.current = null;
-          },
-        });
-
-        timelineRef.current = tl;
-
-        tl.to(overlay, { opacity: 0, duration: 0.5 }, 0)
-          .to(panel, { x: 500, opacity: 0, duration: 0.4 }, 0)
-          .to(leftColum, { opacity: 0, duration: 0.3 }, 0);
-      }
+  useNavOverlayAnimation(
+    {
+      containerRef,
+      overlayRef,
+      panelRef,
+      leftColumRef,
+      timelineRef,
     },
-    { dependencies: [isMenuOpen], scope: containerRef }
+    isMenuOpen,
+    setIsAnimating
   );
 
   return (
