@@ -1,8 +1,12 @@
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useState } from "react";
 
 import { gtaData } from "@/constants/Links";
+
+// ensure plugin is registered in case this hook mounts before other setup
+gsap.registerPlugin(ScrollTrigger);
 
 export function useScrollSpy() {
   const [activeSection, setActiveSection] = useState("");
@@ -16,7 +20,8 @@ export function useScrollSpy() {
 
     sectionsToTrack.forEach((item, index) => {
       // Clean the href and ensure it's a valid section name
-      let sectionName = item.href.replace(/^\/+|#+/g, ""); // Remove leading slashes and hashes
+      // remove leading/trailing slashes and any hashes
+      let sectionName = item.href.replace(/^\/+|\/+$/g, "").replace(/#+/g, "");
 
       // Skip empty or invalid section names
       if (!sectionName || sectionName.includes("/")) {
@@ -25,21 +30,22 @@ export function useScrollSpy() {
 
       const sectionId = `#${sectionName}`; // Create proper ID selector
 
-      // Check if element exists before creating ScrollTrigger
-      if (!document.querySelector(sectionId)) {
-        return;
-      }
+      // Use the actual element (more reliable than a selector string)
+      const el = document.querySelector(sectionId);
+      if (!el) return;
 
       const trigger = ScrollTrigger.create({
-        trigger: sectionId,
+        trigger: el,
         start: "top center",
         end: "bottom center",
+        markers: true,
+        refreshPriority:-1,
         onEnter: () => {
           setActiveSection(sectionName);
           window.history.replaceState(
             { fromScroll: true },
             "",
-            `/`
+            `/${sectionName}`
           );
         },
         onEnterBack: () => {
@@ -47,7 +53,7 @@ export function useScrollSpy() {
           window.history.replaceState(
             { fromScroll: true },
             "",
-            `/`
+            `/${sectionName}`
           );
         },
         // Clear active state ONLY when scrolling past the last section
@@ -67,7 +73,13 @@ export function useScrollSpy() {
       });
       triggers.push(trigger);
     });
+
+    // Force a refresh after triggers are created so start/end get calculated correctly.
+    // a small delay ensures DOM layout and any smooth-scrolling proxy (e.g. Lenis) are ready.
+    const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
+
     return () => {
+      cancelAnimationFrame(raf);
       triggers.forEach((trigger) => trigger.kill());
     };
   }, []);
