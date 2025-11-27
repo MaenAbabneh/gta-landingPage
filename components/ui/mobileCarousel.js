@@ -21,53 +21,73 @@ function MobileCarousel({ slides }) {
   const carouselRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStartX, setDragStartX] = useState(0);
-  const [initialScrollLeft, setInitialScrollLeft] = useState(0);
+  const activeIndexRef = useRef(0);
+
+  const interactionRef = useRef({
+    isDragging: false,
+    dragStartX: 0,
+    initialScrollLeft: 0,
+    lastX: 0,
+  });
+
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   const scrollToSlide = (index) => {
     if (!carouselRef.current) return;
-    const el = carouselRef.current.children[index];
-    if (el) {
-      el.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-        block: "nearest",
-      });
-      setActiveIndex(index);
-    }
+    const container = carouselRef.current;
+    const child = container.children[index];
+    if (!child) return;
+
+    // compute target scroll so the child is centered inside the carousel container
+    const targetScroll =
+      child.offsetLeft - container.clientWidth / 2 + child.clientWidth / 2;
+
+    // animate scrollLeft of the container (does not change page viewport)
+    gsap.to(container, {
+      scrollLeft: targetScroll,
+      duration: 0.5,
+      ease: "power3.out",
+      onComplete: () => setActiveIndex(index),
+    });
   };
 
   const getX = (e) => (e.clientX || e.touches?.[0]?.clientX) ?? 0;
 
   const handleDragStart = (e) => {
     if (e.button === 0 || e.touches) {
-      setIsDragging(true);
-      setDragStartX(getX(e));
-      setInitialScrollLeft(carouselRef.current.scrollLeft);
+      const cur = interactionRef.current;
+      const startX = getX(e);
+      cur.isDragging = true;
+      cur.dragStartX = startX;
+      cur.lastX = startX;
+      cur.initialScrollLeft = carouselRef.current.scrollLeft;
       gsap.killTweensOf(carouselRef.current);
       carouselRef.current.style.scrollBehavior = "auto";
-      carouselRef.current.style.touchAction = "none";
+      carouselRef.current.style.touchAction = "grabbing";
     }
   };
 
   const handleDragMove = (e) => {
-    if (!isDragging || !carouselRef.current) return;
+    const cur = interactionRef.current;
+    if (!cur.isDragging || !carouselRef.current) return;
     e.preventDefault();
 
     const currentX = getX(e);
-    const dragDistance = currentX - dragStartX;
+    cur.lastX = currentX;
+    const dragDistance = currentX - cur.dragStartX;
 
     const maxScroll =
       carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
-    const targetScroll = initialScrollLeft - dragDistance;
+    const targetScroll = cur.initialScrollLeft - dragDistance;
 
     let overscrollValue = 0;
 
     if (targetScroll < 0) {
-      overscrollValue = -targetScroll * 0.3;
+      overscrollValue = -targetScroll * 0.4;
     } else if (targetScroll > maxScroll) {
-      overscrollValue = (maxScroll - targetScroll) * 0.3;
+      overscrollValue = (maxScroll - targetScroll) * 0.4;
     }
 
     if (overscrollValue !== 0) {
@@ -79,37 +99,41 @@ function MobileCarousel({ slides }) {
   };
 
   const handleDragEnd = (e) => {
-    if (!isDragging || !carouselRef.current) return;
-    setIsDragging(false);
-
+    const cur = interactionRef.current;
+    if (!cur.isDragging || !carouselRef.current) return;
+    cur.isDragging = false;
     carouselRef.current.style.touchAction = "auto";
 
+    const currentX = cur.lastX;
+    const dragDistance = currentX - cur.dragStartX;
+    const threshold = 25;
+
+    const steps = Math.abs(dragDistance) > threshold ? 1 : 0;
+    const direction = dragDistance < 0 ? 1 : -1;
+
+    let targetIndex = activeIndexRef.current + direction * steps;
+    targetIndex = Math.max(0, Math.min(slides.length - 1, targetIndex));
+
+    setActiveIndex(targetIndex);
+
     const container = carouselRef.current;
-    const containerCenterScroll =
-      container.scrollLeft + container.clientWidth / 2;
-    let closestIndex = 0;
-    let closestDistance = Infinity;
-    Array.from(container.children).forEach((child, idx) => {
-      const childCenterScroll = child.offsetLeft + child.offsetWidth / 2;
-      const distance = Math.abs(containerCenterScroll - childCenterScroll);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = idx;
-      }
-    });
+    const child = container.children[targetIndex];
 
-    // حدّث الحالة فورًا لتفادي أي تصادم في الواجهة
-    setActiveIndex(closestIndex);
+    if (!child) return;
 
-    // إعادة قيمة التحويل (x) إلى 0 ثم التمرير إلى الشريحة الأقرب
+    let targetScroll = child
+      ? child.offsetLeft - container.clientWidth / 2 + child.clientWidth / 2
+      : container.scrollLeft;
+
     gsap.to(container, {
       x: 0,
-      duration: 0.3,
+      duration: 0.7,
       ease: "power3.out",
-      onComplete: () => scrollToSlide(closestIndex),
+      scrollLeft: targetScroll,
+      onComplete: () => {
+        carouselRef.current.style.scrollBehavior = "smooth";
+      },
     });
-
-    container.style.scrollBehavior = "smooth";
   };
 
   useEffect(() => {
@@ -135,7 +159,7 @@ function MobileCarousel({ slides }) {
       window.removeEventListener("mousemove", handleDragMove);
       window.removeEventListener("mouseup", handleDragEnd);
     };
-  }, [carouselRef.current, isDragging, dragStartX, initialScrollLeft]);
+  }, []);
 
   const renderImage = (slide) => (
     <ImageModel
@@ -153,28 +177,28 @@ function MobileCarousel({ slides }) {
     <>
       <div
         ref={carouselRef}
-        className="flex overflow-x-auto gap-3 scrollbar-none w-full px-15"
+        className="flex overflow-hidden gap-3 scrollbar-none will-change-transform w-full px-15 touch-pan-y"
       >
         {slides.map((slide, idx) => (
           <div
             key={idx}
-            className={`min-w-[75vw] h-auto aspect-[9/16] snap-center overflow-hidden relative shrink-0 transform duration-300 ${activeIndex === idx ? " z-10" : ""}`}
+            className={`min-w-[75vw] h-auto aspect-[9/16] snap-center overflow-hidden object-bottom relative shrink-0 transform duration-300 ${activeIndex === idx ? " z-10" : ""}`}
           >
             {renderImage(slide)}
           </div>
         ))}
       </div>
 
-      <div className="flex justify-center items-center gap-4">
+      <div className="flex justify-center items-center bg-white/5 opacity-95 min-w-32 h-16 rounded-full my-15 gap-4">
         {slides.map((_, idx) => (
           <button
             key={idx}
             onClick={() => scrollToSlide(idx)}
             aria-label={`Go to slide ${idx + 1}`}
-            className={`h-2 rounded-full transition-all duration-300 ease-out ${
+            className={` rounded-full transition-all duration-300 ease-out ${
               activeIndex === idx
-                ? "w-2 bg-gta-pink"
-                : "w-2 bg-white/30 hover:bg-white/50"
+                ? "h-[11px] w-[11px] bg-gta-white"
+                : "h-[10px] w-[10px] bg-white/30 hover:bg-white/50"
             }`}
           />
         ))}
