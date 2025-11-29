@@ -19,18 +19,14 @@ export function useScrollSpy() {
     const triggers = [];
 
     sectionsToTrack.forEach((item, index) => {
-      // Clean the href and ensure it's a valid section name
-      // remove leading/trailing slashes and any hashes
       let sectionName = item.href.replace(/^\/+|\/+$/g, "").replace(/#+/g, "");
 
-      // Skip empty or invalid section names
       if (!sectionName || sectionName.includes("/")) {
         return;
       }
 
-      const sectionId = `#${sectionName}`; // Create proper ID selector
+      const sectionId = `#${sectionName}`;
 
-      // Use the actual element (more reliable than a selector string)
       const el = document.querySelector(sectionId);
       if (!el) return;
 
@@ -38,8 +34,8 @@ export function useScrollSpy() {
         trigger: el,
         start: "top center",
         end: "bottom center",
-        markers: true,
-        refreshPriority:-1,
+        // markers: true,
+        refreshPriority: -1,
         onEnter: () => {
           setActiveSection(sectionName);
           window.history.replaceState(
@@ -56,14 +52,12 @@ export function useScrollSpy() {
             `/${sectionName}`
           );
         },
-        // Clear active state ONLY when scrolling past the last section
         onLeave: () => {
           if (index === sectionsToTrack.length - 1) {
             setActiveSection("");
             window.history.replaceState({ fromScroll: true }, "", "/");
           }
         },
-        // Clear active state ONLY when scrolling before the first section
         onLeaveBack: () => {
           if (index === 0) {
             setActiveSection("");
@@ -74,8 +68,6 @@ export function useScrollSpy() {
       triggers.push(trigger);
     });
 
-    // Force a refresh after triggers are created so start/end get calculated correctly.
-    // a small delay ensures DOM layout and any smooth-scrolling proxy (e.g. Lenis) are ready.
     const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
