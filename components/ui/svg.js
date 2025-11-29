@@ -222,8 +222,8 @@ const BouncingArrow = forwardRef(function BouncingArrow({ className }, ref) {
 function XboxIcon({ className }) {
   return (
     <svg
-      width="200"
-      height="45"
+      width="full"
+      height="full"
       className={`${className}`}
       viewBox="0 0 158 40"
       fill="none"
@@ -259,8 +259,8 @@ function XboxIcon({ className }) {
 function PsIcon({ className }) {
   return (
     <svg
-      width="130"
-      height="45"
+      width="full"
+      height="full"
       viewBox="0 0 93 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
