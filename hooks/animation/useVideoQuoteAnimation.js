@@ -60,6 +60,7 @@ export function useVideoQuoteAnimation(refs = {}, videoSrc, config = {}) {
             end: sectionPinEnd,
             scrub: true,
             pin: true,
+            invalidateOnRefresh: true,
             // pinSpacing: false,
             // markers: true,
             onEnter: () => {

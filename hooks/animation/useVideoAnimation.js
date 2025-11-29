@@ -80,6 +80,7 @@ export function useVideoAnimation(refs = {}, videoSrc, config = {}) {
             end: sectionPinEnd,
             pin: true,
             scrub: true,
+            invalidateOnRefresh: true,
             // pinSpacing: false,
             // markers: true,
             onUpdate: (self) => {
