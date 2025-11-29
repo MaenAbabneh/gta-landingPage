@@ -174,7 +174,7 @@ function MobileCarousel({ slides }) {
   );
 
   return (
-    <>
+    <div className="flex flex-col items-center img-fade">
       <div
         ref={carouselRef}
         className="flex overflow-hidden gap-3 scrollbar-none will-change-transform w-full px-15 touch-pan-y"
@@ -203,7 +203,7 @@ function MobileCarousel({ slides }) {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
