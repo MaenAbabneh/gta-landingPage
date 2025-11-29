@@ -26,6 +26,7 @@ const ImageModal = ({
   priority = false,
   placeholder,
   enableLazyLoad = true,
+  iscal = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -260,15 +261,16 @@ const ImageModal = ({
               sizes={sizes}
               priority={priority}
               unoptimized
-              className={`${className} border-gta-yellow border-0 group-hover:border-6 transition-all duration-300 ease-in-out ${
+              className={`${className} ${iscal ? "border-gta-blue" : "border-gta-yellow"}  border-0 group-hover:border-6 transition-all duration-400  ${
                 !isLoaded && enableLazyLoad ? "blur-md" : ""
               }`}
-              style={{
-                transition: isLoaded ? "filter 0.3s ease-in-out" : "none",
-              }}
             />
-            <span className="flex items-center justify-center w-12 h-12 absolute bottom-0 right-0 m-5 bg-gta-gray rounded-full group-hover:bg-gta-yellow transition-colors duration-300 ease-in-out">
-              <ExpandedArrow className="w-5 h-5 text-gta-yellow group-hover:text-gta-gray" />
+            <span
+              className={`flex items-center justify-center w-18 h-18 md:w-12 md:h-12 absolute bottom-0 right-0 m-5 rounded-full ${iscal ? "bg-gta-dark-blue group-hover:bg-gta-blue" : "bg-gta-gray group-hover:bg-gta-yellow"} transition-colors duration-300 ease-in-out`}
+            >
+              <ExpandedArrow
+                className={`w-7 h-7 md:w-5 md:h-5 ${iscal ? "text-gta-blue group-hover:text-gta-dark-blue" : "text-gta-yellow group-hover:text-gta-gray"} `}
+              />
             </span>
           </div>
         </button>
@@ -278,7 +280,7 @@ const ImageModal = ({
         {isMounted && isOpen && (
           <Dialog.Content
             ref={portalRef}
-            className="fixed inset-0 z-[110]"
+            className="fixed inset-0 z-[999]"
             onEscapeKeyDown={(e) => {
               e.preventDefault();
               closeModal();
@@ -287,18 +289,18 @@ const ImageModal = ({
               e.preventDefault();
             }}
             onCloseAutoFocus={(e) => e.preventDefault()}
-            aria-describedby="modal-desc"
           >
-            <Dialog.Title className="sr-only">{alt}</Dialog.Title>
-            <Dialog.Description id="modal-desc" className="sr-only">
-              Fullscreen view
-            </Dialog.Description>
             <div
               ref={modalBgRef}
               className="modal-bg fixed inset-0 bg-black"
               onClick={closeModal}
             />
-
+            <Dialog.Title className="sr-only">
+              {alt || "image View"}
+            </Dialog.Title>
+            <Dialog.Description id="image-desc" className="sr-only">
+              Fullscreen view {alt || "image"}
+            </Dialog.Description>
             {/* هذا العنصر هو الذي يتم تحريكه بالكامل */}
             <div ref={modalImageRef} className="modal-image absolute">
               <div
