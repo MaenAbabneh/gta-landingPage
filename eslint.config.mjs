@@ -1,10 +1,11 @@
 import importPlugin from "eslint-plugin-import";
 import { defineConfig, globalIgnores } from "eslint/config";
+import compat from "eslint-plugin-compat";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
-import prettier from 'eslint-config-prettier/flat'
+import prettier from "eslint-config-prettier/flat";
 
-const eslintConfig = defineConfig( [
+const eslintConfig = defineConfig([
   ...nextVitals,
   ...prettier,
   {
@@ -22,6 +23,17 @@ const eslintConfig = defineConfig( [
     plugins: {
       import: importPlugin,
       "simple-import-sort": simpleImportSort,
+      "compat": compat,
+    },
+    extends: [
+      "plugin:import/recommended",
+      "plugin:import/typescript",
+      "plugin:compat/recommended",
+    ],
+    env: {
+      browser: true,
+      es2021: true,
+      node: true,
     },
     rules: {
       // استخدام simple-import-sort فقط لتجنب التضارب
@@ -33,7 +45,8 @@ const eslintConfig = defineConfig( [
       "no-restricted-syntax": [
         "error",
         {
-          selector: "Literal[value=/^https?:\\/\\/res\\.cloudinary\\.com\\/.*$/]",
+          selector:
+            "Literal[value=/^https?:\\/\\/res\\.cloudinary\\.com\\/.*$/]",
           message:
             "Avoid hard-coded Cloudinary URLs; use buildImageUrl / buildVideoThumbnail from lib/cloudinary instead.",
         },
