@@ -1,17 +1,17 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import ImageModal from "@/components/ui/ImageModel";
-import { JasonImage } from "@/constants/assest";
 
-gsap.registerPlugin(ScrollTrigger);
+import { JasonImage } from "@/constants/assest";
+import {useContentAnimetion} from "@/hooks/animation/useContentAnimetion";
+
+import ImageModal from "@/components/ui/ImageModel";
+import MobileCarousel from "@/components/ui/mobileCarousel";
+
 
 const JasonContent_1 = () => {
-  const PartOneRef = useRef(null);
-  const rightColumRef = useRef(null);
+  const containerRef = useRef(null);
+  const moveingColumRef = useRef(null);
   const fadeImageRef = useRef(null);
 
   // ✅ استخدام URLs المبنية مسبقاً
@@ -28,60 +28,52 @@ const JasonContent_1 = () => {
   const placeholderTwo = JasonImage.Image_2.placeholder;
   const placeholderThree = JasonImage.Image_3.placeholder;
 
-  useGSAP(
-    () => {
-      gsap.set(fadeImageRef.current, { opacity: 0 });
-      const mm = gsap.matchMedia();
-      mm.add(
-        {
-          isDesktop: "(min-width: 1280px)",
-          isTablet: "(min-width: 768px) and (max-width: 1023px)",
-          isMobile: "(max-width: 767px)",
-        },
-        (context) => {
-          let { isDesktop, isTablet, isMobile } =
-            context.conditions;
-          let y = isDesktop ? 150 : (isTablet ? 80 : 50);
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: PartOneRef.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-              // markers: true
-            },
-          });
-          tl.to(rightColumRef.current, { y: y, ease: "none", duration: 1 });
-          tl.to(
-            fadeImageRef.current,
-            { opacity: 1, ease: "none", duration: 0.5 },
-            0
-          );
-        }
-      );
+  const mobileSlides = [
+    {
+      src: ImageTwo,
+      viewerImg: ImageViewerTwo,
+      alt: JasonImage.Image_1.alt,
+      sizes: JasonImage.Image_1.size,
+      placeholder: placeholderTwo,
+      className: "object-cover [object-position:50%_center]",
     },
-    { scope: PartOneRef, dependencies: [] }
-  );
+    {
+      src: ImageThree,
+      viewerImg: ImageViewerThree,
+      alt: JasonImage.Image_1.alt,
+      sizes: JasonImage.Image_1.size,
+      placeholder: placeholderThree,
+      className: "object-cover [object-position:50%_center]",
+    },
+  ];
+
+  useContentAnimetion({
+    containerRef,
+    moveingColumRef,
+    fadeImageRef,
+  });
 
   return (
-    <section ref={PartOneRef} className="relative z-10 mt-[200vh] grid-gallary gap-5 pointer-events-none md:pointer-events-auto ">
-      <div className="col-[content-start/5] flex flex-col gap-5 ">
-        <h1 className="text-yellow font-long uppercase md:text-[3.3rem] lg:text-[7vw] xl:text-[6rem] 2xl:text-9xl text-nowrap">
+    <section
+      ref={containerRef}
+      className="relative z-10 mt-[200vh] flex flex-col md:grid grid-gallary md:gap-3 xl:gap-5"
+    >
+      <div className="col-[content-start/mid] grid sup-grid-gallary">
+        <h1 className="text-yellow font-long uppercase char-font-size text-wrap md:text-nowrap leading-[100%] col-start-3 md:col-start-4 col-span-full ">
           Jason Duval
         </h1>
-        <div className="flex flex-col md:gap-4 2xl:gap-5 items-start justify-start mb-10">
-          <h2 className="text-pink md:text-2xl lg:text-4xl xl:text-[2.5rem] 2xl:text-[3rem] font-round font-bold md:mr-5 xl:mr-25 2xl:mr-20 md:leading-6 lg:leading-8 xl:leading-9 2xl:leading-11 text-balance">
+        <div className="flex flex-col gap-5 xl:gap-10 items-start justify-start col-start-3 col-end-11 md:col-start-4 md:col-end-11 mb-10 md:mt-5 xl:mb-23">
+          <h2 className="text-pink char-h2-font-size font-round font-bold l leading-[105%] text-balance">
             Jason wants an easy life, but things just keep getting harder.
           </h2>
-          <p className="text-white md:text-[0.8rem] lg:text-[1.25rem] xl:text-[1.4rem] 2xl:text-[1.6rem] md:mr-5 xl:mr-20 2xl:mx-20 font-round font-black md:leading-4 lg:leading-5 xl:leading-7 text-balance text-left  ">
+          <p className="text-white char-p-font-size font-round font-black leading-[105%] text-balance text-left">
             Jason grew up around grifters and crooks. After a stint in the Army
             trying to shake off his troubled teens, he found himself in the Keys
             doing what he knows best, working for local drug runners. It might
             be time to try something new.
           </p>
         </div>
-
-        <div className="relative aspect-[9/16] max-w-full h-auto overflow-hidden ">
+        <div className="relative p-2 md:p-0 aspect-square md:aspect-[9/16] max-w-full h-auto md:col-start-4 col-span-full overflow-hidden ">
           <ImageModal
             src={ImageOne}
             viewerImg={ImageViewerOne}
@@ -94,11 +86,15 @@ const JasonContent_1 = () => {
         </div>
       </div>
 
+      <div ref={fadeImageRef} className="md:hidden flex flex-col gap-2">
+        <MobileCarousel slides={mobileSlides} />
+      </div>
+
       <div
-        ref={rightColumRef}
-        className="col-[5/main-end] grid grid-cols-3 grid-rows-2 gap-5 md:pt-25 xl:pt-40"
+        ref={moveingColumRef}
+        className="col-[mid/main-end] hidden  md:grid sup-grid-gallary gap-3 xl:gap-5 md:pt-15"
       >
-        <div className="relative max-w-full h-auto aspect-square overflow-hidden col-[1/4]">
+        <div className="relative max-w-full h-auto aspect-square overflow-hidden col-span-full ">
           <ImageModal
             src={ImageTwo}
             viewerImg={ImageViewerTwo}
@@ -109,7 +105,7 @@ const JasonContent_1 = () => {
             ButtonStyle="h-full w-full "
           />
         </div>
-        <div className="relative max-w-full h-auto  aspect-square overflow-hidden col-[1/3] ">
+        <div className="relative max-w-full h-auto aspect-square overflow-hidden col-span-full col-end-8 ">
           <ImageModal
             src={ImageThree}
             viewerImg={ImageViewerThree}

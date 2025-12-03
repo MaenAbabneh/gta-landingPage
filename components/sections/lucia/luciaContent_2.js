@@ -1,17 +1,16 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import { LuciaImage } from "@/constants/assest";
-import ImageModel from "@/components/ui/ImageModel";
 
-gsap.registerPlugin(ScrollTrigger);
+import { LuciaImage } from "@/constants/assest";
+import {useContentAnimetion} from "@/hooks/animation/useContentAnimetion";
+
+import ImageModel from "@/components/ui/ImageModel";
+import MobileCarousel from "@/components/ui/mobileCarousel";
 
 function LuciaContent_2() {
-  const PartTwoRef = useRef(null);
-  const rightSideRef = useRef(null);
+  const containerRef = useRef(null);
+  const moveingColumRef = useRef(null);
   const fadeImageRef = useRef(null);
 
   // ✅ استخدام URLs المبنية مسبقاً
@@ -27,58 +26,46 @@ function LuciaContent_2() {
   const placeholderFour = LuciaImage.Image_4.placeholder;
   const placeholderFive = LuciaImage.Image_5.placeholder;
   const placeholderSix = LuciaImage.Image_6.placeholder;
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add(
-        {
-          isDesktop: "(min-width: 1024px)",
-          isTablet: "(min-width: 768px) and (max-width: 1023px)",
-          isMobile: "(max-width: 767px)",
-        },
-        (context) => {
-          let { isDesktop, isTablet, isMobile } = context.conditions;
-          let y = isDesktop ? -100 : isTablet ? -80 : -60;
-
-          gsap.set(fadeImageRef.current, { opacity: 0 });
-
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: PartTwoRef.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-              // markers: true,
-            },
-          });
-          tl.to(rightSideRef.current, {
-            y: y,
-            ease: "none",
-          }).to(fadeImageRef.current, { opacity: 1, ease: "none" }, 0);
-        }
-      );
+  
+  const mobileSlides = [
+    {
+      src: ImageFour,
+      viewerImg: ImageViewerFour,
+      alt: LuciaImage.Image_1.alt,
+      sizes: LuciaImage.Image_1.size,
+      placeholder: placeholderFour,
+      className: "object-cover [object-position:50%_center]",
     },
     {
-      scope: PartTwoRef,
-    }
-  );
+      src: ImageSix,
+      viewerImg: ImageViewerSix,
+      alt: LuciaImage.Image_1.alt,
+      sizes: LuciaImage.Image_1.size,
+      placeholder: placeholderSix,
+      className: "object-cover [object-position:50%_center]",
+    },
+  ];
+
+  useContentAnimetion({
+    containerRef,
+    moveingColumRef,
+    fadeImageRef,
+  });
 
   return (
     <section
-      ref={PartTwoRef}
-      className="relative z-10 grid-gallary mt-[230vh] gap-5"
+      ref={containerRef}
+      className="relative z-10 flex flex-col md:grid grid-gallary mt-[230vh] gap-5"
     >
       <div
-        ref={rightSideRef}
-        className="flex flex-col col-[content-start/5] jason-content gap-20"
+        ref={moveingColumRef}
+        className="col-[content-start/mid] jason-content grid sup-grid-gallary gap-3 lg:gap-5 "
       >
-        <p className="text-white md:text-[0.8rem] lg:text-lg xl:text-[1.4rem] 2xl:text-[1.6rem] md:mx-5 lg:mx-8 xl:mx-25 2xl:mx-20  font-round font-black md:leading-4 lg:leading-5 xl:leading-6 text-pretty text-left md:mb-5 lg:mb-0">
+        <p className="text-white char-p-font-size font-round text-balance font-bold leading-[1.3] tracking-[-0.0125] col-start-3 col-end-11 md:mb-20">
           Fresh out of prison and ready to change the odds in her favor, Lucia’s
           committed to her plan — no matter what it takes.
         </p>
-        <div className="relative max-w-full h-auto aspect-[9/16] overflow-hidden">
+        <div className="relative aspect-[9/16] max-w-full h-auto overflow-hidden col-span-full md:col-start-2 p-2 md:p-0">
           <ImageModel
             src={ImageFive}
             viewerImg={ImageViewerFive}
@@ -91,39 +78,45 @@ function LuciaContent_2() {
         </div>
       </div>
 
-      <div className=" col-[5/main-end] grid grid-cols-3 items-center justify-center gap-5 ">
-        <h2 className=" text-pink md:text-[2.7rem] font-round font-bold text-3xl leading-11 col-[1/3] ml-20  text-pretty text-left  ">
+      <div ref={fadeImageRef} className="md:hidden flex flex-col gap-2 ">
+        <MobileCarousel slides={mobileSlides} />
+      </div>
+
+      <div className=" col-[mid/main-end] hidden md:flex flex-col gap-5 jason-content md:pt-30">
+        <h2 className="text-pink text-[clamp(1rem,3vw,2.5rem)] font-round font-bold text-balance leading-[100%] mb-20 self-center">
           A life with
           <br />
           Jason could be
           <br />
           her way out.
         </h2>
-        <div className="relative max-w-full h-auto aspect-square overflow-hidden col-[1/4] ">
-          <ImageModel
-            src={ImageFour}
-            viewerImg={ImageViewerFour}
-            alt={LuciaImage.Image_4.alt}
-            sizes={LuciaImage.Image_4.size}
-            placeholder={placeholderFour}
-            className="object-cover [object-position:0%_center] "
-            ButtonStyle="w-full h-full "
-          />
-        </div>
-
-        <div className="relative max-w-full h-auto aspect-[1/1] overflow-hidden col-[1/3] ">
-          <ImageModel
-            src={ImageSix}
-            viewerImg={ImageViewerSix}
-            alt={LuciaImage.Image_6.alt}
-            sizes={LuciaImage.Image_6.size}
-            placeholder={placeholderSix}
-            className=" object-cover [object-position:20%_center]  "
-            ButtonStyle="h-full w-full"
-            fadeImageRef={fadeImageRef}
-          />
+        <div className="grid sup-grid-gallary gap-3 lg:gap-5 ">
+          <div className="relative aspect-[1/1] max-w-full h-auto col-span-full overflow-hidden">
+            <ImageModel
+              src={ImageFour}
+              viewerImg={ImageViewerFour}
+              alt={LuciaImage.Image_4.alt}
+              sizes={LuciaImage.Image_4.size}
+              placeholder={placeholderFour}
+              className="object-cover [object-position:0%_center] "
+              ButtonStyle="w-full h-full "
+            />
+          </div>
+          <div className="relative aspect-[1/1] max-w-full h-auto col-end-8 col-span-full overflow-hidden">
+            <ImageModel
+              src={ImageSix}
+              viewerImg={ImageViewerSix}
+              alt={LuciaImage.Image_6.alt}
+              sizes={LuciaImage.Image_6.size}
+              placeholder={placeholderSix}
+              className=" object-cover [object-position:20%_center]  "
+              ButtonStyle="h-full w-full"
+              fadeImageRef={fadeImageRef}
+            />
+          </div>
         </div>
       </div>
+
     </section>
   );
 }
