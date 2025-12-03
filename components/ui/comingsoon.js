@@ -9,7 +9,7 @@ function ComingSoon({ refs = {}, isHero = false }) {
       className={` h-lvh w-full flex flex-col items-center justify-center ${isHero ? " absolute z-[0] inset-0" : "relative "} `}
     >
       <div
-        className={` flex flex-col items-center justify-center  ${isHero ? "md:gap-5 lg:gap-10" : ""}`}
+        className={` flex flex-col items-center justify-center  ${isHero ? "gap-3 md:gap-5 lg:gap-10" : ""}`}
       >
         <div className={`flex flex-col items-center justify-center   ${isHero ? "coming-soon-gap" : "gap-5 md:gap-15 "}`}>
           <div ref={VIlogoRef} className="relative  w-[clamp(20vh,25vw,30vh)] h-[clamp(8vh,10vw,15vh)] md:h-[clamp(10vh,15vw,20vh)]">
@@ -39,13 +39,13 @@ function ComingSoon({ refs = {}, isHero = false }) {
 
         <div
           ref={consolesRef}
-          className="flex flex-row items-center justify-center gap-10 text-gta-white "
+          className="flex flex-row items-center justify-center gap-5 lg:gap-10 text-gta-white "
           style={{
             visibility: isHero ? "inherit" : "hidden",
           }}
         >
-          <PsIcon className="w-30" />
-          <XboxIcon className="w-60" />
+          <PsIcon className="w-13 md:w-30 h-auto" />
+          <XboxIcon className="w-20 md:w-50 h-auto" />
         </div>
       </div>
     </div>
