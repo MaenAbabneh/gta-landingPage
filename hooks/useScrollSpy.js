@@ -38,19 +38,11 @@ export function useScrollSpy() {
         refreshPriority: -1,
         onEnter: () => {
           setActiveSection(sectionName);
-          window.history.replaceState(
-            { fromScroll: true },
-            "",
-            `/${sectionName}`
-          );
+          window.history.replaceState({ fromScroll: true }, "", `/`);
         },
         onEnterBack: () => {
           setActiveSection(sectionName);
-          window.history.replaceState(
-            { fromScroll: true },
-            "",
-            `/${sectionName}`
-          );
+          window.history.replaceState({ fromScroll: true }, "", `/`);
         },
         onLeave: () => {
           if (index === sectionsToTrack.length - 1) {

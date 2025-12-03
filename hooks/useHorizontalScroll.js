@@ -15,14 +15,12 @@ export function useHorizontalScroll(ref, isEnabled = true, options = {}) {
     const container = ref.current;
     if (!container || !isEnabled) return;
 
-    // إنشاء instance من Lenis للتمرير الأفقي
     const lenis = new Lenis({
       wrapper: container,
       content: container,
-      orientation: "horizontal", // مهم جداً: تمرير أفقي
-      gestureOrientation: "both", // السماح بكلا الاتجاهين
-      autoRaf: false, // سنستخدم gsap.ticker
-      smoothWheel: true,
+      orientation: "horizontal", 
+      gestureOrientation: "both",
+      autoRaf: false, 
       wheelMultiplier: options.wheelMultiplier || 1,
       lerp: options.lerp || 0.1,
       duration: options.duration || 1.2,
