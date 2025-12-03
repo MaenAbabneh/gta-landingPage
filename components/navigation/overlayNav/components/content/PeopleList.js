@@ -36,7 +36,7 @@ export default function PeopleList({
           <button
             key={index}
             suppressHydrationWarning={true}
-            className={`cursor-pointer text-wrap font-long font-black text-[2.8rem] md:text-[3.56rem] uppercase transition-colors duration-500 leading-none ${
+            className={`cursor-pointer text-wrap font-long font-black text-[2.5rem] md:text-[3.56rem] uppercase transition-colors duration-500 leading-none ${
               isActive ? "text-gta-pink" : disabledClasses
             }`}
             onClick={() => {

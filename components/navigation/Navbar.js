@@ -1,14 +1,16 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import Link from "next/link";
+
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useScrollLockContext } from "@/context/ScrollLockContext";
 
 import Burger from "../ui/burger";
-import { MainLogo } from "../ui/svg";
+import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { useTrailer } from "@/context/TrailerContext";
+
+import { MainLogo } from "../ui/svg";
 import OverlayMenu from "./overlayNav/overlayMenu";
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -17,7 +19,7 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("People");
   const [hoveredItem, setHoveredItem] = useState(null);
-  
+
   const { openTrailer } = useTrailer();
 
   const { requestLock, releaseLock } = useScrollLockContext();
@@ -70,10 +72,10 @@ function Navbar() {
     <nav className="nav z-50">
       <Link
         href="/"
-        className={`${isMenuOpen ? "hidden" : "block"} GTA-VI-Logo group`}
+        className={`${isMenuOpen ? "hidden" : "block"} GTA-VI-Logo group transition-all duration-500`}
       >
         <MainLogo
-          ClassName={`${isMenuOpen ? "hidden" : "block"} main-logo  group-hover:text-gta-yellow`}
+          ClassName={`${isMenuOpen ? "hidden" : "block"} main-logo  group-hover:text-gta-yellow transition-all duration-500`}
         />
         <span className="sr-only">GTA VI Logo</span>
       </Link>
@@ -93,7 +95,6 @@ function Navbar() {
         handleLinkClick={handleLinkClick}
         setIsMenuOpen={setIsMenuOpen}
       />
-
     </nav>
   );
 }

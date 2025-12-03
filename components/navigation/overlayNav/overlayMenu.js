@@ -96,7 +96,8 @@ function OverlayMenu({
       timelineRef,
     },
     isMenuOpen,
-    setIsAnimating
+    setIsAnimating,
+    isAnimating
   );
 
   return (
