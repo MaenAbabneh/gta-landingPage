@@ -246,12 +246,12 @@ const ImageModal = ({
             if (enableLazyLoad) containerRef.current = el;
           }}
           onClick={openModal}
-          className={`relative ${ButtonStyle}`}
+          className={`relative ${ButtonStyle} `}
           aria-label={`Open ${alt || "image"} in modal`}
         >
           <div
             ref={fadeImageRef}
-            className="group relative max-w-full h-full overflow-hidden"
+            className={`group relative max-w-full h-full overflow-hidden ${iscal ? "bg-gta-blue" : "bg-gta-yellow"} `}
           >
             <Image
               suppressHydrationWarning={true}
@@ -261,7 +261,7 @@ const ImageModal = ({
               sizes={sizes}
               priority={priority}
               unoptimized
-              className={`${className} ${iscal ? "border-gta-blue" : "border-gta-yellow"}  border-0 group-hover:border-6 transition-all duration-400  ${
+              className={`${className} scale-100 group-hover:scale-[.983] transition-all duration-500  ${
                 !isLoaded && enableLazyLoad ? "blur-md" : ""
               }`}
             />
