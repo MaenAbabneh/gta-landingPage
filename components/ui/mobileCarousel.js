@@ -182,7 +182,7 @@ function MobileCarousel({ slides }) {
         {slides.map((slide, idx) => (
           <div
             key={idx}
-            className={`min-w-[75vw] h-auto aspect-[9/16] snap-center overflow-hidden object-bottom relative shrink-0 transform duration-300 ${activeIndex === idx ? " z-10" : ""}`}
+            className={`min-w-[75vw] h-auto aspect-[9/16] snap-center overflow-hidden  [object-position:center_center] relative shrink-0 transform duration-300 ${activeIndex === idx ? " z-10" : ""}`}
           >
             {renderImage(slide)}
           </div>
