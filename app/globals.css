@@ -277,8 +277,8 @@ body {
   .nav {
     --padding-y: 6vw;
     --padding-x: 7vw;
-    --max-padding-y: 153.6px; /* 2560 * 0.04 */
-    --max-padding-x: 179.2px; /* 2560 * 0.05 */
+    --max-padding-y: 153.6px; 
+    --max-padding-x: 179.2px; 
     @apply fixed flex justify-items-center justify-between items-center w-full;
 
     padding: min(var(--padding-y), var(--max-padding-y))
@@ -331,7 +331,7 @@ body {
     .burgerOverlay {
       --burger-Top: 3vw;
       --burger-right: 3.75vw;
-      --max-burger-Top: 76.8; /* 2560 * 0.07 */
+      --max-burger-Top: 76.8; 
       --max-burger-right: 96px; /* 2560 * 0.08 */
     }
   }
@@ -537,8 +537,8 @@ body {
   }
 
   .char-p-font-size {
-    --p-sizq: min(4vw, 102.4px);
-    font-size: min(var(--p-sizq), 26px);
+    --p-size: min(4vw, 102.4px);
+    font-size: min(var(--p-size), 26px);
   }
 
   .coming-soon-text {
@@ -581,8 +581,8 @@ body {
       font-size: var(--h2-size);
     }
     .char-p-font-size {
-      --p-sizq: min(1.5vw, 38.4px);
-      font-size: var(--p-sizq);
+      --p-size: min(1.5vw, 38.4px);
+      font-size: var(--p-size);
     }
     .coming-soon-text {
       --letter-space: -0.0125em;
