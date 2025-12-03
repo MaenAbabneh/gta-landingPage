@@ -77,8 +77,8 @@ export function useVideoPlaceAnimation(refs = {}, videoSrc, config = {}) {
 
         return () => {
           // gsap.ticker.remove(drawImage);
-          tl.scrollTrigger.kill();
-          tl.kill();
+          bgTL.scrollTrigger.kill();
+          bgTL.kill();
         };
       };
 

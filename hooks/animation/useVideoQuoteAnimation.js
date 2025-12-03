@@ -22,141 +22,158 @@ export function useVideoQuoteAnimation(refs = {}, videoSrc, config = {}) {
 
   useGSAP(
     () => {
-      if (!videoSrc) return;
+      const mm = gsap.matchMedia();
 
-      const video = videoRef.current;
-      const canvas = canvasRef.current;
-      if (!video || !canvas) return;
+      mm.add(
+        {
+          isTablet: "(min-width: 768px) ",
+          isMobile: "(max-width: 767px)",
+        },
+        (ctx) => {
+          const { isDesktop, isTablet, isMobile } = ctx.conditions;
 
-      const context = canvas.getContext("2d", { alpha: false });
+          if (!videoSrc) return;
 
-      gsap.set([canvas], {
-        force3D: true,
-      });
+          const video = videoRef.current;
+          const canvas = canvasRef.current;
+          if (!video || !canvas) return;
 
-      gsap.set(canvasRef.current, { scale: 1.1 });
-      gsap.set(quoteRef.current, { opacity: 0, y: 200 });
-      gsap.set(videoOverlayRef.current, {
-        opacity: 0,
-        maskImage:
-          "radial-gradient(circle at 70vw 50vh, rgb(0, 0, 0) 30vw, rgb(0, 0, 0) 100vw)",
-      });
+          const context = canvas.getContext("2d", { alpha: false });
 
-      const setupAnimation = () => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+          gsap.set([canvas], {
+            force3D: true,
+          });
 
-        // const drawImage = () => {
-        //   context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        // };
-
-        // gsap.ticker.add(drawImage);
-
-        const tl = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: sectionPinEnd,
-            scrub: true,
-            pin: true,
-            invalidateOnRefresh: true,
-            // pinSpacing: false,
-            // markers: true,
-            onEnter: () => {
-              video.currentTime = 0;
-            },
-            onLeave: () => {
-              video.currentTime = video.duration;
-            },
-            onUpdate: (self) => {
-              if (video.readyState > 1 && video.duration) {
-                const progress = self.progress;
-                if (progress >= videoStart && progress <= videoEnd) {
-                  const mapped = gsap.utils.mapRange(
-                    videoStart,
-                    videoEnd,
-                    0,
-                    video.duration,
-                    progress
-                  );
-                  video.currentTime = Math.max(video.currentTime, mapped);
-                  context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                }
-              }
-            },
-          },
-        });
-
-        tl.to(
-          videoOverlayRef.current,
-          {
-            opacity: 1,
-          },
-          0
-        );
-        tl.to(
-          quoteRef.current,
-          {
-            opacity: 1,
-            y: 0,
-          },
-          "30%"
-        );
-
-        tl.to(
-          canvasRef.current,
-          {
-            scale: 1,
-          },
-          "50%"
-        );
-        tl.to(
-          videoOverlayRef.current,
-          {
-            maskImage:
-              "radial-gradient(circle at 70vw 25vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
-          },
-          "50%"
-        );
-
-        tl.to(
-          videoOverlayRef.current,
-          {
+          gsap.set(canvasRef.current, { scale: 1.1 });
+          gsap.set(quoteRef.current, { opacity: 0, y: 200 });
+          gsap.set(videoOverlayRef.current, {
             opacity: 0,
-            duration: 0.3,
-          },
-          "90%"
-        );
+            maskImage: isTablet
+              ? "radial-gradient(circle at 70vw 50vh, rgb(0, 0, 0) 30vw, rgb(0, 0, 0) 100vw)"
+              : "radial-gradient(circle at 70vw -50vh, rgb(0, 0, 0) 40vw, rgb(0, 0, 0) 100vw)",
+          });
 
-        tl.to(quoteRef.current, { y: "-90vh", ease: "none" }, "90%");
+          const setupAnimation = () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
 
-        return () => {
-          gsap.ticker.remove(drawImage);
-          tl.scrollTrigger.kill();
-          tl.kill();
-        };
-      };
+            // const drawImage = () => {
+            //   context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            // };
 
-      const waitForVideo = () => {
-        if (video.readyState >= 1 && video.duration) {
-          setupAnimation();
-        } else {
-          video.addEventListener(
-            "loadedmetadata",
-            () => {
+            // gsap.ticker.add(drawImage);
+
+            const tl = gsap.timeline({
+              defaults: { ease: "none" },
+              scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top top",
+                end: sectionPinEnd,
+                scrub: true,
+                pin: true,
+                invalidateOnRefresh: true,
+                // pinSpacing: false,
+                // markers: true,
+                onEnter: () => {
+                  video.currentTime = 0;
+                },
+                onUpdate: (self) => {
+                  if (video.readyState > 1 && video.duration) {
+                    const progress = self.progress;
+                    if (progress >= videoStart && progress <= videoEnd) {
+                      const mapped = gsap.utils.mapRange(
+                        videoStart,
+                        videoEnd,
+                        0,
+                        video.duration,
+                        progress
+                      );
+                      video.currentTime = Math.max(video.currentTime, mapped);
+                      context.drawImage(
+                        video,
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.height
+                      );
+                    }
+                  }
+                },
+              },
+            });
+
+            tl.to(
+              videoOverlayRef.current,
+              {
+                opacity: 1,
+              },
+              0
+            );
+            tl.to(
+              quoteRef.current,
+              {
+                opacity: 1,
+                y: 0,
+              },
+              "30%"
+            );
+
+            tl.to(
+              canvasRef.current,
+              {
+                scale: 1,
+              },
+              "50%"
+            );
+            tl.to(
+              videoOverlayRef.current,
+              {
+                maskImage: isTablet
+                  ? "radial-gradient(circle at 70vw 25vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)"
+                  : "radial-gradient(circle at 70vw 25vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.5) 60vw)",
+              },
+              "50%"
+            );
+
+            tl.to(
+              videoOverlayRef.current,
+              {
+                opacity: 0,
+                duration: 0.3,
+              },
+              "90%"
+            );
+
+            tl.to(quoteRef.current, { y: "-90vh" }, "90%");
+
+            return () => {
+              gsap.ticker.remove(drawImage);
+              tl.scrollTrigger.kill();
+              tl.kill();
+            };
+          };
+
+          const waitForVideo = () => {
+            if (video.readyState >= 1 && video.duration) {
               setupAnimation();
-            },
-            { once: true }
-          );
+            } else {
+              video.addEventListener(
+                "loadedmetadata",
+                () => {
+                  setupAnimation();
+                },
+                { once: true }
+              );
+            }
+          };
+
+          const timer = setTimeout(waitForVideo, 100);
+
+          return () => {
+            clearTimeout(timer);
+          };
         }
-      };
-
-      const timer = setTimeout(waitForVideo, 100);
-
-      return () => {
-        clearTimeout(timer);
-      };
+      );
     },
     {
       scope: containerRef,

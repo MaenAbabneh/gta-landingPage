@@ -20,6 +20,13 @@ export function useHeroAnimetion(refs = {}) {
 
   useGSAP(
     () => {
+      if (
+        !containerRef.current ||
+        !maskWrapperRef.current ||
+        !backgroundImageRef.current
+      )
+        return;
+
       const mm = gsap.matchMedia();
 
       mm.add(
@@ -32,17 +39,17 @@ export function useHeroAnimetion(refs = {}) {
           let { isTablet, isMobile, isminiMobile } = context.conditions;
           let MSize;
           if (isminiMobile) {
-            MSize = "clamp(14vmin, 14vmax, 20vh)";
+            MSize = "clamp(14lvh, 14vw, 20lvh)";
             gsap.set([backgroundImageRef.current, bgKeyArtRef.current], {
               scale: 1.1,
             });
           } else if (isMobile) {
-            MSize = "clamp(12vmin, 12vmax, 20vh)";
+            MSize = "clamp(12lvh, 12vw, 20lvh)";
             gsap.set([backgroundImageRef.current, bgKeyArtRef.current], {
               scale: 1.1,
             });
           } else if (isTablet) {
-            MSize = "clamp(25vh, 20vw, 30vh)";
+            MSize = "clamp(25lvh, 20vw, 30lvh)";
             gsap.set([backgroundImageRef.current, bgKeyArtRef.current], {
               scale: 1.25,
             });
@@ -57,6 +64,10 @@ export function useHeroAnimetion(refs = {}) {
             { opacity: 1, pointerEvents: "auto" }
           );
           gsap.set([consolesRef.current], { opacity: 0 });
+          gsap.set([maskWrapperRef.current, viLogoOverlayRef.current], {
+            willChange:
+              "transform, opacity, background-position, background-size, mask-size, mask-position",
+          });
 
           const tl = gsap.timeline({
             defaults: { ease: "power3.inOut" },
