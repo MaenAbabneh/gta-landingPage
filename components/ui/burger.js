@@ -4,7 +4,7 @@ import clsx from "clsx";
 function Burger({
   isMenuOpen,
   setIsMenuOpen,
-  ClassName = "burger",
+  ClassName = "",
   isOpenStyle = "",
   spanStyleUp = "",
   spanStyleDown = "",
@@ -26,10 +26,10 @@ function Burger({
         className={`relative gap-1 flex flex-col items-center justify-end origin-center animate-fill-forwards duration-250 ease-in-out ${isMenuOpen ? "" : ""} `}
       >
         <span
-          className={`bg-gta-white  transition-all origin-center duration-400 ease-in-out animate-fill-forwards  ${isMenuOpen ? `translate-y-1 rotate-45 w-4 md:w-[1rem] h-[0.23rem] ${spanStyleUp}` : "w-8 h-2 md:w-6.5 md:h-1.5  group-hover:bg-gta-yellow"}`}
+          className={`bg-gta-white  transition-all origin-center duration-400 ease-in-out animate-fill-forwards  ${isMenuOpen ? `translate-y-1 rotate-45 w-4 md:w-[1rem] h-[0.23rem] ${spanStyleUp}` : "w-6 h-1.5 md:w-6.5 md:h-1.5  group-hover:bg-gta-yellow"}`}
         ></span>
         <span
-          className={`bg-gta-white  transition-all origin-center duration-400 ease-in-out animate-fill-forwards  ${isMenuOpen ? `-translate-y-1 -rotate-45 w-4 md:w-[1rem] h-[0.23rem] ${spanStyleDown}` : "w-8 h-2 md:w-6.5 md:h-1.5 group-hover:bg-gta-yellow"}`}
+          className={`bg-gta-white  transition-all origin-center duration-400 ease-in-out animate-fill-forwards  ${isMenuOpen ? `-translate-y-1 -rotate-45 w-4 md:w-[1rem] h-[0.23rem] ${spanStyleDown}` : "w-6 h-1.5 md:w-6.5 md:h-1.5 group-hover:bg-gta-yellow"}`}
         ></span>
       </div>
     </button>
