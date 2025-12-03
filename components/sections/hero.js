@@ -9,7 +9,6 @@ import ComingSoon from "@/components/ui/comingsoon";
 import { HeroImage } from "@/constants/assest";
 import { useHeroAnimetion } from "@/hooks/animation/useHeroAnimetion";
 
-
 function Hero() {
   const { openTrailer } = useTrailer();
 
@@ -46,14 +45,14 @@ function Hero() {
     >
       <div
         ref={viLogoOverlayRef}
-        className="fixed inset-0 z-[2] viLogo pb-35 md:pb-80"
+        className="fixed inset-0 z-[2] viLogo mask-padding"
         style={{
           willChange: "width height",
         }}
       />
       <div
         ref={maskWrapperRef}
-        className="mask-wrapper absolute inset-0 z-[1] pb-35 md:pb-80"
+        className="mask-wrapper absolute inset-0 z-[1] mask-padding"
         style={{
           willChange: "widht height",
         }}
@@ -92,16 +91,19 @@ function Hero() {
       <div className="absolute z-10 inset-0 flex flex-col items-center justify-end  pb-12 pointer-events-none">
         <div
           ref={WatchRef}
-          className="relative w-55 h-14 flex items-center justify-center transition-transform duration-750 "
+          className="relative w-[clamp(200px,15vw,255px)] h-14 flex items-center justify-center transition-transform duration-750 "
         >
-          <WatchTrailer className="absolute inset-0 -translate-y-10 translate-x-12 text-white glow-logo " />
-          <span className="absolute text-[max(0.9vw,1.8vh)] font-round font-black leading-[120%] tracking-[0.35em] -translate-y-1/2  uppercase text-center text-nowrap text-white whitespace-nowrap glow-text">
+          <WatchTrailer className="absolute inset-0 -translate-y-9.5 md:-translate-y-10 translate-x-10 md:translate-x-12 text-white glow-logo w-auto h-30" />
+          <span className="absolute text-[clamp(13px,0.9vw,22px)] md:text-[clamp(15px,1vw,36px)] font-round font-black leading-[120%] tracking-[0.35em] -translate-y-1/2  uppercase text-center text-nowrap text-white whitespace-nowrap glow-text">
             Watch Trailer 2
           </span>
         </div>
       </div>
 
-      <ComingSoon isHero={true} refs={{ comingSoonRef, VIlogoRef, textRef, consolesRef }} />
+      <ComingSoon
+        isHero={true}
+        refs={{ comingSoonRef, VIlogoRef, textRef, consolesRef }}
+      />
     </section>
   );
 }
