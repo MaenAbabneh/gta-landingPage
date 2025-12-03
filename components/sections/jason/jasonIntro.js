@@ -14,12 +14,21 @@ function JasonIntro() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const { desktop: introDesktop, mobile: introMobile} = getAssetIds("intro_ff13rf");
-  const { videoUrl: videoSrc, posterUrl, posterMobile } = useLazyVideo(
-    { desktop: introDesktop || "intro_ff13rf", mobile: introMobile || "Lucia_Caminos_mobile_rkbhmx" },
+  const { desktop: introDesktop, mobile: introMobile } =
+    getAssetIds("intro_ff13rf");
+  const {
+    videoUrl: videoSrc,
+    posterUrl,
+    posterMobile,
+  } = useLazyVideo(
     {
-    eager: true,
-  });
+      desktop: introDesktop || "intro_ff13rf",
+      mobile: introMobile || "Lucia_Caminos_mobile_rkbhmx",
+    },
+    {
+      eager: true,
+    }
+  );
 
   // Run the video animation and apply brightness/blur filters (only for this section)
   // Add filter config so brightness/blur apply only to this section
@@ -33,24 +42,24 @@ function JasonIntro() {
         videoOverlayOut: "brightness(1) blur(0px)",
       },
       isJason: true,
-    },
+    }
   );
 
   return (
     <section
       id="jason-intro"
       ref={sectionRef}
-      className="relative w-full h-lvh -mt-[150vh] overflow-hidden "
+      className="relative w-full h-lvh -mt-[100vh] overflow-hidden "
     >
       <div className=" absolute z-2 inset-0 flex items-center justify-start bg-transparent">
         <div
           ref={storytextRef}
-          className="flex flex-col items-start justify-start mx-3 md:mx-10 lg:mx-20 xl:mx-70 gradient-text"
+          className="flex flex-col items-start justify-start story-margin gradient-text"
         >
           <h3 className="story-heading-size font-round font-black text-transparent text-nowrap">
             Vice City, USA.
           </h3>
-          <p className=" story-text-size font-round font-bold text-transparent text-pretty leading-4 md:leading-tight ">
+          <p className=" story-text-size font-round font-bold text-transparent text-pretty leading-5 md:leading-[110%] ">
             Jason and Lucia have always known the deck is stacked against them.
             But when an easy score goes wrong, they find themselves on the
             darkest side of the sunniest place in America, in the middle of a

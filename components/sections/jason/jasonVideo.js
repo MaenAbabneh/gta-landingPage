@@ -21,13 +21,13 @@ function JasonVideo() {
 
   useVideoQuoteAnimation(
     { containerRef, videoRef, canvasRef, quoteRef, videoOverlayRef },
-    videoSrc,
+    videoSrc
   );
 
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-lvh -mt-[50vh] overflow-hidden "
+      className="relative w-full h-lvh mt-[50vh] overflow-hidden "
     >
       <div
         ref={videoOverlayRef}
@@ -48,14 +48,12 @@ function JasonVideo() {
 
       <div
         ref={quoteRef}
-        className="absolute inset-0 z-10 flex items-end justify-start h-lvh w-full pl-10 pb-20 md:p-20 lg:p-25 "
+        className="absolute inset-0 z-10 flex items-end justify-start h-lvh w-full pb-10 pl-[17vw] md:pb-20 md:pl-[clamp(8vw,13vw,18vw)] qoute-text-edite "
       >
-        <q className="text-gta-yellow text-3xl md:text-6xl lg:text-7xl xl:text-[4.8rem] text-nowrap font-long font-bold uppercase drop-shadow-lg">
+        <q className="text-gta-yellow text-[clamp(1.5rem,5vw,5rem)]  qoute-text-edite leading-[1] font-long font-bold uppercase drop-shadow-lg">
           If anything happens,
           <br />
-          <span className="inline-block pl-[1.4ch] ">
-            I&apos;m right behind you.
-          </span>
+          I&apos;m right behind you.
         </q>
       </div>
     </section>

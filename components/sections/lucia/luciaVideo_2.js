@@ -15,9 +15,21 @@ function LuciaVideo_2() {
   const canvasRef = useRef(null);
   const quoteRef = useRef(null);
 
-  const { desktop: lucia2Desktop, mobile: lucia2Mobile, poster: lucia2Poster, posterMobile: lucia2PosterMobile } = getAssetIds("Lucai_Caminos_2_rqqw1q");
-  const { videoUrl: videoSrc, posterUrl, posterMobile } = useLazyVideo(
-    { desktop: lucia2Desktop || "Lucai_Caminos_2_rqqw1q", mobile: lucia2Mobile || "Lucia_Caminos_mobile_2_qa9spk" },
+  const {
+    desktop: lucia2Desktop,
+    mobile: lucia2Mobile,
+    poster: lucia2Poster,
+    posterMobile: lucia2PosterMobile,
+  } = getAssetIds("Lucai_Caminos_2_rqqw1q");
+  const {
+    videoUrl: videoSrc,
+    posterUrl,
+    posterMobile,
+  } = useLazyVideo(
+    {
+      desktop: lucia2Desktop || "Lucai_Caminos_2_rqqw1q",
+      mobile: lucia2Mobile || "Lucia_Caminos_mobile_2_qa9spk",
+    },
     {
       eager: true,
     }
@@ -53,14 +65,12 @@ function LuciaVideo_2() {
 
       <div
         ref={quoteRef}
-        className="absolute inset-0 z-10 flex items-end justify-start text-center px-60 py-25 "
+        className="absolute inset-0 z-10 flex items-end justify-start h-lvh w-full pb-10 pl-[17vw] md:pb-20 md:pl-[clamp(8vw,13vw,18vw)] qoute-text-edite"
       >
-        <q className="text-gta-yellow text-4xl md:text-[4.8rem] font-long font-bold uppercase leading-18 text-left">
+        <q className="text-gta-yellow text-[clamp(1.5rem,5vw,5rem)] leading-[1] font-long font-bold uppercase drop-shadow-lg">
           The only thing that matters is
           <br />
-          <span className="inline-block ml-6 md:ml-8">
-            who you know and what you got.
-          </span>{" "}
+          who you know and what you got.
         </q>
       </div>
     </section>
