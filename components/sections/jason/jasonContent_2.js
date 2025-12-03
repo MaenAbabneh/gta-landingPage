@@ -1,15 +1,16 @@
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+"use client";
+
 import { useRef } from "react";
 import { JasonImage } from "@/constants/assest";
-import ImageModel from "@/components/ui/ImageModel";
+import {useContentAnimetion} from "@/hooks/animation/useContentAnimetion";
 
-gsap.registerPlugin(ScrollTrigger);
+import ImageModel from "@/components/ui/ImageModel";
+import MobileCarousel from "@/components/ui/mobileCarousel";
+
 
 function JasonContent_2() {
-  const PartTwoRef = useRef(null);
-  const rightSideRef = useRef(null);
+  const containerRef = useRef(null);
+  const moveingColumRef = useRef(null);
   const fadeImageRef = useRef(null);
 
   // ✅ استخدام URLs المبنية مسبقاً
@@ -26,58 +27,45 @@ function JasonContent_2() {
   const placeholderFive = JasonImage.Image_5.placeholder;
   const placeholderSix = JasonImage.Image_6.placeholder;
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add(
-        {
-          isDesktop: "(min-width: 1024px)",
-          isTablet: "(min-width: 768px) and (max-width: 1023px)",
-          isMobile: "(max-width: 767px)",
-        },
-        (context) => {
-          let { isDesktop, isTablet, isMobile } = context.conditions;
-
-          let y = isDesktop ? 200 : isTablet ? 150 : 100;
-
-          gsap.set(fadeImageRef.current, { opacity: 0 });
-
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: PartTwoRef.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-              // markers: true,
-            },
-          });
-
-          tl.to(rightSideRef.current, {
-            y: y,
-            ease: "none",
-          }).to(fadeImageRef.current, { opacity: 1, ease: "none" }, 0);
-        }
-      );
+  const mobileSlides = [
+    {
+      src: ImageFive,
+      viewerImg: ImageViewerFive,
+      alt: JasonImage.Image_1.alt,
+      sizes: JasonImage.Image_1.size,
+      placeholder: placeholderFive,
+      className: "object-cover [object-position:50%_center]",
     },
     {
-      scope: PartTwoRef,
-    }
-  );
+      src: ImageSix,
+      viewerImg: ImageViewerSix,
+      alt: JasonImage.Image_1.alt,
+      sizes: JasonImage.Image_1.size,
+      placeholder: placeholderSix,
+      className: "object-cover [object-position:50%_center]",
+    },
+  ];
+
+    useContentAnimetion({
+      containerRef,
+      moveingColumRef,
+      fadeImageRef,
+    });
+
 
   return (
     <section
-      ref={PartTwoRef}
-      className="relative z-10 mt-[220vh] grid-gallary gap-5 pointer-events-none md:pointer-events-auto"
+      ref={containerRef}
+      className="relative z-10 mt-[220vh] flex flex-col md:grid grid-gallary md:gap-3 lg:gap-5 pb-[20vh]"
     >
-      <div className="col-[main-start/5] flex flex-col gap-5 jason-content ">
-        <h2 className=" text-pink text-3xl lg:text-[2.5rem] xl:text-[2.4rem] font-round font-bold text-balance leading-8 lg:leading-10 xl:leading-10 mb-20 self-center">
+      <div className="col-[main-start/mid] hidden md:flex flex-col gap-5 jason-content ">
+        <h2 className=" text-pink text-[clamp(1rem,3vw,2.5rem)] font-round font-bold text-balance leading-[100%] mb-20 self-center">
           Another day in
           <br />
           paradise, right?
         </h2>
-        <div className="grid grid-cols-3 grid-row-3 gap-5 ">
-          <div className="relative aspect-[1/1] max-w-full h-auto col-[1/4] overflow-hidden">
+        <div className="grid sup-grid-gallary gap-3 lg:gap-5 ">
+          <div className="relative aspect-[1/1] max-w-full h-auto col-span-full overflow-hidden">
             <ImageModel
               src={ImageFive}
               viewerImg={ImageViewerFive}
@@ -88,7 +76,7 @@ function JasonContent_2() {
               ButtonStyle="w-full h-full "
             />
           </div>
-          <div className="relative aspect-[1/1] max-w-full h-auto col-[2/4] overflow-hidden">
+          <div className="relative aspect-[1/1] max-w-full h-auto col-start-6 col-span-full overflow-hidden">
             <ImageModel
               src={ImageSix}
               viewerImg={ImageViewerSix}
@@ -104,15 +92,20 @@ function JasonContent_2() {
       </div>
 
       <div
-        ref={rightSideRef}
-        className="flex flex-col jason-content col-[5/content-end]  gap-5"
+        ref={moveingColumRef}
+        className="jason-content col-[mid/content-end] grid sup-grid-gallary gap-3 lg:gap-5 "
       >
-        <p className="text-white  lg:text-[1.2rem]  text-balance md:mx-5 xl:mx-25 mb-15 font-round font-black leading-tight slef-center">
+        <h2 className=" text-pink text-[clamp(1.4rem,3vw,2.5rem)] font-round font-bold text-balance leading-[100%] col-start-3 col-end-8 md:hidden">
+          Another day in
+          <br />
+          paradise, right?
+        </h2>
+        <p className="text-white char-p-font-size font-round text-balance font-bold leading-[1.3] tracking-[-0.0125] col-start-3 col-end-11 md:mb-20">
           Meeting Lucia could be the best or worst thing to ever happen to him.
           Jason knows how he&apos;d like it to turn out but right now, it&apos;s
           hard to tell.
         </p>
-        <div className="relative aspect-[9/16] max-w-full h-auto overflow-hidden">
+        <div className="relative aspect-[9/16] max-w-full h-auto overflow-hidden col-span-full md:col-end-12 p-2 md:p-0">
           <ImageModel
             src={ImageFour}
             viewerImg={ImageViewerFour}
@@ -123,6 +116,9 @@ function JasonContent_2() {
             ButtonStyle="w-full h-full "
           />
         </div>
+      </div>
+      <div ref={fadeImageRef} className="md:hidden flex flex-col gap-2 ">
+        <MobileCarousel slides={mobileSlides} />
       </div>
     </section>
   );

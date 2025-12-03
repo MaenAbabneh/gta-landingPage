@@ -1,7 +1,12 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-export function useNavOverlayAnimation(refs = {}, isMenuOpen, setIsAnimating) {
+export function useNavOverlayAnimation(
+  refs = {},
+  isMenuOpen,
+  setIsAnimating,
+  isAnimating
+) {
   const { containerRef, overlayRef, panelRef, leftColumRef, timelineRef } =
     refs || {};
 
@@ -12,7 +17,7 @@ export function useNavOverlayAnimation(refs = {}, isMenuOpen, setIsAnimating) {
       const panel = panelRef.current;
       const leftColum = leftColumRef.current;
 
-      if (!container || !overlay || !panel) return;
+      if (!container || !overlay || !panel || !leftColum) return;
 
       // إلغاء أي أنيميشن سابق
       if (timelineRef.current) {
@@ -54,23 +59,24 @@ export function useNavOverlayAnimation(refs = {}, isMenuOpen, setIsAnimating) {
           );
       } else {
         setIsAnimating(true);
+        if (!isAnimating) {
+          gsap.set(container, { pointerEvents: "none" });
 
-        gsap.set(container, { pointerEvents: "none" });
+          const tl = gsap.timeline({
+            ease: "power2.in",
+            onComplete: () => {
+              gsap.set(container, { visibility: "hidden" });
+              setIsAnimating(false);
+              timelineRef.current = null;
+            },
+          });
 
-        const tl = gsap.timeline({
-          ease: "power2.in",
-          onComplete: () => {
-            gsap.set(container, { visibility: "hidden" });
-            setIsAnimating(false);
-            timelineRef.current = null;
-          },
-        });
+          timelineRef.current = tl;
 
-        timelineRef.current = tl;
-
-        tl.to(overlay, { opacity: 0, duration: 0.5 }, 0)
-          .to(panel, { x: 500, opacity: 0, duration: 0.4 }, 0)
-          .to(leftColum, { opacity: 0, duration: 0.3 }, 0);
+          tl.to(overlay, { opacity: 0, duration: 0.5 }, 0)
+            .to(panel, { x: 500, opacity: 0, duration: 0.4 }, 0)
+            .to(leftColum, { opacity: 0, duration: 0.3 }, 0);
+        }
       }
     },
     { dependencies: [isMenuOpen], scope: containerRef }

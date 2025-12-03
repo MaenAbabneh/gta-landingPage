@@ -236,7 +236,7 @@ export default function RootLayout({ children }) {
               <div className="main-content" style={{ opacity: 0 }}>
                 {children}
                 <Precacher />
-                {process.env.NODE_ENV === "development" && <CacheMonitor />}
+                {/* {process.env.NODE_ENV === "development" && <CacheMonitor />} */}
               </div>
               <TrailerOverlay />
             </TrailerProvider>

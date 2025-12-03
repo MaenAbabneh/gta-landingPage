@@ -42,6 +42,7 @@ export function useVideoPlaceAnimation(refs = {}, videoSrc, config = {}) {
             start: "top bottom",
             end: "bottom top",
             scrub: true,
+            invalidateOnRefresh: true,
             // markers: true,
             onUpdate: (self) => {
               if (video.readyState > 1 && video.duration) {
@@ -76,8 +77,8 @@ export function useVideoPlaceAnimation(refs = {}, videoSrc, config = {}) {
 
         return () => {
           // gsap.ticker.remove(drawImage);
-          tl.scrollTrigger.kill();
-          tl.kill();
+          bgTL.scrollTrigger.kill();
+          bgTL.kill();
         };
       };
 

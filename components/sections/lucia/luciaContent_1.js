@@ -1,17 +1,17 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import { LuciaImage } from "@/constants/assest";
-import ImageModal from "@/components/ui/ImageModel";
 
-gsap.registerPlugin(ScrollTrigger);
+import { LuciaImage } from "@/constants/assest";
+import {useContentAnimetion} from "@/hooks/animation/useContentAnimetion";
+
+import ImageModal from "@/components/ui/ImageModel";
+import MobileCarousel from "@/components/ui/mobileCarousel";
 
 const LuciaContent_1 = () => {
-  const PartOneRef = useRef(null);
-  const rightColumRef = useRef(null);
+  const containerRef = useRef(null);
+  const moveingColumRef = useRef(null);
+  const fadeImageRef = useRef(null);
 
   // ✅ استخدام URLs المبنية مسبقاً
   const ImageOne = LuciaImage.Image_1.url;
@@ -27,49 +27,42 @@ const LuciaContent_1 = () => {
   const placeholderTwo = LuciaImage.Image_2.placeholder;
   const placeholderThree = LuciaImage.Image_3.placeholder;
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add(
-        {
-          isDesktop: "(min-width: 1024px)",
-          isTablet: "(min-width: 768px) and (max-width: 1023px)",
-          isMobile: "(max-width: 767px)",
-        },
-        (context) => {
-          let { isDesktop, isTablet, isMobile } = context.conditions;
-          let y = isDesktop ? -100 : (isTablet ? -80 : -60);
-
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: PartOneRef.current,
-              start: "top center",
-              end: "bottom top",
-              scrub: true,
-              ease: "none",
-              // pinSpacing: false,
-              // markers: true
-            },
-          });
-          tl.to(rightColumRef.current, { y: y, ease: "none", duration: 1 });
-        }
-      );
+  const mobileSlides = [
+    {
+      src: ImageOne,
+      viewerImg: ImageViewerOne,
+      alt: LuciaImage.Image_1.alt,
+      sizes: LuciaImage.Image_1.size,
+      placeholder: placeholderOne,
+      className: "object-cover [object-position:50%_center]",
     },
-    { scope: PartOneRef }
-  );
+    {
+      src: ImageThree,
+      viewerImg: ImageViewerThree,
+      alt: LuciaImage.Image_1.alt,
+      sizes: LuciaImage.Image_1.size,
+      placeholder: placeholderThree,
+      className: "object-cover [object-position:50%_center]",
+    },
+  ];
+
+  useContentAnimetion({
+    containerRef,
+    moveingColumRef,
+    fadeImageRef,
+  });
+  
 
   return (
     <section
-      ref={PartOneRef}
-      className="relative z-10 grid-gallary mt-[200vh] gap-x-5"
+      ref={containerRef}
+      className="relative z-10 flex flex-col md:grid grid-gallary mt-[200vh] gap-3 md:gap-5"
     >
-      {/* Left Column */}
       <div
-        ref={rightColumRef}
-        className=" col-[main-start/5] grid grid-cols-2 gap-y-5 mg:pt-25 lg:pt-40 "
+        ref={moveingColumRef}
+        className=" col-[main-start/mid] hidden md:grid sup-grid-gallary gap-y-5 mg:pt-25 lg:pt-40 "
       >
-        <div className=" aspect-[1/1] relative max-w-full h-auto overflow-hidden col-[1/4]   ">
+        <div className=" aspect-[1/1] relative max-w-full h-auto overflow-hidden col-span-full">
           <ImageModal
             src={ImageOne}
             viewerImg={ImageViewerOne}
@@ -81,7 +74,7 @@ const LuciaContent_1 = () => {
             priority
           />
         </div>
-        <div className="relative h-auto max-w-full aspect-[9/16] overflow-hidden col-[2/4]">
+        <div className="relative h-auto max-w-full aspect-[9/16] overflow-hidden col-start-6 col-span-full">
           <ImageModal
             src={ImageThree}
             viewerImg={ImageViewerThree}
@@ -94,23 +87,21 @@ const LuciaContent_1 = () => {
         </div>
       </div>
 
-      {/* Right Column */}
-
-      <div className=" col-[5/content-end] flex flex-col gap-10 ">
-        <h1 className="text-yellow font-long uppercase md:text-[3.3rem] lg:text-[3.75rem] xl:text-[5.5rem] 2xl:text-9xl text-nowrap text-left">
+      <div className=" col-[mid/content-end] grid sup-grid-gallary gap-5 md:gap-10 ">
+        <h1 className="text-yellow font-long uppercase char-font-size text-wrap md:text-nowrap leading-[100%] col-start-3 col-span-full ">
           Lucia Caminos
         </h1>
-        <div className="flex flex-col gap-3 flex-wrap mb-10">
-          <h2 className="text-pink md:text-2xl lg:text-4xl xl:text-[2.5rem] 2xl:text-[3rem] font-round font-bold md:mr-5 xl:mr-30 2xl:mr-20 md:leading-6 lg:leading-8 xl:leading-9 2xl:leading-11  text-left">
+        <div className="flex flex-col gap-5 xl:gap-10 items-start justify-start col-start-3 col-end-11">
+          <h2 className="text-pink char-h2-font-size font-round font-bold l leading-[105%] text-balance">
             Lucia’s father taught her to fight as soon as she could walk.
           </h2>
-          <p className="text-white md:text-[0.8rem] lg:text-lg xl:text-[1.3rem] 2xl:text-[1.6rem] md:mr-5 lg:mr-8 xl:mr-40 2xl:mr-20  font-round font-black md:leading-4 lg:leading-5 xl:leading-6 text-pretty text-left md:mb-5 lg:mb-0">
+          <p className="text-white char-p-font-size font-round font-black leading-[105%] text-balance text-left">
             Life has been coming at her swinging ever since. Fighting for her
             family landed her in the Leonida Penitentiary. Sheer luck got her
             out. Lucia’s learned her lesson — only smart moves from here.
           </p>
         </div>
-        <div className="relative max-w-full h-auto overflow-hidden aspect-[1/1]   ">
+        <div className="relative max-w-full h-auto overflow-hidden aspect-[1/1] col-span-full">
           <ImageModal
             src={ImageTwo}
             viewerImg={ImageViewerTwo}
@@ -121,11 +112,14 @@ const LuciaContent_1 = () => {
             ButtonStyle="h-full w-full"
           />
         </div>
-        <p className="text-white md:text-[0.8rem] lg:text-lg xl:text-[1.2rem] 2xl:text-[1.6rem] md:mx-5 lg:mx-6 xl:mx-17 2xl:mx-20  font-round font-black md:leading-4 lg:leading-5 xl:leading-6 text-left text-pretty mt-20 ">
+        <p className="text-white char-p-font-size font-round font-black leading-[105%] text-balance text-left col-start-3 col-end-10">
           More than anything, Lucia wants the good life her mom has dreamed of
           since their days in Liberty City — but instead of half-baked
           fantasies, Lucia is prepared to take matters into her own hands.
         </p>
+      </div>
+      <div ref={fadeImageRef} className="md:hidden flex flex-col gap-2">
+        <MobileCarousel slides={mobileSlides} />
       </div>
     </section>
   );

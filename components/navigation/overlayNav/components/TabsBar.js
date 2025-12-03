@@ -9,7 +9,7 @@ export default function TabsBar({ activeTab, onChange }) {
         <button
           key={tab}
           onClick={() => onChange(tab)}
-          className={`h-12 px-4 md:h-12 md:px-4 xl:py- xl:px-5 rounded-[40px] md:rounded-full transition-all nav-font text-sm xl:text-lg cursor-pointer ${
+          className={`h-12 px-4 md:h-12 md:px-4 xl:py- xl:px-5 rounded-[40px] md:rounded-full transition-all nav-font cursor-pointer ${
             activeTab === tab
               ? "bg-gta-white text-gta-black"
               : "text-gta-white hover:text-gta-yellow"

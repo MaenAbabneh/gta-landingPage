@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { HeroImage } from "@/constants/assest";
 import { buildVideoThumbnail } from "@/lib/cloudinary";
@@ -85,6 +86,7 @@ const Loading = () => {
           // Cross fade: loading يختفي والمحتوى يظهر في نفس الوقت
           const mainContent = document.querySelector(".main-content");
           const heroSection = document.getElementById("#hero");
+          if(!mainContent && !heroSection) return;
 
           gsap.set(heroSection, { scale: 1.1 });
           gsap.set(mainContent, { opacity: 0 });

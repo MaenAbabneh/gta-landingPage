@@ -1,12 +1,12 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useLenis } from "lenis/react";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
 
 import Navbar from "@/components/navigation/Navbar";
 import Hero from "@/components/sections/hero";
@@ -15,6 +15,7 @@ import Lucia from "@/components/sections/lucia/lucia";
 import Cal from "@/components/sections/cal/cal";
 import ViceCity from "@/components/sections/vice-city/vice-city";
 import Outro from "@/components/sections/outro";
+import Footer from "@/components/sections/footer";
 
 import { BouncingArrow } from "@/components/ui/svg";
 import { useGSAPLenis } from "@/lib/gsap-lenis";
@@ -128,7 +129,7 @@ export default function Home() {
     <main>
       <div className="bg-hero-gradient fixed inset-0 -z-10 transition-colors" />
       <Navbar />
-        <Hero />
+      <Hero />
       <section id="jason">
         <Jason />
       </section>
@@ -147,6 +148,10 @@ export default function Home() {
 
       <section id="outro">
         <Outro />
+      </section>
+
+      <section id="footer" className="overflow-hidden">
+        <Footer />
       </section>
       <div ref={arrowWrapperRef} className=" w-full">
         <BouncingArrow

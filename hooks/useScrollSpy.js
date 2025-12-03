@@ -1,8 +1,12 @@
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useState } from "react";
 
 import { gtaData } from "@/constants/Links";
+
+// ensure plugin is registered in case this hook mounts before other setup
+gsap.registerPlugin(ScrollTrigger);
 
 export function useScrollSpy() {
   const [activeSection, setActiveSection] = useState("");
@@ -15,49 +19,37 @@ export function useScrollSpy() {
     const triggers = [];
 
     sectionsToTrack.forEach((item, index) => {
-      // Clean the href and ensure it's a valid section name
-      let sectionName = item.href.replace(/^\/+|#+/g, ""); // Remove leading slashes and hashes
+      let sectionName = item.href.replace(/^\/+|\/+$/g, "").replace(/#+/g, "");
 
-      // Skip empty or invalid section names
       if (!sectionName || sectionName.includes("/")) {
         return;
       }
 
-      const sectionId = `#${sectionName}`; // Create proper ID selector
+      const sectionId = `#${sectionName}`;
 
-      // Check if element exists before creating ScrollTrigger
-      if (!document.querySelector(sectionId)) {
-        return;
-      }
+      const el = document.querySelector(sectionId);
+      if (!el) return;
 
       const trigger = ScrollTrigger.create({
-        trigger: sectionId,
+        trigger: el,
         start: "top center",
         end: "bottom center",
+        // markers: true,
+        refreshPriority: -1,
         onEnter: () => {
           setActiveSection(sectionName);
-          window.history.replaceState(
-            { fromScroll: true },
-            "",
-            `/`
-          );
+          window.history.replaceState({ fromScroll: true }, "", `/`);
         },
         onEnterBack: () => {
           setActiveSection(sectionName);
-          window.history.replaceState(
-            { fromScroll: true },
-            "",
-            `/`
-          );
+          window.history.replaceState({ fromScroll: true }, "", `/`);
         },
-        // Clear active state ONLY when scrolling past the last section
         onLeave: () => {
           if (index === sectionsToTrack.length - 1) {
             setActiveSection("");
             window.history.replaceState({ fromScroll: true }, "", "/");
           }
         },
-        // Clear active state ONLY when scrolling before the first section
         onLeaveBack: () => {
           if (index === 0) {
             setActiveSection("");
@@ -67,7 +59,11 @@ export function useScrollSpy() {
       });
       triggers.push(trigger);
     });
+
+    const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
+
     return () => {
+      cancelAnimationFrame(raf);
       triggers.forEach((trigger) => trigger.kill());
     };
   }, []);
