@@ -3,7 +3,7 @@
 A pixel-perfect, high-performance recreation of the official GTA VI landing page, engineered with cutting-edge web technologies to deliver a cinematic, console-quality experience in the browser.
 
 <div align="center">
-  <video src="https://res.cloudinary.com/dlgi2ockk/video/upload/f_auto,q_auto:best/v1764852736/project-recording_rduj2f.mp4" width="100%" autoplay loop muted playsinline style="border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);"></video>
+  <img src="https://res.cloudinary.com/dlgi2ockk/video/upload/w_1000,q_auto:eco,fps_15,f_auto/v1764852736/project-recording_rduj2f.gif" alt="GTA VI Web Experience Demo" width="100%" height="100%">
 </div>
 
 ## ✨ Key Features
