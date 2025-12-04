@@ -2,10 +2,10 @@
 
 import { useRef } from "react";
 
-import { useLazyVideo } from "@/hooks/useLazyVideo";
+import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 import { getAssetIds } from "@/constants/assest";
 import { useVideoAnimation } from "@/hooks/animation/useVideoAnimation";
-import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 function JasonIntro() {
   const sectionRef = useRef(null);

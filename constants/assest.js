@@ -1,8 +1,8 @@
 import {
+  buildImagePlaceholder,
   buildImageUrl,
   buildResponsiveVideoUrls,
   buildVideoThumbnail,
-  buildImagePlaceholder,
 } from "@/lib/cloudinary";
 
 export const SITE_ASSIST = [

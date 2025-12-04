@@ -1,11 +1,11 @@
 "use client";
 
 import { useRef } from "react";
-import { JasonImage } from "@/constants/assest";
-import {useContentAnimetion} from "@/hooks/animation/useContentAnimetion";
 
 import ImageModel from "@/components/ui/ImageModel";
 import MobileCarousel from "@/components/ui/mobileCarousel";
+import { JasonImage } from "@/constants/assest";
+import {useContentAnimetion} from "@/hooks/animation/useContentAnimetion";
 
 
 function JasonContent_2() {

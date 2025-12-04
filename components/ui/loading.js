@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useScrollLockContext } from "@/context/ScrollLockContext";
+import gsap from "gsap";
+import { useEffect, useRef,useState } from "react";
+
 import { HeroImage } from "@/constants/assest";
+import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { buildVideoThumbnail } from "@/lib/cloudinary";
 
 const Loading = () => {

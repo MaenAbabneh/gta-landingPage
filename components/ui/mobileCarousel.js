@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import ImageModel from "@/components/ui/ImageModel";
 import { gsap } from "gsap";
+import { useEffect,useRef, useState } from "react";
+
+import ImageModel from "@/components/ui/ImageModel";
 
 /**
  * @typedef {object} SlideProps

@@ -1,18 +1,17 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+import ImageModel from "@/components/ui/ImageModel";
+import { FullArrowSvg } from "@/components/ui/svg";
+import { ViceCityImage } from "@/constants/assest";
 import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
-
-import { FullArrowSvg } from "@/components/ui/svg";
-import ImageModel from "@/components/ui/ImageModel";
-import { ViceCityImage } from "@/constants/assest";
 
 gsap.registerPlugin(ScrollTrigger);
 

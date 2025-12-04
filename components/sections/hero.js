@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { useRef } from "react";
 
-import { PlayIcon, WatchTrailer } from "../ui/svg";
-import { useTrailer } from "@/context/TrailerContext";
 import ComingSoon from "@/components/ui/comingsoon";
 import { HeroImage } from "@/constants/assest";
+import { useTrailer } from "@/context/TrailerContext";
 import { useHeroAnimetion } from "@/hooks/animation/useHeroAnimetion";
+
+import { PlayIcon, WatchTrailer } from "../ui/svg";
 
 function Hero() {
   const { openTrailer } = useTrailer();

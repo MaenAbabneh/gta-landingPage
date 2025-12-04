@@ -1,22 +1,21 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
-import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 import Navbar from "@/components/navigation/Navbar";
+import Cal from "@/components/sections/cal/cal";
+import Footer from "@/components/sections/footer";
 import Hero from "@/components/sections/hero";
 import Jason from "@/components/sections/jason/jason";
 import Lucia from "@/components/sections/lucia/lucia";
-import Cal from "@/components/sections/cal/cal";
-import ViceCity from "@/components/sections/vice-city/vice-city";
 import Outro from "@/components/sections/outro";
-import Footer from "@/components/sections/footer";
-
+import ViceCity from "@/components/sections/vice-city/vice-city";
 import { BouncingArrow } from "@/components/ui/svg";
 import { useGSAPLenis } from "@/lib/gsap-lenis";
 

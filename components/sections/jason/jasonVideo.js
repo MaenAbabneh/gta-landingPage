@@ -1,9 +1,10 @@
 "use client";
 
 import { useRef } from "react";
-import { useLazyVideo } from "@/hooks/useLazyVideo";
+
 import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 import { useVideoQuoteAnimation } from "@/hooks/animation/useVideoQuoteAnimation";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 function JasonVideo() {
   const containerRef = useRef(null);

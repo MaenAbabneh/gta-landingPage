@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useTrailer } from "@/context/TrailerContext";
 
 import { gtaData } from "@/constants/Links";
+import { useTrailer } from "@/context/TrailerContext";
 
 export default function TrailersList({
   onHover,

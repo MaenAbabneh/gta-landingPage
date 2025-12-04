@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+
 import { cacheAsset, isCacheSupported } from "@/lib/cacheManager";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -13,9 +14,11 @@ export function useAssetPrecacher(
     if (!assets?.length) return;
 
     // احترم وضع توفير البيانات والشبكات البطيئة
-    const conn = navigator.connection;
-    if (conn?.saveData) return;
-    if (conn && ["slow-2g", "2g"].includes(conn.effectiveType)) return;
+    if (typeof navigator !== "undefined") {
+      const conn = navigator.connection;
+      if (conn?.saveData) return;
+      if (conn && ["slow-2g", "2g"].includes(conn.effectiveType)) return;
+    }
 
     let aborted = false;
 
@@ -91,7 +94,8 @@ export function useAssetPrecacher(
           if (delayMs) await sleep(delayMs);
           await new Promise((r) =>
             "requestIdleCallback" in window
-              ? requestIdleCallback(() => r())
+              ? // eslint-disable-next-line compat/compat
+                requestIdleCallback(() => r())
               : setTimeout(r, 0)
           );
         }
@@ -108,7 +112,8 @@ export function useAssetPrecacher(
       if (aborted) return;
       const kick = () =>
         "requestIdleCallback" in window
-          ? requestIdleCallback(run, { timeout: 3000 })
+          ? // eslint-disable-next-line compat/compat
+            requestIdleCallback(run, { timeout: 3000 })
           : setTimeout(run, 1500);
       if (document.readyState === "complete") kick();
       else window.addEventListener("load", kick, { once: true });

@@ -1,7 +1,7 @@
 "use client";
 
-import * as Dialog from "@radix-ui/react-dialog";
 import { useGSAP } from "@gsap/react";
+import * as Dialog from "@radix-ui/react-dialog";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
 import Image from "next/image";

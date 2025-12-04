@@ -5,12 +5,10 @@ import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { gtaData } from "@/constants/Links";
-
-import { useTrailer } from "@/context/TrailerContext";
 import { useScrollLockContext } from "@/context/ScrollLockContext";
-
-import { useYoutubeVideo } from "@/hooks/useYotubeVideo";
+import { useTrailer } from "@/context/TrailerContext";
 import { useTrailerAnimation } from "@/hooks/animation/useTrailerAnimation";
+import { useYoutubeVideo } from "@/hooks/useYotubeVideo";
 
 function TrailerOverlay() {
   const ContainerRef = useRef(null);

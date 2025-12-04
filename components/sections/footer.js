@@ -1,13 +1,14 @@
 "use client";
 
-import { useRef } from "react";
-import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ComingSoon from "../ui/comingsoon";
-import Link from "next/link";
-import { RockstarSvg, ESRBSvg } from "../ui/svg";
 import Image from "next/image";
+import Link from "next/link";
+import { useRef } from "react";
+
+import ComingSoon from "../ui/comingsoon";
+import { ESRBSvg,RockstarSvg } from "../ui/svg";
 
 gsap.registerPlugin(ScrollTrigger);
 

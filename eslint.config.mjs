@@ -1,16 +1,37 @@
-import importPlugin from "eslint-plugin-import";
-import { defineConfig, globalIgnores } from "eslint/config";
-import compat from "eslint-plugin-compat";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
 import nextVitals from "eslint-config-next/core-web-vitals";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
 import prettier from "eslint-config-prettier/flat";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 
-const eslintConfig = defineConfig([
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
   ...nextVitals,
-  ...prettier,
+  prettier,
+  ...compat.extends(
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:compat/recommended"
+  ),
   {
-    globalIgnores: [
-      ...globalIgnores,
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    settings: {
+      "import/resolver": {
+        typescript: {
+          project: "./jsconfig.json",
+        },
+      },
+    },
+    ignores: [
       ".next/**",
       "out/**",
       "build/**",
@@ -20,39 +41,22 @@ const eslintConfig = defineConfig([
       "eslint.config.mjs",
       "postcss.config.js",
     ],
-    plugins: {
-      import: importPlugin,
-      "simple-import-sort": simpleImportSort,
-      "compat": compat,
-    },
-    extends: [
-      "plugin:import/recommended",
-      "plugin:import/typescript",
-      "plugin:compat/recommended",
-    ],
-    env: {
-      browser: true,
-      es2021: true,
-      node: true,
-    },
     rules: {
-      // استخدام simple-import-sort فقط لتجنب التضارب
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
-      // إلغاء import/order لتجنب التضارب
       "import/order": "off",
-      // Disallow hard-coded Cloudinary CDN strings; use the helper functions in lib/cloudinary instead
+      "import/no-named-as-default": "off",
       "no-restricted-syntax": [
         "error",
         {
           selector:
-            "Literal[value=/^https?:\\/\\/res\\.cloudinary\\.com\\/.*$/]",
+            "Literal[value^='https://res.cloudinary.com/'], Literal[value^='http://res.cloudinary.com/']",
           message:
             "Avoid hard-coded Cloudinary URLs; use buildImageUrl / buildVideoThumbnail from lib/cloudinary instead.",
         },
       ],
     },
   },
-]);
+];
 
 export default eslintConfig;

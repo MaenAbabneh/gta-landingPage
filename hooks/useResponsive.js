@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useState } from "react";
+
 import { getAssetById } from "@/constants/assest";
 import {
-  buildVideoThumbnail,
   buildResponsiveVideoUrls,
+  buildVideoThumbnail,
 } from "@/lib/cloudinary";
 
 // دالة للحصول على حجم الشاشة الحالي (client-side فقط)

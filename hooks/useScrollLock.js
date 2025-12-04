@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+
 import {
-  requestScrollLock as managerRequestScrollLock,
   releaseScrollLock as managerReleaseScrollLock,
+  requestScrollLock as managerRequestScrollLock,
 } from "@/lib/scroll-manager";
 
 /**

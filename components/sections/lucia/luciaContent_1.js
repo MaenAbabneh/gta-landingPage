@@ -2,11 +2,10 @@
 
 import { useRef } from "react";
 
-import { LuciaImage } from "@/constants/assest";
-import {useContentAnimetion} from "@/hooks/animation/useContentAnimetion";
-
 import ImageModal from "@/components/ui/ImageModel";
 import MobileCarousel from "@/components/ui/mobileCarousel";
+import { LuciaImage } from "@/constants/assest";
+import {useContentAnimetion} from "@/hooks/animation/useContentAnimetion";
 
 const LuciaContent_1 = () => {
   const containerRef = useRef(null);

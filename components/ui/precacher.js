@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { prebuiltassets, getAssetIds } from "@/constants/assest";
+
+import { getAssetIds,prebuiltassets } from "@/constants/assest";
 import { useAssetPrecacher } from "@/hooks/useAssetPrecacher";
 import { cleanOldCaches, getCacheStats } from "@/lib/cacheManager";
 

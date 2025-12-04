@@ -3,10 +3,9 @@
 import { useRef } from "react";
 
 import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
-import { useVideoQuoteAnimation } from "@/hooks/animation/useVideoQuoteAnimation";
-
-import { useLazyVideo } from "@/hooks/useLazyVideo";
 import { getAssetIds } from "@/constants/assest";
+import { useVideoQuoteAnimation } from "@/hooks/animation/useVideoQuoteAnimation";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 function LuciaVideo_2() {
   const containerRef = useRef(null);

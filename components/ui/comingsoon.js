@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { PsIcon, XboxIcon } from "@/components/ui/svg";
 
 function ComingSoon({ refs = {}, isHero = false }) {

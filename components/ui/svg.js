@@ -593,6 +593,7 @@ function ESRBSvg({ className }) {
 export {
   ArrowSvg,
   BouncingArrow,
+  ESRBSvg,
   ExpandedArrow,
   FullArrowSvg,
   GloableSvg,
@@ -600,9 +601,8 @@ export {
   NavLogo,
   PlayIcon,
   PsIcon,
+  RockstarSvg,
+  VisitLeonied,
   WatchTrailer,
   XboxIcon,
-  VisitLeonied,
-  RockstarSvg,
-  ESRBSvg,
 };

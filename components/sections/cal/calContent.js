@@ -1,15 +1,13 @@
 "use client";
 
 import { useRef } from "react";
-import { CalImage } from "@/constants/assest";
-import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 
+import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
 import ImageModel from "@/components/ui/ImageModel";
 import MobileCarousel from "@/components/ui/mobileCarousel";
-import { useLazyVideo } from "@/hooks/useLazyVideo";
-import { getAssetIds } from "@/constants/assest";
-
+import { CalImage , getAssetIds } from "@/constants/assest";
 import { useVideoSideCharAnimation } from "@/hooks/animation/useVideoSideCharAnimetion";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 function CalContent() {
   const sectionRef = useRef(null);

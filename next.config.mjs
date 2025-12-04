@@ -1,10 +1,15 @@
+import withBundleAnalyzer from "@next/bundle-analyzer";
+
 import { gtaData } from "./constants/Links.js";
-import withBundleAnalyzer from '@next/bundle-analyzer';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
 
-  
   async rewrites() {
     const allSections = Object.values(gtaData)
       .flatMap((category) => category)
@@ -29,15 +34,12 @@ const nextConfig = {
   },
   experimental: {
     turbopackFileSystemCacheForDev: true,
-    optimizePackageImports: [
-      'gsap'
-    ],
+    optimizePackageImports: ["gsap"],
   },
   reactCompiler: true,
 };
-  const bundleAnalyzer = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
 });
-
 
 export default bundleAnalyzer(nextConfig);

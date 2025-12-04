@@ -2,8 +2,8 @@
 
 import { useRef, useState } from "react";
 
-import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useNavOverlayAnimation } from "@/hooks/animation/useNavOverlayAnimetion";
+import { useScrollSpy } from "@/hooks/useScrollSpy";
 
 import { ArrowSvg, GloableSvg } from "../../ui/svg";
 import DownloadsGrid from "./components/content/DownloadsGrid";

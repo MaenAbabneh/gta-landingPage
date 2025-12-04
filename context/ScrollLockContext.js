@@ -1,11 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect,useState } from "react";
+
 import {
-  requestScrollLock as managerRequestScrollLock,
-  releaseScrollLock as managerReleaseScrollLock,
   isLocked as managerIsLocked,
   onLockChange,
+  releaseScrollLock as managerReleaseScrollLock,
+  requestScrollLock as managerRequestScrollLock,
 } from "@/lib/scroll-manager";
 
 const ScrollLockContext = createContext();

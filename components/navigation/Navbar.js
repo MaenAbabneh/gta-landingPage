@@ -1,15 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import Link from "next/link";
+import { useEffect,useState } from "react";
 
-import Burger from "../ui/burger";
 import { useScrollLockContext } from "@/context/ScrollLockContext";
 import { useTrailer } from "@/context/TrailerContext";
 
+import Burger from "../ui/burger";
 import { MainLogo } from "../ui/svg";
 import OverlayMenu from "./overlayNav/overlayMenu";
 

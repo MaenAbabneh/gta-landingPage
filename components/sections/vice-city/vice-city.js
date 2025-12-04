@@ -1,15 +1,15 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { getAssetIds } from "@/constants/assest";
-
 import Image from "next/image";
-import { useLazyVideo } from "@/hooks/useLazyVideo";
-import { useVideoPlaceAnimation } from "@/hooks/animation/useVideoPlaceAnimtion";
+import { useRef, useState } from "react";
 
 import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
-import Overlay_ViceCity from "./overlay-viceCity";
 import { VisitLeonied } from "@/components/ui/svg";
+import { getAssetIds } from "@/constants/assest";
+import { useVideoPlaceAnimation } from "@/hooks/animation/useVideoPlaceAnimtion";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
+
+import Overlay_ViceCity from "./overlay-viceCity";
 
 function ViceCity() {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);

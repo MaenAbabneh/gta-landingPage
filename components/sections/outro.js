@@ -3,9 +3,9 @@
 import { useRef } from "react";
 
 import AnimatedVideoSection from "@/components/ui/AnimatedVideoSection";
-import { useLazyVideo } from "@/hooks/useLazyVideo";
 import { getAssetIds } from "@/constants/assest";
 import { useVideoAnimation } from "@/hooks/animation/useVideoAnimation";
+import { useLazyVideo } from "@/hooks/useLazyVideo";
 
 function Outro() {
   const sectionRef = useRef(null);

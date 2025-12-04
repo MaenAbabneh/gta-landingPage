@@ -1,17 +1,17 @@
 import "./globals.css";
 
 import localFont from "next/font/local";
-
-import Precacher from "@/components/ui/precacher";
-import Loading from "../components/ui/loading";
-import CacheMonitor from "@/components/ui/CacheMonitor";
-
-import LenisProvider from "@/lib/lenis";
-import { ScrollLockProvider } from "@/context/ScrollLockContext";
 import Script from "next/script";
-import { buildVideoThumbnail, buildImageUrl } from "@/lib/cloudinary";
-import { TrailerProvider } from "@/context/TrailerContext";
+
+import CacheMonitor from "@/components/ui/CacheMonitor";
+import Precacher from "@/components/ui/precacher";
 import TrailerOverlay from "@/components/ui/trailervideo";
+import { ScrollLockProvider } from "@/context/ScrollLockContext";
+import { TrailerProvider } from "@/context/TrailerContext";
+import { buildImageUrl,buildVideoThumbnail } from "@/lib/cloudinary";
+import LenisProvider from "@/lib/lenis";
+
+import Loading from "../components/ui/loading";
 
 const fontLong = localFont({
   src: [

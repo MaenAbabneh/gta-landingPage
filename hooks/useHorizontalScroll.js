@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
-import Lenis from "lenis";
 import gsap from "gsap";
+import Lenis from "lenis";
+import { useEffect, useRef } from "react";
 
 /**
  * Custom Hook لتحويل عجلة الماوس العمودية إلى تمرير أفقي سلس باستخدام Lenis

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect,useRef, useState } from "react";
+
 import {
-  getCachedAsset,
   cacheAsset,
+  getCachedAsset,
   isCacheSupported,
 } from "@/lib/cacheManager";
 
