@@ -26,12 +26,11 @@ export function useTrailerAnimation(trailerRef={}, isOpen , isMounted, setIsMoun
           willChange: "transform, opacity",
         });
 
-        // تكبير Hero بسرعة أكبر على الموبايل
         tl.to(
           "#hero",
           {
             scale: 1.25,
-            duration: 0.5, // ✅ كان 0.8 - الآن أسرع
+            duration: 0.5, 
             ease: "power2.out",
           },
           0
@@ -40,20 +39,20 @@ export function useTrailerAnimation(trailerRef={}, isOpen , isMounted, setIsMoun
         tl.fromTo(
           overlaybgRef.current,
           { opacity: 0 },
-          { opacity: 1, duration: 0.3 }, // ✅ كان 0.5 - الآن أسرع
+          { opacity: 1, duration: 0.4 },
           0
         ).fromTo(
           buttonRef.current,
           { opacity: 0 },
-          { opacity: 1, duration: 0.3 }, // ✅ كان 0.4 - الآن أسرع
+          { opacity: 1, duration: 0.5 }, 
           "<"
         );
 
-        // ✅ تحسين: استخدام transform بدلاً من y لأداء أفضل
+    
         gsap.fromTo(
           videoRef.current,
-          { opacity: 0, y: 500 }, // ✅ كان 1000 - مبالغ فيه
-          { opacity: 1, y: 0, duration: 0.5 }, // ✅ كان 0.7 - الآن أسرع
+          { opacity: 0, y: 500 }, 
+          { opacity: 1, y: 0, duration: 0.6 }, 
           "<"
         );
 
@@ -76,12 +75,12 @@ export function useTrailerAnimation(trailerRef={}, isOpen , isMounted, setIsMoun
           },
         });
 
-        // إعادة #hero إلى الحجم الطبيعي بسرعة
+      
         tl.to(
           "#hero",
           {
             scale: 1,
-            duration: 0.25, // ✅ كان 0.3 - الآن أسرع
+            duration: 0.4, 
             ease: "power2.out",
           },
           0
@@ -90,19 +89,19 @@ export function useTrailerAnimation(trailerRef={}, isOpen , isMounted, setIsMoun
         tl.fromTo(
           overlaybgRef.current,
           { opacity: 1 },
-          { opacity: 0, duration: 0.3 }, // ✅ كان 0.6 - الآن أسرع
+          { opacity: 0, duration: 0.4 }, 
           0
         )
           .fromTo(
             buttonRef.current,
             { opacity: 1 },
-            { opacity: 0, duration: 0.2 }, // ✅ كان 0.3 - الآن أسرع
+            { opacity: 0, duration: 0.3 }, 
             "<"
           )
           .fromTo(
             videoRef.current,
             { opacity: 1 },
-            { opacity: 0, duration: 0.3 }, // ✅ كان 0.5 - الآن أسرع
+            { opacity: 0, duration: 0.4 },
             "<"
           );
       }

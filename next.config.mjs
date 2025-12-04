@@ -29,8 +29,8 @@ const nextConfig = {
   experimental: {
     turbopackFileSystemCacheForDev: true,
     optimizePackageImports: ["gsap"],
-    reactCompiler: true,
   },
+  reactCompiler: true,
 };
 const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
