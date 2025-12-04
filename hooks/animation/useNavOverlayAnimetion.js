@@ -44,11 +44,11 @@ export function useNavOverlayAnimation(
 
         timelineRef.current = tl;
 
-        tl.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0)
+        tl.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0)
           .fromTo(
             panel,
             { x: 500, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.4 },
+            { x: 0, opacity: 1, duration: 0.6 },
             "<"
           )
           .fromTo(
@@ -73,9 +73,9 @@ export function useNavOverlayAnimation(
 
           timelineRef.current = tl;
 
-          tl.to(overlay, { opacity: 0, duration: 0.5 }, 0)
-            .to(panel, { x: 500, opacity: 0, duration: 0.4 }, 0)
-            .to(leftColum, { opacity: 0, duration: 0.3 }, 0);
+          tl.to(overlay, { opacity: 0, duration: 0.6 }, 0)
+            .to(panel, { x: 500, opacity: 0, duration: 0.5 }, 0)
+            .to(leftColum, { opacity: 0, duration: 0.4 }, 0);
         }
       }
     },
