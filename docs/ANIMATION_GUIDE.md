@@ -8,7 +8,7 @@ Browsers struggle to seek HTML5 Video frame-by-frame smoothly during scroll. To 
 
 ### The Pipeline
 
-1.  **Load:** Video loads in a hidden `<video>` element.
+1.**Load:** Video loads in a hidden `<video>` element.
 2.  **Sync:** GSAP `ScrollTrigger` maps the scroll distance (pixels) to video duration (seconds).
 3.  **Render:** A `gsap.ticker` or `onUpdate` callback draws the current video frame to a `<canvas>` element.
 
@@ -56,16 +56,16 @@ export function useVideoAnimation(refs, videoSrc, config) {
 
 The `overlay-viceCity.js` component demonstrates advanced GSAP usage:
 
-1.  **FLIP (First Last Invert Play):** Used for the modal expansion effect.
-2.  **Timeline Orchestration:**
+1. **FLIP (First Last Invert Play):** Used for the modal expansion effect.
+2. **Timeline Orchestration:**
     - Button Rotation -> Background Fade -> Content Slide -> Gallery Stagger.
-3.  **Cleanup:**
+3. **Cleanup:**
     - Uses `gsap.context()` (via `@gsap/react`) to automatically kill animations on unmount.
     - Resets `will-change` properties to free up GPU memory.
 
 ## Best Practices
 
-1.  **Always use `useGSAP`:** This wrapper handles React Strict Mode double-invocations and cleanup automatically.
-2.  **Prefer `transform`:** Never animate `top`, `left`, `margin`. Use `x`, `y`, `xPercent`.
-3.  **Force 3D:** For elements that flicker, add `force3D: true` or `z: 0.01` to promote them to a compositor layer.
-4.  **Lazy Canvas:** The canvas context is expensive. Only create it once inside a `useEffect`.
+1. **Always use `useGSAP`:** This wrapper handles React Strict Mode double-invocations and cleanup automatically.
+2. **Prefer `transform`:** Never animate `top`, `left`, `margin`. Use `x`, `y`, `xPercent`.
+3. **Force 3D:** For elements that flicker, add `force3D: true` or `z: 0.01` to promote them to a compositor layer.
+4. **Lazy Canvas:** The canvas context is expensive. Only create it once inside a `useEffect`.

@@ -4,8 +4,7 @@ A pixel-perfect, high-performance recreation of the official GTA VI landing page
 
 GTA-VI-demo:
 
-https://github.com/user-attachments/assets/277a395d-2f37-4cf6-b3fe-641a64c2e1a1
-
+    https://github.com/user-attachments/assets/277a395d-2f37-4cf6-b3fe-641a64c2e1a1
 
 ## ✨ Key Features
 
@@ -13,7 +12,7 @@ https://github.com/user-attachments/assets/277a395d-2f37-4cf6-b3fe-641a64c2e1a1
 
 Smooth frame-by-frame scroll interaction utilizing HTML5 Canvas API to bypass browser video decoding latency. Videos are rendered frame-by-frame during scroll, synced with GSAP's ScrollTrigger for precise timeline control.
 
-```javascript
+    ```javascript 
 // Real-time video scrubbing implementation
 onUpdate: (self) => {
   if (video.readyState > 1 && video.duration) {
@@ -21,19 +20,19 @@ onUpdate: (self) => {
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
   }
 };
-```
+    ```
 
 ### ⚡ Composite-Only Animations
 
 All transitions use GPU-accelerated properties (`transform`, `opacity`) exclusively to maintain 60fps on mobile devices. Complex sequences like the Vice City overlay utilize `will-change` hints and `force3D` transformations.
 
-```javascript
+    ```javascript
 // Performance-optimized animation
 gsap.set(element, {
   willChange: "transform, opacity",
   force3D: true,
 });
-```
+    ```
 
 ### 🖼️ Dynamic Asset Loading System
 
@@ -95,8 +94,8 @@ Native horizontal scroll with Lenis smooth scrolling, featuring:
 
 ### Installation
 
-```bash
-# Clone the repository
+    ```bash
+    # Clone the repository
 git clone https://github.com/MaenAbabneh/gta-landingPage.git
 cd gta-landingPage
 
