@@ -4,7 +4,7 @@ A pixel-perfect, high-performance recreation of the official GTA VI landing page
 
 GTA-VI-demo:
 
-    https://github.com/user-attachments/assets/277a395d-2f37-4cf6-b3fe-641a64c2e1a1
+https://github.com/user-attachments/assets/277a395d-2f37-4cf6-b3fe-641a64c2e1a1
 
 ## ✨ Key Features
 
