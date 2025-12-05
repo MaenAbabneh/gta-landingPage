@@ -66,14 +66,14 @@ function CalHero() {
             { y: 0, ease: "none", duration: 1 },
             0
           );
-          if (isDesktop && isTablet) {
+          if (isDesktop || isTablet) {
             tl.to(
               containerRef.current,
               { opacity: 0, ease: "none", duration: 1 },
               "60%"
             );
           }
-          if (isMobile) {
+          else if (isMobile) {
             tl.to([maskWrapperRef.current , bgKeyArtRef.current , backgroundImageRef.current], {
               opacity: 0,
               ease: "none",
