@@ -196,16 +196,18 @@ export function useVideoAnimation(refs = {}, videoSrc, config = {}) {
                 videoOverlayRef.current,
                 {
                   maskImage: maskImages.videoOverlay80,
+                  duration: 1,
                 },
-                "80%"
+                "70%"
               );
 
               tl.to(
                 videoOverlayRef.current,
                 {
                   opacity: 0,
+                  duration: 1,
                 },
-                "95%"
+                "85%"
               );
             } else if (isOutro) {
               tl.to(
