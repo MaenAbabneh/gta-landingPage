@@ -84,10 +84,10 @@ export function useHeroAnimetion(refs = {}) {
           tl.fromTo(
             [maskWrapperRef.current, viLogoOverlayRef.current],
             {
-              BackgroundSize: "clamp(5000vh, 3200%, 0.0001vh)",
+              BackgroundSize: "clamp(5208.31vh, 3485.12%, 0.0001vh)",
               backgroundPosition: "50% 47%",
-              webkitMaskSize: "clamp(5000vh, 3200%, 0.0001vh)",
-              maskSize: "clamp(5000vh, 3200%, 0.0001vh)",
+              webkitMaskSize: "clamp(5208.31vh, 3485.12%, 0.0001vh)",
+              maskSize: "clamp(5208.31vh, 3485.12%, 0.0001vh)",
               webkitMaskPosition: "50% 47%",
               maskPosition: "50% 47%",
             },
