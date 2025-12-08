@@ -44,7 +44,7 @@ function LuciaVideo() {
         videoOverlay80:
           "radial-gradient(circle at 10vw 25vh, rgb(0, 0, 0) 30vw, rgba(0, 0, 0, 0.15) 60vw)",
       },
-      // sectionPinEnd: "bottom top-=500",
+      sectionPinEnd: "+=200%",
       isLucia: true,
     }
   );

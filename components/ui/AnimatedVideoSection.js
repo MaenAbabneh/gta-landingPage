@@ -25,7 +25,7 @@ export default function AnimatedVideoSection(props) {
         crossOrigin="anonymous"
         aria-label={videoAlt}
         aria-hidden="true"
-        className={`${videoClassName} z-30 aspect-video invisible`}
+        className={`${videoClassName} z-20 aspect-video`}
         style={{
           width: "100%",
           height: "100%",
@@ -53,7 +53,7 @@ export default function AnimatedVideoSection(props) {
       </picture>
       <canvas
         ref={canvasRef}
-        className={`${canvasClassName} aspect-video z-20`}
+        className={`${canvasClassName} aspect-video z-30`}
         width={1920}
         height={720}
         style={{

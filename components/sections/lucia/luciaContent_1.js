@@ -55,7 +55,7 @@ const LuciaContent_1 = () => {
   return (
     <section
       ref={containerRef}
-      className="relative z-10 flex flex-col md:grid grid-gallary mt-[200vh] gap-3 md:gap-5"
+      className="relative z-10 flex flex-col md:grid grid-gallary mt-[100vh] gap-3 md:gap-5"
     >
       <div
         ref={moveingColumRef}
