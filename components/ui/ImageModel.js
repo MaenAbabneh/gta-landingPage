@@ -112,16 +112,20 @@ const ImageModal = ({
           });
 
           Flip.from(state, {
-            duration: 0.5,
+            duration: 0.7,
+            absolute: true,
             ease: "expo.in",
             onStart: () => {
-              const tl = gsap.timeline();
+              const tl = gsap.timeline({
+                defaults: { ease: "power2.inOut" },
+              });
+              tl.to(buttonRef.current, { opacity: 0, duration: 0.3 }, 0);
               tl.to(
                 modalBg,
-                { opacity: 1, duration: 1, ease: "power2.out" },
+                { opacity: 1, duration: 0.3, ease: "power2.out" },
                 0.5
               );
-              tl.to(vignette, { opacity: 0.5, duration: 1.2 }, 0);
+              tl.to(vignette, { opacity: 0.5, duration: 0.6 }, 0);
 
               if (modalBurger) {
                 tl.to(
@@ -139,38 +143,34 @@ const ImageModal = ({
           });
         };
 
-        // حاول تحميل الصورة للحصول على أبعادها الحقيقية
-        if (finalSrc) {
-          const probe = new window.Image();
-          probe.src = finalSrc;
-          const handle = () => {
-            const naturalW = probe.naturalWidth || window.innerWidth;
-            const naturalH = probe.naturalHeight || window.innerHeight;
-            // قيّد الحجم ليتناسب مع نافذة العرض
-            const scale = Math.min(
-              1,
-              Math.min(
-                window.innerWidth / naturalW,
-                window.innerHeight / naturalH
-              )
-            );
-            runFlipWithSize(
-              Math.round(naturalW * scale),
-              Math.round(naturalH * scale)
-            );
-          };
-          if (probe.complete) {
-            handle();
-          } else {
-            probe.onload = handle;
-            probe.onerror = () => {
-              runFlipWithSize(window.innerWidth, window.innerHeight);
-            };
-          }
+        const probe = new window.Image();
+        probe.src = finalSrc;
+        const handle = () => {
+          const naturalW = probe.naturalWidth || window.innerWidth;
+          const naturalH = probe.naturalHeight || window.innerHeight;
+          // قيّد الحجم ليتناسب مع نافذة العرض
+          const scale = Math.min(
+            1,
+            Math.min(
+              window.innerWidth / naturalW,
+              window.innerHeight / naturalH
+            )
+          );
+          runFlipWithSize(
+            Math.round(naturalW * scale),
+            Math.round(naturalH * scale)
+          );
+        };
+        if (probe.complete) {
+          handle();
         } else {
-          runFlipWithSize(window.innerWidth, window.innerHeight);
+          probe.onload = handle;
+          probe.onerror = () => {
+            runFlipWithSize(window.innerWidth, window.innerHeight);
+          };
         }
-      } else if (!isOpen && isMounted) {
+      } else {
+        runFlipWithSize(window.innerWidth, window.innerHeight);
       }
     },
     { dependencies: [isOpen], scope: portalRef }
@@ -183,19 +183,17 @@ const ImageModal = ({
   const closeModal = () => {
     const portal = portalRef.current;
     const button = buttonRef.current;
+    const modalImage = modalImageRef.current;
+    const modalBg = modalBgRef.current;
+    const vignette = vignetteRef.current;
+    const modalBurger = modalBurgerRef.current;
+
     if (!portal || !button) return;
 
     const rect = button.getBoundingClientRect();
 
-    const modalImage = portal.querySelector(".modal-image");
-    const modalBg = portal.querySelector(".modal-bg");
-    const vignette = portal.querySelector(".vignette");
-    const modalBurger = portal.querySelector(".modal-burger");
-
-    // الخطوة 1: التقط الحالة الحالية (ملء الشاشة)
     const state = Flip.getState(modalImage);
 
-    // الخطوة 2: حدد الحالة النهائية (العودة فوق الزر)
     gsap.set(modalImage, {
       top: rect.top,
       left: rect.left,
@@ -203,12 +201,13 @@ const ImageModal = ({
       height: rect.height,
     });
 
-    // الخطوة 3: قم بالتحريك من حالة ملء الشاشة إلى الحالة النهائية
     Flip.from(state, {
-      duration: 0.75,
+      duration: 0.7,
+      absolute: true,
       ease: "expo.out",
       onStart: () => {
-        const tl = gsap.timeline();
+        const tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+        tl.to(button, { opacity: 1, duration: 0.3 }, 0.5);
         tl.to(vignette, { opacity: 0, duration: 0.3, ease: "power2.in" }, 0);
         tl.to(modalBg, { opacity: 0, duration: 0.3, ease: "power2.in" }, 0);
         if (modalBurger) {
