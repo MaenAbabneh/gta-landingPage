@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://gta-vi-landing.vercel.app/sitemap.xml
+Sitemap: https://gta.maenababneh.dev/sitemap.xml

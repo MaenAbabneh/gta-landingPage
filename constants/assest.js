@@ -151,32 +151,32 @@ const buildImageObject = (imageData) => {
 export const JasonImage = buildImageObject({
   Image_1: {
     src: "Jason_Duval_01_kacoeq",
-    alt: "Jason sitting on a motorcycle holding a handgun.",
+    alt: "Jason Duval, GTA VI protagonist, sitting on a motorcycle in Vice City holding a handgun.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
   },
   Image_2: {
     src: "Jason_Duval_02_ttet2g",
-    alt: "Jason inside a car sitting behind the wheel looking into the distance.",
+    alt: "Jason Duval, main character from Grand Theft Auto 6, inside a car behind the wheel in Vice City.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
   },
   Image_3: {
     src: "Jason_Duval_06_cw2nsy",
-    alt: "Four men in a bar. In the foreground, Jason and Cal are at the bar with beers. In the background two men are looking their way.",
+    alt: "Jason Duval and Cal Hampton, GTA VI characters, at a bar with beers in Vice City criminal scene.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
   },
   Image_4: {
     src: "Jason_Duval_04_o8svr3",
-    alt: "Jason outside on the street leaning against a tree while looking at his phone.",
+    alt: "Jason Duval from Grand Theft Auto VI on Vice City street leaning against a tree looking at phone.",
     size: "( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_5: {
     src: "Jason_Duval_05_wjqust",
-    alt: "Jason holding and aiming an automatic weapon.",
+    alt: "Jason Duval GTA 6 protagonist armed and aiming automatic weapon in action scene.",
     size: "( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_6: {
     src: "Jason_Duval_03_ov4pov",
-    alt: "Jason and Cal on a boat. Jason is holding a fishing rod and Cal is holding binoculars up to his eyes.",
+    alt: "Jason Duval and Cal Hampton from GTA VI on a boat relaxing in Vice City.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 40vw",
   },
   Viwer_1: {
@@ -202,32 +202,32 @@ export const JasonImage = buildImageObject({
 export const LuciaImage = buildImageObject({
   Image_1: {
     src: "Lucia_Caminos_01_xop0wy",
-    alt: "Lucia punching a heavy bag in a gym.",
+    alt: "Lucia Caminos, GTA VI female protagonist, punching heavy bag in gym training scene.",
     size: "( max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_2: {
     src: "Lucia_Caminos_02_qjfc8d",
-    alt: "Lucia in sunglasses resting her arms on the side of a pool with a tropical drink beside her and a phone on the other side.",
+    alt: "Lucia Caminos from Grand Theft Auto 6 relaxing by pool in Vice City with tropical drink.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_3: {
     src: "Lucia_Caminos_05_jrgiqp",
-    alt: "Inside a jail, Lucia and another woman are handcuffed and wearing orange jumpsuits as they walk by a window where another woman watches through the glass. An officer stands nearby.",
+    alt: "Lucia Caminos GTA VI character in jail scene wearing orange jumpsuit with other inmates.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
   },
   Image_4: {
     src: "Lucia_Caminos_04_zi5oly",
-    alt: "Lucia holding a handgun while hiding behind a slightly open door. On the other side a man is pointing a handgun through the open gap.",
+    alt: "Lucia Caminos from GTA 6 holding handgun in action scene behind door in Vice City.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_5: {
     src: "Lucia_Caminos_06_uw8s0y",
-    alt: "Lucia crossing her arms while holding a phone is surrounded by people dancing and flashing lights.",
+    alt: "Lucia Caminos GTA VI protagonist in nightlife scene surrounded by dancing people and lights.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_6: {
     src: "Lucia_Caminos_03_ftk7mc",
-    alt: "Lucia leaning on a motorcyle. She is wearing a leather jacket and looking into the distance.",
+    alt: "Lucia Caminos, Grand Theft Auto VI character, leaning on motorcycle in leather jacket.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
   },
   Viwer_1: {
@@ -253,22 +253,22 @@ export const LuciaImage = buildImageObject({
 export const CalImage = buildImageObject({
   Image_1: {
     src: "Cal_Hampton_01_oydy8k",
-    alt: "Cal Hampton standing in an urban setting with graffiti art in the background",
+    alt: "Cal Hampton, GTA VI supporting character, standing in urban Vice City setting with graffiti art.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_2: {
     src: "Cal_Hampton_02_ovpofu",
-    alt: "Cal Hampton sitting on stairs in a gritty urban environment",
+    alt: "Cal Hampton from Grand Theft Auto 6 sitting on stairs in gritty Vice City urban environment.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_3: {
     src: "Cal_Hampton_03_tgmisg",
-    alt: "Cal Hampton walking down a city street at night with neon lights",
+    alt: "Cal Hampton GTA VI character walking down Vice City street at night with neon lights.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 50vw",
   },
   Image_4: {
     src: "Cal_Hampton_04_nfkpl2",
-    alt: "Cal Hampton leaning against a brick wall with urban street art",
+    alt: "Cal Hampton from GTA 6 leaning against brick wall with urban street art in Vice City.",
     size: " (max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw",
   },
   Viwer_1: {
@@ -288,47 +288,47 @@ export const CalImage = buildImageObject({
 export const ViceCityImage = buildImageObject({
   Image_1: {
     src: "Vice_City_01_dyxolq",
-    alt: "A vibrant cityscape of Vice City at sunset, showcasing its iconic skyline and waterfront.",
+    alt: "Grand Theft Auto Vice City vibrant cityscape at sunset showcasing iconic skyline and waterfront.",
     size: "100vw",
   },
   Image_2: {
     src: "Vice_City_02_p4kb75",
-    alt: "Aerial view of Vice City's bustling downtown area with neon lights and busy streets at night.",
+    alt: "Vice City GTA VI downtown aerial view with neon lights and busy streets at night.",
     size: "100vw",
   },
   Image_3: {
     src: "Vice_City_03_vbluvl",
-    alt: "A serene beach scene in Vice City with palm trees, sandy shores, and a colorful sunset.",
+    alt: "Grand Theft Auto VI Vice City serene beach scene with palm trees and colorful sunset.",
     size: "100vw",
   },
   Image_4: {
     src: "Vice_City_04_lbxujb",
-    alt: "A lively street in Vice City filled with vintage cars, pedestrians, and vibrant storefronts.",
+    alt: "GTA 6 Vice City street lively scene with vintage cars pedestrians and vibrant storefronts.",
     size: "100vw",
   },
   Image_5: {
     src: "Vice_City_05_wyibjy",
-    alt: "A nighttime view of Vice City's skyline reflected in the calm waters of the bay.",
+    alt: "Grand Theft Auto VI Vice City nighttime skyline reflected in calm bay waters.",
     size: "100vw",
   },
   Image_6: {
     src: "Vice_City_06_fmx7mb",
-    alt: "A panoramic shot of Vice City's iconic landmarks against a backdrop of a setting sun.",
+    alt: "GTA VI Vice City panoramic iconic landmarks against backdrop of setting sun.",
     size: "100vw",
   },
   Image_7: {
     src: "Vice_City_07_a8vfhb",
-    alt: "A bustling market scene in Vice City with colorful stalls, vendors, and shoppers.",
+    alt: "Grand Theft Auto Vice City bustling market scene with colorful stalls vendors and shoppers.",
     size: "100vw",
   },
   Image_8: {
     src: "Vice_City_08_idq42h",
-    alt: "A scenic view of Vice City's coastline with boats, piers, and a vibrant sunset sky.",
+    alt: "Vice City GTA 6 scenic coastline with boats piers and vibrant sunset sky.",
     size: "100vw",
   },
   Image_9: {
     src: "Vice_City_09_uqekdh",
-    alt: "A dynamic street scene in Vice City featuring classic cars, neon signs, and lively nightlife.",
+    alt: "Grand Theft Auto VI Vice City dynamic street scene with classic cars neon signs and nightlife.",
     size: "100vw",
   },
   Viewer_1: {

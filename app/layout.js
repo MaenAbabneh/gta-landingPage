@@ -3,12 +3,12 @@ import "./globals.css";
 import localFont from "next/font/local";
 import Script from "next/script";
 
-import CacheMonitor from "@/components/ui/CacheMonitor";
+// import CacheMonitor from "@/components/ui/CacheMonitor";
 import Precacher from "@/components/ui/precacher";
 import TrailerOverlay from "@/components/ui/trailervideo";
 import { ScrollLockProvider } from "@/context/ScrollLockContext";
 import { TrailerProvider } from "@/context/TrailerContext";
-import { buildImageUrl,buildVideoThumbnail } from "@/lib/cloudinary";
+import { buildImageUrl, buildVideoThumbnail } from "@/lib/cloudinary";
 import LenisProvider from "@/lib/lenis";
 
 import Loading from "../components/ui/loading";
@@ -87,7 +87,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://gta-vi-landing.vercel.app",
+    url: "https://gta.maenababneh.dev",
     title: "Grand Theft Auto VI | Official Landing Page",
     description:
       "Experience Grand Theft Auto VI - An immersive animated landing page showcasing Vice City, Jason, Lucia, and Cal. Coming May 26, 2026.",
@@ -109,7 +109,7 @@ export const metadata = {
     images: [buildImageUrl("hero-bg_dtrjtf")],
   },
   alternates: {
-    canonical: "https://gta-vi-landing.vercel.app",
+    canonical: "https://gta.maenababneh.dev",
   },
   category: "gaming",
   manifest: "/manifest.json",
@@ -128,19 +128,19 @@ export default function RootLayout({ children }) {
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://gta-vi-landing.vercel.app/#website",
-        url: "https://gta-vi-landing.vercel.app",
+        "@id": "https://gta.maenababneh.dev/#website",
+        url: "https://gta.maenababneh.dev",
         name: "Grand Theft Auto VI Landing Page",
         description:
           "Experience Grand Theft Auto VI - An immersive animated landing page showcasing Vice City, Jason, Lucia, and Cal.",
         publisher: {
-          "@id": "https://gta-vi-landing.vercel.app/#organization",
+          "@id": "https://gta.maenababneh.dev/#organization",
         },
         inLanguage: "en-US",
       },
       {
         "@type": "Organization",
-        "@id": "https://gta-vi-landing.vercel.app/#organization",
+        "@id": "https://gta.maenababneh.dev/#organization",
         name: "Rockstar Games",
         url: "https://www.rockstargames.com",
         logo: {
@@ -150,7 +150,7 @@ export default function RootLayout({ children }) {
       },
       {
         "@type": "VideoGame",
-        "@id": "https://gta-vi-landing.vercel.app/#videogame",
+        "@id": "https://gta.maenababneh.dev/#videogame",
         name: "Grand Theft Auto VI",
         alternateName: "GTA VI",
         description:
@@ -197,18 +197,105 @@ export default function RootLayout({ children }) {
       },
       {
         "@type": "WebPage",
-        "@id": "https://gta-vi-landing.vercel.app/#webpage",
-        url: "https://gta-vi-landing.vercel.app",
+        "@id": "https://gta.maenababneh.dev/#webpage",
+        url: "https://gta.maenababneh.dev",
         name: "Grand Theft Auto VI | Official Landing Page",
         isPartOf: {
-          "@id": "https://gta-vi-landing.vercel.app/#website",
+          "@id": "https://gta.maenababneh.dev/#website",
         },
         about: {
-          "@id": "https://gta-vi-landing.vercel.app/#videogame",
+          "@id": "https://gta.maenababneh.dev/#videogame",
         },
         description:
           "Experience Grand Theft Auto VI - An immersive animated landing page showcasing Vice City, Jason, Lucia, and Cal. Coming May 26, 2026 on PlayStation and Xbox.",
         inLanguage: "en-US",
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://gta.maenababneh.dev",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Characters",
+            item: "https://gta.maenababneh.dev/#characters",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "Vice City",
+            item: "https://gta.maenababneh.dev/#vice-city",
+          },
+        ],
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "When is Grand Theft Auto VI (GTA VI) releasing?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Grand Theft Auto VI is scheduled to release on May 26, 2026 on PlayStation 5 and Xbox Series X/S.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What platforms will Grand Theft Auto VI be available on?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "GTA VI will be available on PlayStation 5 (PS5) and Xbox Series X and Series S",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Who are the main characters in Grand Theft Auto VI?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "The main protagonists are Jason Duval and Lucia Caminos. Cal Hampton is also a key character in the game set in Vice City.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What is the setting of Grand Theft Auto VI?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Grand Theft Auto VI is set in Vice City, drawing from the classic GTA Vice City setting. The story follows Jason and Lucia through a criminal conspiracy across the state of Leonida.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Is this an open-world game?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Yes, Grand Theft Auto VI is an open-world action-adventure game featuring the iconic Vice City with dynamic environments and interactive gameplay.",
+            },
+          },
+        ],
+      },
+      {
+        "@type": "Event",
+        "@id": "https://gta.maenababneh.dev/#gta6-release-event",
+        name: "Grand Theft Auto VI Release",
+        description: "Official release of Grand Theft Auto VI",
+        startDate: "2026-05-26",
+        endDate: "2026-05-26",
+        eventStatus: "https://schema.org/EventScheduled",
+        eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
+        location: {
+          "@type": "VirtualLocation",
+          url: "https://gta.maenababneh.dev",
+        },
+        organizer: {
+          "@type": "Organization",
+          name: "Rockstar Games",
+          url: "https://www.rockstargames.com",
+        },
       },
     ],
   };
@@ -222,6 +309,24 @@ export default function RootLayout({ children }) {
         {/* Preconnect to Cloudinary for faster asset loading */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
+        {/* Google Analytics 4 */}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-HNXLW60412"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-HNXLW60412');
+            `,
+          }}
+        />
       </head>
       <body className="font-round antialiased ">
         <Script
