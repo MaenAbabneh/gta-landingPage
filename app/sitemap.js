@@ -1,7 +1,7 @@
 import { gtaData } from "@/constants/Links"; 
 
 export default function sitemap() {
-  const baseUrl = "https://gta-vi-landing.vercel.app";
+  const baseUrl = "https://gta.maenababneh.dev";
 
   const routes = [
     {

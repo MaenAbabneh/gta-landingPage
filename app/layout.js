@@ -48,13 +48,19 @@ const fontRound = localFont({
   preload: true,
 });
 
+const siteUrl = "https://gta.maenababneh.dev";
+const seoDescriptionEn =
+  "Experience Grand Theft Auto VI - An immersive animated landing page showcasing Vice City, Jason, Lucia, and Cal. Coming May 26, 2026 on PlayStation and Xbox.";
+const seoDescriptionAr =
+  "عِش تجربة Grand Theft Auto VI في صفحة تفاعلية سينمائية تعرض Vice City وشخصيات Jason وLucia وCal. الإصدار في 26 مايو 2026 على PlayStation وXbox.";
+const seoDescription = `${seoDescriptionEn} | ${seoDescriptionAr}`;
+
 export const metadata = {
   title: {
     default: "Grand Theft Auto VI | Official Landing Page",
     template: "%s | GTA VI",
   },
-  description:
-    "Experience Grand Theft Auto VI - An immersive animated landing page showcasing Vice City, Jason, Lucia, and Cal. Coming May 26, 2026 on PlayStation and Xbox.",
+  description: seoDescription,
   keywords: [
     "GTA VI",
     "Grand Theft Auto VI",
@@ -69,9 +75,19 @@ export const metadata = {
     "2026",
     "Jason",
     "Lucia",
+    "جراند ثفت أوتو 6",
+    "جي تي اي 6",
+    "فايس سيتي",
+    "جيسون",
+    "لوسيا",
   ],
-  authors: [{ name: "Maen Ababneh", url: "https://github.com/MaenAbabneh" }],
-  creator: "Maen Ababneh",
+  authors: [
+    {
+      name: "معن عبابنة | Maen Ababneh",
+      url: "https://github.com/MaenAbabneh",
+    },
+  ],
+  creator: "معن عبابنة | Maen Ababneh",
   publisher: "Rockstar Games",
   robots: {
     index: true,
@@ -87,10 +103,10 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://gta.maenababneh.dev",
+    alternateLocale: "ar_AR",
+    url: siteUrl,
     title: "Grand Theft Auto VI | Official Landing Page",
-    description:
-      "Experience Grand Theft Auto VI - An immersive animated landing page showcasing Vice City, Jason, Lucia, and Cal. Coming May 26, 2026.",
+    description: seoDescription,
     siteName: "GTA VI Landing Page",
     images: [
       {
@@ -104,12 +120,11 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Grand Theft Auto VI | Coming May 26, 2026",
-    description:
-      "Experience the next chapter in the Grand Theft Auto series. Explore Vice City with Jason and Lucia.",
+    description: seoDescription,
     images: [buildImageUrl("hero-bg_dtrjtf")],
   },
   alternates: {
-    canonical: "https://gta.maenababneh.dev",
+    canonical: siteUrl,
   },
   category: "gaming",
   manifest: "/manifest.json",
@@ -128,19 +143,18 @@ export default function RootLayout({ children }) {
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://gta.maenababneh.dev/#website",
-        url: "https://gta.maenababneh.dev",
+        "@id": `${siteUrl}/#website`,
+        url: siteUrl,
         name: "Grand Theft Auto VI Landing Page",
-        description:
-          "Experience Grand Theft Auto VI - An immersive animated landing page showcasing Vice City, Jason, Lucia, and Cal.",
+        description: seoDescription,
         publisher: {
-          "@id": "https://gta.maenababneh.dev/#organization",
+          "@id": `${siteUrl}/#organization`,
         },
-        inLanguage: "en-US",
+        inLanguage: ["en-US", "ar"],
       },
       {
         "@type": "Organization",
-        "@id": "https://gta.maenababneh.dev/#organization",
+        "@id": `${siteUrl}/#organization`,
         name: "Rockstar Games",
         url: "https://www.rockstargames.com",
         logo: {
@@ -150,11 +164,11 @@ export default function RootLayout({ children }) {
       },
       {
         "@type": "VideoGame",
-        "@id": "https://gta.maenababneh.dev/#videogame",
+        "@id": `${siteUrl}/#videogame`,
         name: "Grand Theft Auto VI",
         alternateName: "GTA VI",
         description:
-          "Grand Theft Auto VI returns to Vice City with protagonists Jason and Lucia in an open-world action-adventure experience.",
+          "Grand Theft Auto VI returns to Vice City with protagonists Jason and Lucia in an open-world action-adventure experience. | تعود Grand Theft Auto VI إلى Vice City مع البطلين Jason وLucia في تجربة عالم مفتوح.",
         genre: ["Action", "Adventure", "Open World"],
         publisher: {
           "@type": "Organization",
@@ -197,18 +211,17 @@ export default function RootLayout({ children }) {
       },
       {
         "@type": "WebPage",
-        "@id": "https://gta.maenababneh.dev/#webpage",
-        url: "https://gta.maenababneh.dev",
+        "@id": `${siteUrl}/#webpage`,
+        url: siteUrl,
         name: "Grand Theft Auto VI | Official Landing Page",
         isPartOf: {
-          "@id": "https://gta.maenababneh.dev/#website",
+          "@id": `${siteUrl}/#website`,
         },
         about: {
-          "@id": "https://gta.maenababneh.dev/#videogame",
+          "@id": `${siteUrl}/#videogame`,
         },
-        description:
-          "Experience Grand Theft Auto VI - An immersive animated landing page showcasing Vice City, Jason, Lucia, and Cal. Coming May 26, 2026 on PlayStation and Xbox.",
-        inLanguage: "en-US",
+        description: seoDescription,
+        inLanguage: ["en-US", "ar"],
       },
       {
         "@type": "BreadcrumbList",
@@ -217,19 +230,19 @@ export default function RootLayout({ children }) {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://gta.maenababneh.dev",
+            item: siteUrl,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Characters",
-            item: "https://gta.maenababneh.dev/#characters",
+            item: `${siteUrl}/#characters`,
           },
           {
             "@type": "ListItem",
             position: 3,
             name: "Vice City",
-            item: "https://gta.maenababneh.dev/#vice-city",
+            item: `${siteUrl}/#vice-city`,
           },
         ],
       },
@@ -280,16 +293,17 @@ export default function RootLayout({ children }) {
       },
       {
         "@type": "Event",
-        "@id": "https://gta.maenababneh.dev/#gta6-release-event",
+        "@id": `${siteUrl}/#gta6-release-event`,
         name: "Grand Theft Auto VI Release",
-        description: "Official release of Grand Theft Auto VI",
+        description:
+          "Official release of Grand Theft Auto VI | الإطلاق الرسمي للعبة Grand Theft Auto VI",
         startDate: "2026-05-26",
         endDate: "2026-05-26",
         eventStatus: "https://schema.org/EventScheduled",
         eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
         location: {
           "@type": "VirtualLocation",
-          url: "https://gta.maenababneh.dev",
+          url: siteUrl,
         },
         organizer: {
           "@type": "Organization",

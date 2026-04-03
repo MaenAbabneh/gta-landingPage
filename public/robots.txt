@@ -1,6 +1,11 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+# Primary host
+Host: https://gta.maenababneh.dev
 
 # Sitemaps
 Sitemap: https://gta.maenababneh.dev/sitemap.xml
