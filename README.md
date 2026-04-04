@@ -519,7 +519,7 @@ This project is a **non-commercial educational clone** created for learning purp
 
 ---
 
-**Live Demo:** [https://gta-vi-landing.vercel.app](https://gta-vi-landing.vercel.app)
+**Live Demo:** [https://gta.maenababneh.dev](https://gta.maenababneh.dev)
 
 ---
 
