@@ -22,7 +22,7 @@ const fontLong = localFont({
   ],
   variable: "--font-long",
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 const fontRound = localFont({
@@ -56,6 +56,8 @@ const seoDescriptionAr =
 const seoDescription = `${seoDescriptionEn} | ${seoDescriptionAr}`;
 
 export const metadata = {
+  // eslint-disable-next-line compat/compat
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Grand Theft Auto VI | Official Landing Page",
     template: "%s | GTA VI",
